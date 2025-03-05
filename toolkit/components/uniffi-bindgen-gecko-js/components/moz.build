@@ -11,6 +11,7 @@ EXTRA_JS_MODULES += [
     "generated/RustSuggest.sys.mjs",
     "generated/RustSync15.sys.mjs",
     "generated/RustTabs.sys.mjs",
+    "generated/RustTracing.sys.mjs",
     "generated/RustWebextstorage.sys.mjs",
 ]
 
