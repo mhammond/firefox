@@ -460,34 +460,6 @@ class UniFFICallbackHandleMapEntry {
 }
 
 // Export the FFIConverter object to make external types work.
-export class FfiConverterU32 extends FfiConverter {
-    static checkType(value) {
-        super.checkType(value);
-        if (!Number.isInteger(value)) {
-            throw new UniFFITypeError(`${value} is not an integer`);
-        }
-        if (value < 0 || value > 4294967295) {
-            throw new UniFFITypeError(`${value} exceeds the U32 bounds`);
-        }
-    }
-    static computeSize(_value) {
-        return 4;
-    }
-    static lift(value) {
-        return value;
-    }
-    static lower(value) {
-        return value;
-    }
-    static write(dataStream, value) {
-        dataStream.writeUint32(value)
-    }
-    static read(dataStream) {
-        return dataStream.readUint32()
-    }
-}
-
-// Export the FFIConverter object to make external types work.
 export class FfiConverterString extends FfiConverter {
     static checkType(value) {
         super.checkType(value);
@@ -520,15 +492,257 @@ export class FfiConverterString extends FfiConverter {
     }
 }
 
+/**
+ * TracingEvent
+ */
+export class TracingEvent {
+    constructor({ level, target, name, message, fields } = { level: undefined, target: undefined, name: undefined, message: undefined, fields: undefined }) {
+        try {
+            FfiConverterTypeTracingLevel.checkType(level)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("level");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(target)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("target");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(name)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("name");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(message)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("message");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterTypeTracingJsonValue.checkType(fields)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("fields");
+            }
+            throw e;
+        }
+        /**
+         * @type {TracingLevel}
+         */
+        this.level = level;
+        /**
+         * @type {string}
+         */
+        this.target = target;
+        /**
+         * @type {string}
+         */
+        this.name = name;
+        /**
+         * @type {string}
+         */
+        this.message = message;
+        /**
+         * @type {TracingJsonValue}
+         */
+        this.fields = fields;
+    }
+
+    equals(other) {
+        return (
+            this.level == other.level &&
+            this.target == other.target &&
+            this.name == other.name &&
+            this.message == other.message &&
+            this.fields == other.fields
+        )
+    }
+}
 
 // Export the FFIConverter object to make external types work.
-export class FfiConverterTypeApplicationErrorReporter extends FfiConverter {
+export class FfiConverterTypeTracingEvent extends FfiConverterArrayBuffer {
+    static read(dataStream) {
+        return new TracingEvent({
+            level: FfiConverterTypeTracingLevel.read(dataStream),
+            target: FfiConverterString.read(dataStream),
+            name: FfiConverterString.read(dataStream),
+            message: FfiConverterString.read(dataStream),
+            fields: FfiConverterTypeTracingJsonValue.read(dataStream),
+        });
+    }
+    static write(dataStream, value) {
+        FfiConverterTypeTracingLevel.write(dataStream, value.level);
+        FfiConverterString.write(dataStream, value.target);
+        FfiConverterString.write(dataStream, value.name);
+        FfiConverterString.write(dataStream, value.message);
+        FfiConverterTypeTracingJsonValue.write(dataStream, value.fields);
+    }
+
+    static computeSize(value) {
+        let totalSize = 0;
+        totalSize += FfiConverterTypeTracingLevel.computeSize(value.level);
+        totalSize += FfiConverterString.computeSize(value.target);
+        totalSize += FfiConverterString.computeSize(value.name);
+        totalSize += FfiConverterString.computeSize(value.message);
+        totalSize += FfiConverterTypeTracingJsonValue.computeSize(value.fields);
+        return totalSize
+    }
+
+    static checkType(value) {
+        super.checkType(value);
+        if (!(value instanceof TracingEvent)) {
+            throw new UniFFITypeError(`Expected 'TracingEvent', found '${typeof value}'`);
+        }
+        try {
+            FfiConverterTypeTracingLevel.checkType(value.level);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".level");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(value.target);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".target");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(value.name);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".name");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(value.message);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".message");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterTypeTracingJsonValue.checkType(value.fields);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".fields");
+            }
+            throw e;
+        }
+    }
+}
+
+
+/**
+ * TracingLevel
+ */
+export const TracingLevel = {
+    /**
+     * ERROR
+     */
+    ERROR:0,
+    /**
+     * WARN
+     */
+    WARN:1,
+    /**
+     * INFO
+     */
+    INFO:2,
+    /**
+     * DEBUG
+     */
+    DEBUG:3,
+    /**
+     * TRACE
+     */
+    TRACE:4,
+};
+
+Object.freeze(TracingLevel);
+// Export the FFIConverter object to make external types work.
+export class FfiConverterTypeTracingLevel extends FfiConverterArrayBuffer {
+    static #validValues = Object.values(TracingLevel);
+
+    static read(dataStream) {
+        // Use sequential indices (1-based) for the wire format to match Python bindings
+        switch (dataStream.readInt32()) {
+            case 1:
+                return TracingLevel.ERROR
+            case 2:
+                return TracingLevel.WARN
+            case 3:
+                return TracingLevel.INFO
+            case 4:
+                return TracingLevel.DEBUG
+            case 5:
+                return TracingLevel.TRACE
+            default:
+                throw new UniFFITypeError("Unknown TracingLevel variant");
+        }
+    }
+
+    static write(dataStream, value) {
+        if (value === TracingLevel.ERROR) {
+            dataStream.writeInt32(1);
+            return;
+        }
+        if (value === TracingLevel.WARN) {
+            dataStream.writeInt32(2);
+            return;
+        }
+        if (value === TracingLevel.INFO) {
+            dataStream.writeInt32(3);
+            return;
+        }
+        if (value === TracingLevel.DEBUG) {
+            dataStream.writeInt32(4);
+            return;
+        }
+        if (value === TracingLevel.TRACE) {
+            dataStream.writeInt32(5);
+            return;
+        }
+        throw new UniFFITypeError("Unknown TracingLevel variant");
+    }
+
+    static computeSize(value) {
+        return 4;
+    }
+
+    static checkType(value) {
+      // Check that the value is a valid enum variant
+      if (!this.#validValues.includes(value)) {
+          throw new UniFFITypeError(`${value} is not a valid value for TracingLevel`);
+      }
+    }
+}
+
+
+
+// Export the FFIConverter object to make external types work.
+export class FfiConverterTypeEventSink extends FfiConverter {
     static lower(callbackObj) {
-        return callbackHandlerApplicationErrorReporter.storeCallbackObj(callbackObj)
+        return callbackHandlerEventSink.storeCallbackObj(callbackObj)
     }
 
     static lift(handleId) {
-        return callbackHandlerApplicationErrorReporter.getCallbackObj(handleId)
+        return callbackHandlerEventSink.getCallbackObj(handleId)
     }
 
     static read(dataStream) {
@@ -544,83 +758,115 @@ export class FfiConverterTypeApplicationErrorReporter extends FfiConverter {
     }
 }
 
+// Export the FFIConverter object to make external types work.
+export class FfiConverterTypeTracingJsonValue extends FfiConverter {
+    static lift(buf) {
+        return FfiConverterString.lift(buf);    
+    }
+    
+    static lower(buf) {
+        return FfiConverterString.lower(buf);
+    }
+    
+    static write(dataStream, value) {
+        FfiConverterString.write(dataStream, value);
+    } 
+    
+    static read(buf) {
+        return FfiConverterString.read(buf);
+    }
+    
+    static computeSize(value) {
+        return FfiConverterString.computeSize(value);
+    }
+}
+// TODO: We should also allow JS to customize the type eventually.
+
 
 // Define callback interface handlers, this must come after the type loop since they reference the FfiConverters defined above.
 
-const callbackHandlerApplicationErrorReporter = new UniFFICallbackHandler(
-    "errorsupport:ApplicationErrorReporter",
-    0,
+const callbackHandlerEventSink = new UniFFICallbackHandler(
+    "tracing:EventSink",
+    1,
     [
         new UniFFICallbackMethodHandler(
-            "reportError",
+            "onEvent",
             [
-                FfiConverterString,
-                FfiConverterString,
-            ],
-        ),
-        new UniFFICallbackMethodHandler(
-            "reportBreadcrumb",
-            [
-                FfiConverterString,
-                FfiConverterString,
-                FfiConverterU32,
-                FfiConverterU32,
+                FfiConverterTypeTracingEvent,
             ],
         ),
     ]
 );
 
 // Allow the shutdown-related functionality to be tested in the unit tests
-UnitTestObjs.callbackHandlerApplicationErrorReporter = callbackHandlerApplicationErrorReporter;
+UnitTestObjs.callbackHandlerEventSink = callbackHandlerEventSink;
 
 
 
 
 
 /**
- * Set the global error reporter.  This is typically done early in startup.
+ * registerEventSink
  */
-export function setApplicationErrorReporter(reporter) {
+export function registerEventSink(target,level,sink) {
 
         const liftResult = (result) => undefined;
         const liftError = null;
         const functionCall = () => {
             try {
-                FfiConverterTypeApplicationErrorReporter.checkType(reporter)
+                FfiConverterString.checkType(target)
             } catch (e) {
                 if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("reporter");
+                    e.addItemDescriptionPart("target");
                 }
                 throw e;
             }
-            return UniFFIScaffolding.callAsyncWrapper(
-                0, // errorsupport:uniffi_error_support_fn_func_set_application_error_reporter
-                FfiConverterTypeApplicationErrorReporter.lower(reporter),
+            try {
+                FfiConverterTypeTracingLevel.checkType(level)
+            } catch (e) {
+                if (e instanceof UniFFITypeError) {
+                    e.addItemDescriptionPart("level");
+                }
+                throw e;
+            }
+            try {
+                FfiConverterTypeEventSink.checkType(sink)
+            } catch (e) {
+                if (e instanceof UniFFITypeError) {
+                    e.addItemDescriptionPart("sink");
+                }
+                throw e;
+            }
+            return UniFFIScaffolding.callSync(
+                83, // tracing:uniffi_tracing_support_fn_func_register_event_sink
+                FfiConverterString.lower(target),
+                FfiConverterTypeTracingLevel.lower(level),
+                FfiConverterTypeEventSink.lower(sink),
             )
         }
-        try {
-            return functionCall().then((result) => handleRustResult(result, liftResult, liftError));
-        }  catch (error) {
-            return Promise.reject(error)
-        }
+        return handleRustResult(functionCall(), liftResult, liftError);
 }
 
 /**
- * Unset the global error reporter.  This is typically done at shutdown for
- * platforms that want to cleanup references like Desktop.
+ * unregisterEventSink
  */
-export function unsetApplicationErrorReporter() {
+export function unregisterEventSink(target) {
 
         const liftResult = (result) => undefined;
         const liftError = null;
         const functionCall = () => {
-            return UniFFIScaffolding.callAsyncWrapper(
-                1, // errorsupport:uniffi_error_support_fn_func_unset_application_error_reporter
+            try {
+                FfiConverterString.checkType(target)
+            } catch (e) {
+                if (e instanceof UniFFITypeError) {
+                    e.addItemDescriptionPart("target");
+                }
+                throw e;
+            }
+            return UniFFIScaffolding.callSync(
+                84, // tracing:uniffi_tracing_support_fn_func_unregister_event_sink
+                FfiConverterString.lower(target),
             )
         }
-        try {
-            return functionCall().then((result) => handleRustResult(result, liftResult, liftError));
-        }  catch (error) {
-            return Promise.reject(error)
-        }
+        return handleRustResult(functionCall(), liftResult, liftError);
 }

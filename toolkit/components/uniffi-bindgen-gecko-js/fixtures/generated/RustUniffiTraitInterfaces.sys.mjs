@@ -388,7 +388,7 @@ export class Calc {
                 throw e;
             }
             return UniFFIScaffolding.callSync(
-                237, // uniffi_trait_interfaces:uniffi_uniffi_trait_interfaces_fn_method_calc_add
+                239, // uniffi_trait_interfaces:uniffi_uniffi_trait_interfaces_fn_method_calc_add
                 FfiConverterTypeCalc.lower(this),
                 FfiConverterU32.lower(a),
                 FfiConverterU32.lower(b),
@@ -442,7 +442,7 @@ export function makeBuggyCalculator() {
         const liftError = null;
         const functionCall = () => {
             return UniFFIScaffolding.callSync(
-                235, // uniffi_trait_interfaces:uniffi_uniffi_trait_interfaces_fn_func_make_buggy_calculator
+                237, // uniffi_trait_interfaces:uniffi_uniffi_trait_interfaces_fn_func_make_buggy_calculator
             )
         }
         return handleRustResult(functionCall(), liftResult, liftError);
@@ -458,7 +458,7 @@ export function makeCalculator() {
         const liftError = null;
         const functionCall = () => {
             return UniFFIScaffolding.callSync(
-                236, // uniffi_trait_interfaces:uniffi_uniffi_trait_interfaces_fn_func_make_calculator
+                238, // uniffi_trait_interfaces:uniffi_uniffi_trait_interfaces_fn_func_make_calculator
             )
         }
         return handleRustResult(functionCall(), liftResult, liftError);
