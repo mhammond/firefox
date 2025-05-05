@@ -463,62 +463,6 @@ class UniFFICallbackHandleMapEntry {
 }
 
 // Export the FFIConverter object to make external types work.
-export class FfiConverterU32 extends FfiConverter {
-    static checkType(value) {
-        super.checkType(value);
-        if (!Number.isInteger(value)) {
-            throw new UniFFITypeError(`${value} is not an integer`);
-        }
-        if (value < 0 || value > 4294967295) {
-            throw new UniFFITypeError(`${value} exceeds the U32 bounds`);
-        }
-    }
-    static computeSize(_value) {
-        return 4;
-    }
-    static lift(value) {
-        return value;
-    }
-    static lower(value) {
-        return value;
-    }
-    static write(dataStream, value) {
-        dataStream.writeUint32(value)
-    }
-    static read(dataStream) {
-        return dataStream.readUint32()
-    }
-}
-
-// Export the FFIConverter object to make external types work.
-export class FfiConverterI32 extends FfiConverter {
-    static checkType(value) {
-        super.checkType(value);
-        if (!Number.isInteger(value)) {
-            throw new UniFFITypeError(`${value} is not an integer`);
-        }
-        if (value < -2147483648 || value > 2147483647) {
-            throw new UniFFITypeError(`${value} exceeds the I32 bounds`);
-        }
-    }
-    static computeSize(_value) {
-        return 4;
-    }
-    static lift(value) {
-        return value;
-    }
-    static lower(value) {
-        return value;
-    }
-    static write(dataStream, value) {
-        dataStream.writeInt32(value)
-    }
-    static read(dataStream) {
-        return dataStream.readInt32()
-    }
-}
-
-// Export the FFIConverter object to make external types work.
 export class FfiConverterString extends FfiConverter {
     static checkType(value) {
         super.checkType(value);
@@ -548,15 +492,257 @@ export class FfiConverterString extends FfiConverter {
     }
 }
 
+/**
+ * TracingEvent
+ */
+export class TracingEvent {
+    constructor({ level, target, name, message, fields } = { level: undefined, target: undefined, name: undefined, message: undefined, fields: undefined }) {
+        try {
+            FfiConverterTypeTracingLevel.checkType(level)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("level");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(target)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("target");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(name)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("name");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(message)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("message");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterTypeTracingJsonValue.checkType(fields)
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart("fields");
+            }
+            throw e;
+        }
+        /**
+         * @type {TracingLevel}
+         */
+        this.level = level;
+        /**
+         * @type {string}
+         */
+        this.target = target;
+        /**
+         * @type {string}
+         */
+        this.name = name;
+        /**
+         * @type {string}
+         */
+        this.message = message;
+        /**
+         * @type {TracingJsonValue}
+         */
+        this.fields = fields;
+    }
+
+    equals(other) {
+        return (
+            this.level == other.level &&
+            this.target == other.target &&
+            this.name == other.name &&
+            this.message == other.message &&
+            this.fields == other.fields
+        )
+    }
+}
 
 // Export the FFIConverter object to make external types work.
-export class FfiConverterTypeLogger extends FfiConverter {
+export class FfiConverterTypeTracingEvent extends FfiConverterArrayBuffer {
+    static read(dataStream) {
+        return new TracingEvent({
+            level: FfiConverterTypeTracingLevel.read(dataStream),
+            target: FfiConverterString.read(dataStream),
+            name: FfiConverterString.read(dataStream),
+            message: FfiConverterString.read(dataStream),
+            fields: FfiConverterTypeTracingJsonValue.read(dataStream),
+        });
+    }
+    static write(dataStream, value) {
+        FfiConverterTypeTracingLevel.write(dataStream, value.level);
+        FfiConverterString.write(dataStream, value.target);
+        FfiConverterString.write(dataStream, value.name);
+        FfiConverterString.write(dataStream, value.message);
+        FfiConverterTypeTracingJsonValue.write(dataStream, value.fields);
+    }
+
+    static computeSize(value) {
+        let totalSize = 0;
+        totalSize += FfiConverterTypeTracingLevel.computeSize(value.level);
+        totalSize += FfiConverterString.computeSize(value.target);
+        totalSize += FfiConverterString.computeSize(value.name);
+        totalSize += FfiConverterString.computeSize(value.message);
+        totalSize += FfiConverterTypeTracingJsonValue.computeSize(value.fields);
+        return totalSize
+    }
+
+    static checkType(value) {
+        super.checkType(value);
+        if (!(value instanceof TracingEvent)) {
+            throw new UniFFITypeError(`Expected 'TracingEvent', found '${typeof value}'`);
+        }
+        try {
+            FfiConverterTypeTracingLevel.checkType(value.level);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".level");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(value.target);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".target");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(value.name);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".name");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterString.checkType(value.message);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".message");
+            }
+            throw e;
+        }
+        try {
+            FfiConverterTypeTracingJsonValue.checkType(value.fields);
+        } catch (e) {
+            if (e instanceof UniFFITypeError) {
+                e.addItemDescriptionPart(".fields");
+            }
+            throw e;
+        }
+    }
+}
+
+
+/**
+ * TracingLevel
+ */
+export const TracingLevel = {
+    /**
+     * ERROR
+     */
+    ERROR:0,
+    /**
+     * WARN
+     */
+    WARN:1,
+    /**
+     * INFO
+     */
+    INFO:2,
+    /**
+     * DEBUG
+     */
+    DEBUG:3,
+    /**
+     * TRACE
+     */
+    TRACE:4,
+};
+
+Object.freeze(TracingLevel);
+// Export the FFIConverter object to make external types work.
+export class FfiConverterTypeTracingLevel extends FfiConverterArrayBuffer {
+    static #validValues = Object.values(TracingLevel);
+
+    static read(dataStream) {
+        // Use sequential indices (1-based) for the wire format to match Python bindings
+        switch (dataStream.readInt32()) {
+            case 1:
+                return TracingLevel.ERROR
+            case 2:
+                return TracingLevel.WARN
+            case 3:
+                return TracingLevel.INFO
+            case 4:
+                return TracingLevel.DEBUG
+            case 5:
+                return TracingLevel.TRACE
+            default:
+                throw new UniFFITypeError("Unknown TracingLevel variant");
+        }
+    }
+
+    static write(dataStream, value) {
+        if (value === TracingLevel.ERROR) {
+            dataStream.writeInt32(1);
+            return;
+        }
+        if (value === TracingLevel.WARN) {
+            dataStream.writeInt32(2);
+            return;
+        }
+        if (value === TracingLevel.INFO) {
+            dataStream.writeInt32(3);
+            return;
+        }
+        if (value === TracingLevel.DEBUG) {
+            dataStream.writeInt32(4);
+            return;
+        }
+        if (value === TracingLevel.TRACE) {
+            dataStream.writeInt32(5);
+            return;
+        }
+        throw new UniFFITypeError("Unknown TracingLevel variant");
+    }
+
+    static computeSize(value) {
+        return 4;
+    }
+
+    static checkType(value) {
+      // Check that the value is a valid enum variant
+      if (!this.#validValues.includes(value)) {
+          throw new UniFFITypeError(`${value} is not a valid value for TracingLevel`);
+      }
+    }
+}
+
+
+
+// Export the FFIConverter object to make external types work.
+export class FfiConverterTypeEventSink extends FfiConverter {
     static lower(callbackObj) {
-        return callbackHandlerLogger.storeCallbackObj(callbackObj)
+        return callbackHandlerEventSink.storeCallbackObj(callbackObj)
     }
 
     static lift(handleId) {
-        return callbackHandlerLogger.getCallbackObj(handleId)
+        return callbackHandlerEventSink.getCallbackObj(handleId)
     }
 
     static read(dataStream) {
@@ -573,249 +759,113 @@ export class FfiConverterTypeLogger extends FfiConverter {
 }
 
 // Export the FFIConverter object to make external types work.
-export class FfiConverterSequenceu32 extends FfiConverterArrayBuffer {
-    static read(dataStream) {
-        const len = dataStream.readInt32();
-        const arr = [];
-        for (let i = 0; i < len; i++) {
-            arr.push(FfiConverterU32.read(dataStream));
-        }
-        return arr;
+export class FfiConverterTypeTracingJsonValue extends FfiConverter {
+    static lift(buf) {
+        return FfiConverterString.lift(buf);    
     }
-
+    
+    static lower(buf) {
+        return FfiConverterString.lower(buf);
+    }
+    
     static write(dataStream, value) {
-        dataStream.writeInt32(value.length);
-        value.forEach((innerValue) => {
-            FfiConverterU32.write(dataStream, innerValue);
-        })
+        FfiConverterString.write(dataStream, value);
+    } 
+    
+    static read(buf) {
+        return FfiConverterString.read(buf);
     }
-
+    
     static computeSize(value) {
-        // The size of the length
-        let size = 4;
-        for (const innerValue of value) {
-            size += FfiConverterU32.computeSize(innerValue);
-        }
-        return size;
-    }
-
-    static checkType(value) {
-        if (!Array.isArray(value)) {
-            throw new UniFFITypeError(`${value} is not an array`);
-        }
-        value.forEach((innerValue, idx) => {
-            try {
-                FfiConverterU32.checkType(innerValue);
-            } catch (e) {
-                if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart(`[${idx}]`);
-                }
-                throw e;
-            }
-        })
+        return FfiConverterString.computeSize(value);
     }
 }
-
-// Export the FFIConverter object to make external types work.
-export class FfiConverterSequencei32 extends FfiConverterArrayBuffer {
-    static read(dataStream) {
-        const len = dataStream.readInt32();
-        const arr = [];
-        for (let i = 0; i < len; i++) {
-            arr.push(FfiConverterI32.read(dataStream));
-        }
-        return arr;
-    }
-
-    static write(dataStream, value) {
-        dataStream.writeInt32(value.length);
-        value.forEach((innerValue) => {
-            FfiConverterI32.write(dataStream, innerValue);
-        })
-    }
-
-    static computeSize(value) {
-        // The size of the length
-        let size = 4;
-        for (const innerValue of value) {
-            size += FfiConverterI32.computeSize(innerValue);
-        }
-        return size;
-    }
-
-    static checkType(value) {
-        if (!Array.isArray(value)) {
-            throw new UniFFITypeError(`${value} is not an array`);
-        }
-        value.forEach((innerValue, idx) => {
-            try {
-                FfiConverterI32.checkType(innerValue);
-            } catch (e) {
-                if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart(`[${idx}]`);
-                }
-                throw e;
-            }
-        })
-    }
-}
+// TODO: We should also allow JS to customize the type eventually.
 
 
 // Define callback interface handlers, this must come after the type loop since they reference the FfiConverters defined above.
 
-const callbackHandlerLogger = new UniFFICallbackHandler(
-    "fixture_callbacks:Logger",
-    3,
+const callbackHandlerEventSink = new UniFFICallbackHandler(
+    "tracing:EventSink",
+    2,
     [
         new UniFFICallbackMethodHandler(
-            "log",
+            "onEvent",
             [
-                FfiConverterString,
-            ],
-        ),
-        new UniFFICallbackMethodHandler(
-            "logRepeat",
-            [
-                FfiConverterString,
-                FfiConverterU32,
-                FfiConverterSequenceu32,
-            ],
-        ),
-        new UniFFICallbackMethodHandler(
-            "finished",
-            [
+                FfiConverterTypeTracingEvent,
             ],
         ),
     ]
 );
 
 // Allow the shutdown-related functionality to be tested in the unit tests
-UnitTestObjs.callbackHandlerLogger = callbackHandlerLogger;
+UnitTestObjs.callbackHandlerEventSink = callbackHandlerEventSink;
 
 
 
 
 
 /**
- * callLogRepeat
+ * registerEventSink
  */
-export function callLogRepeat(logger,message,count,exclude) {
+export function registerEventSink(target,level,sink) {
 
         const liftResult = (result) => undefined;
         const liftError = null;
         const functionCall = () => {
             try {
-                FfiConverterTypeLogger.checkType(logger)
+                FfiConverterString.checkType(target)
             } catch (e) {
                 if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("logger");
+                    e.addItemDescriptionPart("target");
                 }
                 throw e;
             }
             try {
-                FfiConverterString.checkType(message)
+                FfiConverterTypeTracingLevel.checkType(level)
             } catch (e) {
                 if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("message");
+                    e.addItemDescriptionPart("level");
                 }
                 throw e;
             }
             try {
-                FfiConverterU32.checkType(count)
+                FfiConverterTypeEventSink.checkType(sink)
             } catch (e) {
                 if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("count");
-                }
-                throw e;
-            }
-            try {
-                FfiConverterSequenceu32.checkType(exclude)
-            } catch (e) {
-                if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("exclude");
-                }
-                throw e;
-            }
-            return UniFFIScaffolding.callAsyncWrapper(
-                128, // fixture_callbacks:uniffi_uniffi_fixture_callbacks_fn_func_call_log_repeat
-                FfiConverterTypeLogger.lower(logger),
-                FfiConverterString.lower(message),
-                FfiConverterU32.lower(count),
-                FfiConverterSequenceu32.lower(exclude),
-            )
-        }
-        try {
-            return functionCall().then((result) => handleRustResult(result, liftResult, liftError));
-        }  catch (error) {
-            return Promise.reject(error)
-        }
-}
-
-/**
- * logEvenNumbers
- */
-export function logEvenNumbers(logger,items) {
-
-        const liftResult = (result) => undefined;
-        const liftError = null;
-        const functionCall = () => {
-            try {
-                FfiConverterTypeLogger.checkType(logger)
-            } catch (e) {
-                if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("logger");
-                }
-                throw e;
-            }
-            try {
-                FfiConverterSequencei32.checkType(items)
-            } catch (e) {
-                if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("items");
-                }
-                throw e;
-            }
-            return UniFFIScaffolding.callAsyncWrapper(
-                129, // fixture_callbacks:uniffi_uniffi_fixture_callbacks_fn_func_log_even_numbers
-                FfiConverterTypeLogger.lower(logger),
-                FfiConverterSequencei32.lower(items),
-            )
-        }
-        try {
-            return functionCall().then((result) => handleRustResult(result, liftResult, liftError));
-        }  catch (error) {
-            return Promise.reject(error)
-        }
-}
-
-/**
- * logEvenNumbersMainThread
- */
-export function logEvenNumbersMainThread(logger,items) {
-
-        const liftResult = (result) => undefined;
-        const liftError = null;
-        const functionCall = () => {
-            try {
-                FfiConverterTypeLogger.checkType(logger)
-            } catch (e) {
-                if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("logger");
-                }
-                throw e;
-            }
-            try {
-                FfiConverterSequencei32.checkType(items)
-            } catch (e) {
-                if (e instanceof UniFFITypeError) {
-                    e.addItemDescriptionPart("items");
+                    e.addItemDescriptionPart("sink");
                 }
                 throw e;
             }
             return UniFFIScaffolding.callSync(
-                130, // fixture_callbacks:uniffi_uniffi_fixture_callbacks_fn_func_log_even_numbers_main_thread
-                FfiConverterTypeLogger.lower(logger),
-                FfiConverterSequencei32.lower(items),
+                88, // tracing:uniffi_tracing_support_fn_func_register_event_sink
+                FfiConverterString.lower(target),
+                FfiConverterTypeTracingLevel.lower(level),
+                FfiConverterTypeEventSink.lower(sink),
+            )
+        }
+        return handleRustResult(functionCall(), liftResult, liftError);
+}
+
+/**
+ * unregisterEventSink
+ */
+export function unregisterEventSink(target) {
+
+        const liftResult = (result) => undefined;
+        const liftError = null;
+        const functionCall = () => {
+            try {
+                FfiConverterString.checkType(target)
+            } catch (e) {
+                if (e instanceof UniFFITypeError) {
+                    e.addItemDescriptionPart("target");
+                }
+                throw e;
+            }
+            return UniFFIScaffolding.callSync(
+                89, // tracing:uniffi_tracing_support_fn_func_unregister_event_sink
+                FfiConverterString.lower(target),
             )
         }
         return handleRustResult(functionCall(), liftResult, liftError);
