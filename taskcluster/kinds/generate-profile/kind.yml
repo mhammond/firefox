@@ -96,6 +96,7 @@ tasks:
                 - linux64-minidump-stackwalk
                 - linux64-hostutils
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - android34-system-image-x86_64-linux
                 - android34-avd-x86_64-linux
 
@@ -139,6 +140,7 @@ tasks:
                 - linux64-minidump-stackwalk
                 - linux64-hostutils
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - android34-system-image-x86_64-linux
                 - android34-avd-x86_64-linux
 
@@ -182,6 +184,7 @@ tasks:
                 - linux64-minidump-stackwalk
                 - linux64-hostutils
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - android30-system-image-x86-linux
                 - android30-avd-x86-linux
 

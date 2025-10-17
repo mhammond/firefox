@@ -243,6 +243,7 @@ tasks:
                 - android-gradle-dependencies
                 - android-ndk-linux
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - linux64-jdk
                 - linux64-clang
                 - linux64-rust-android
@@ -298,6 +299,7 @@ tasks:
                 - android-gradle-dependencies
                 - android-ndk-linux
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - linux64-jdk
                 - linux64-clang
                 - linux64-rust-android
@@ -353,6 +355,7 @@ tasks:
                 - android-gradle-dependencies
                 - android-ndk-linux
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - linux64-jdk
                 - linux64-clang
                 - linux64-rust-android

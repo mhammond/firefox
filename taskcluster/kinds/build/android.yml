@@ -62,6 +62,8 @@ task-defaults:
             - linux64-node
             - sysroot-x86_64-linux-gnu
             - sysroot-wasm32-wasi
+            # Only needed for artifact builds, but it's not easy to make that conditional.
+            - linux64-embedded-uniffi-bindgen
 
 android-arm/debug:
     description: "Android Arm Debug"

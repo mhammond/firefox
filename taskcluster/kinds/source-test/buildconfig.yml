@@ -30,6 +30,7 @@ task-defaults:
             - linux64-node
             - android-gradle-dependencies
             - android-sdk-linux
+            - linux64-embedded-uniffi-bindgen
     use-python: system
 
 

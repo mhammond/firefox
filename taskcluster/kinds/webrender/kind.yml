@@ -279,6 +279,7 @@ tasks:
                 - android-gradle-dependencies
                 - android-ndk-linux
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - android34-avd-x86_64-linux
                 - linux64-cargo-apk
                 - linux64-jdk
@@ -329,6 +330,7 @@ tasks:
                 - android-gradle-dependencies
                 - android-ndk-linux
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - android34-avd-x86_64-linux
                 - linux64-cargo-apk
                 - linux64-jdk
@@ -369,6 +371,7 @@ tasks:
                   extract: false
             toolchain:
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - android34-system-image-x86_64-linux
                 - android34-avd-x86_64-linux
                 - linux64-jdk
@@ -415,6 +418,7 @@ tasks:
                   extract: false
             toolchain:
                 - android-sdk-linux
+                - linux64-embedded-uniffi-bindgen
                 - android34-system-image-x86_64-linux
                 - android34-avd-x86_64-linux
                 - linux64-jdk

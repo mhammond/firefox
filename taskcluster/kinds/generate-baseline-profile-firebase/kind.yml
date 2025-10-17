@@ -22,6 +22,7 @@ task-defaults:
     fetches:
         toolchain:
             - android-sdk-linux
+            - linux64-embedded-uniffi-bindgen
     optimization:
         skip-unless-backstop: null
     worker-type: b-linux-medium-gcp
