@@ -69,3 +69,14 @@ apply from: '../../../publish.gradle'
 ext.configurePublish(config.componentsGroupId, project.name, project.ext.description)
 
 preBuild.dependsOn updateBuiltInExtensionVersion
+
+def embeddedUniffiBindgenVersionTask = tasks.register("embeddedUniffiBindgenVersion", Exec) {
+    standardOutput = System.out
+    errorOutput = System.out
+
+    commandLine gradle.ext.mozconfig.substs.EMBEDDED_UNIFFI_BINDGEN, "--version"
+    workingDir = new File(gradle.mozconfig.topsrcdir)
+    ignoreExitValue = false
+}
+preBuild.dependsOn embeddedUniffiBindgenVersionTask
+

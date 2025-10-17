@@ -910,3 +910,13 @@ def getSupportedLocales() {
     def foundLocalesString = foundLocales.toString().replaceAll(',}', '}')
     return foundLocalesString
 }
+
+def embeddedUniffiBindgenVersionTask = tasks.register("embeddedUniffiBindgenVersion", Exec) {
+    standardOutput = System.out
+    errorOutput = System.out
+
+    commandLine gradle.ext.mozconfig.substs.EMBEDDED_UNIFFI_BINDGEN, "--version"
+    workingDir = new File(gradle.mozconfig.topsrcdir)
+    ignoreExitValue = false
+}
+preBuild.dependsOn embeddedUniffiBindgenVersionTask
