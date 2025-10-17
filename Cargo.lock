@@ -7047,6 +7047,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "toolchain-embedded-uniffi-bindgen"
+version = "0.1.0"
+dependencies = [
+ "mozilla-central-workspace-hack",
+]
+
+[[package]]
+name = "toolchain-nimbus-fml"
+version = "0.1.0"
+dependencies = [
+ "mozilla-central-workspace-hack",
+]
+
+[[package]]
 name = "topological-sort"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
