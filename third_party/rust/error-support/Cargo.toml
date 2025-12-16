@@ -69,8 +69,10 @@ path = "../tracing"
 optional = true
 
 [dependencies.uniffi]
-version = "0.29.0"
+git = "https://github.com/mhammond/uniffi-rs"
+rev = "bd1844b2c51cfefb8670c901a0410af874995abd"
 
 [build-dependencies.uniffi]
-version = "0.29.0"
+git = "https://github.com/mhammond/uniffi-rs"
+rev = "bd1844b2c51cfefb8670c901a0410af874995abd"
 features = ["build"]

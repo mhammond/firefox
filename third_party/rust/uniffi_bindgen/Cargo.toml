@@ -12,7 +12,7 @@
 [package]
 edition = "2021"
 name = "uniffi_bindgen"
-version = "0.29.3"
+version = "0.30.0"
 build = false
 autolib = false
 autobins = false
@@ -22,7 +22,7 @@ autobenches = false
 description = "a multi-language bindings generator for rust (codegen and cli tooling)"
 homepage = "https://mozilla.github.io/uniffi-rs"
 documentation = "https://mozilla.github.io/uniffi-rs"
-readme = "README.md"
+readme = "../README.md"
 keywords = [
     "ffi",
     "bindgen",
@@ -46,8 +46,16 @@ ffi-trace = ["uniffi_testing?/ffi-trace"]
 name = "uniffi_bindgen"
 path = "src/lib.rs"
 
-[dependencies.anyhow]
-version = "1"
+[dependencies]
+anyhow = "1"
+camino = "1.0.8"
+fs-err = "2.7.0"
+glob = "0.3"
+goblin = "0.8"
+heck = "0.5"
+once_cell = "1.12"
+tempfile = "3"
+toml = ">=0.8, <=0.9"
 
 [dependencies.askama]
 version = "0.13.0"
@@ -58,58 +66,40 @@ features = [
 ]
 default-features = false
 
-[dependencies.camino]
-version = "1.0.8"
-
 [dependencies.cargo_metadata]
 version = "0.19"
 optional = true
 
-[dependencies.fs-err]
-version = "2.7.0"
-
-[dependencies.glob]
-version = "0.3"
-
-[dependencies.goblin]
-version = "0.8"
-
-[dependencies.heck]
-version = "0.5"
-
 [dependencies.indexmap]
 version = "2.2"
-
-[dependencies.once_cell]
-version = "1.12"
+features = ["serde"]
 
 [dependencies.serde]
 version = "1"
 features = ["derive"]
-
-[dependencies.tempfile]
-version = "3"
 
 [dependencies.textwrap]
 version = "0.16"
 features = ["smawk"]
 default-features = false
 
-[dependencies.toml]
-version = "0.5"
-
 [dependencies.uniffi_internal_macros]
-version = "=0.29.3"
+version = "=0.30.0"
+path = "../uniffi_internal_macros"
 
 [dependencies.uniffi_meta]
-version = "=0.29.3"
+version = "=0.30.0"
+path = "../uniffi_meta"
 
 [dependencies.uniffi_pipeline]
-version = "=0.29.3"
+version = "=0.30.0"
+path = "../uniffi_pipeline"
 
 [dependencies.uniffi_testing]
-version = "=0.29.3"
+version = "=0.30.0"
+path = "../uniffi_testing"
 optional = true
 
 [dependencies.uniffi_udl]
-version = "=0.29.3"
+version = "=0.30.0"
+path = "../uniffi_udl"

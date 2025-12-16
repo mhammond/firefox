@@ -980,7 +980,7 @@ dependencies = [
 [[package]]
 name = "context_id"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "chrono",
  "error-support",
@@ -989,7 +989,7 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
  "uuid",
  "viaduct",
@@ -1922,7 +1922,7 @@ dependencies = [
 [[package]]
 name = "error-support"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "env_logger",
  "error-support-macros",
@@ -1931,13 +1931,13 @@ dependencies = [
  "parking_lot",
  "tracing",
  "tracing-support",
- "uniffi",
+ "uniffi 0.30.0",
 ]
 
 [[package]]
 name = "error-support-macros"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2032,14 +2032,14 @@ dependencies = [
 [[package]]
 name = "filter_adult"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "base64 0.22.1",
  "error-support",
  "md-5",
  "regex",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
 ]
 
 [[package]]
@@ -2068,7 +2068,7 @@ dependencies = [
 [[package]]
 name = "firefox-versioning"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "serde_json",
  "thiserror 2.0.12",
@@ -2706,7 +2706,7 @@ dependencies = [
  "suggest",
  "tabs",
  "tracing-support",
- "uniffi",
+ "uniffi 0.30.0",
  "webext-storage",
 ]
 
@@ -2772,7 +2772,7 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.29.3",
  "uuid",
  "wr_malloc_size_of",
  "zeitstempel",
@@ -3469,21 +3469,21 @@ dependencies = [
 [[package]]
 name = "init_rust_components"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "nss",
- "uniffi",
+ "uniffi 0.30.0",
 ]
 
 [[package]]
 name = "interrupt-support"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "lazy_static",
  "parking_lot",
  "rusqlite 0.37.0",
- "uniffi",
+ "uniffi 0.30.0",
 ]
 
 [[package]]
@@ -3652,7 +3652,7 @@ dependencies = [
 [[package]]
 name = "jwcrypto"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "base64 0.21.999",
  "error-support",
@@ -3984,7 +3984,7 @@ checksum = "30bde2b3dc3671ae49d8e2e9f044c7c005836e7a023ee57cffa25ab82764bb9e"
 [[package]]
 name = "logins"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -4003,7 +4003,7 @@ dependencies = [
  "sync-guid",
  "sync15",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
 ]
 
@@ -4682,7 +4682,7 @@ dependencies = [
  "unic-langid",
  "unic-langid-impl",
  "unicode-bidi",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
  "uuid",
  "winapi",
@@ -5044,7 +5044,7 @@ dependencies = [
 [[package]]
 name = "nss"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "base64 0.21.999",
  "error-support",
@@ -5073,12 +5073,12 @@ dependencies = [
 [[package]]
 name = "nss_build_common"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 
 [[package]]
 name = "nss_sys"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "libsqlite3-sys",
  "nss_build_common",
@@ -5366,7 +5366,7 @@ checksum = "d01a5bd0424d00070b0098dd17ebca6f961a959dead1dbcbbbc1d1cd8d3deeba"
 [[package]]
 name = "payload-support"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "serde",
  "serde_derive",
@@ -5889,7 +5889,7 @@ dependencies = [
 [[package]]
 name = "rc_crypto"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "base64 0.21.999",
  "error-support",
@@ -5959,7 +5959,7 @@ checksum = "2b15c43186be67a4fd63bee50d0303afffcef381492ebe2c5d87f324e1b8815c"
 [[package]]
 name = "relevancy"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "anyhow",
  "base64 0.21.999",
@@ -5976,14 +5976,14 @@ dependencies = [
  "serde_path_to_error",
  "sql-support",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
 ]
 
 [[package]]
 name = "remote_settings"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "anyhow",
  "camino",
@@ -5998,7 +5998,7 @@ dependencies = [
  "sha2",
  "sql-support",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
  "viaduct",
 ]
@@ -6253,7 +6253,7 @@ dependencies = [
 [[package]]
 name = "search"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "error-support",
  "firefox-versioning",
@@ -6262,7 +6262,7 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
 ]
 
 [[package]]
@@ -6579,7 +6579,7 @@ dependencies = [
 [[package]]
 name = "sql-support"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "error-support",
  "interrupt-support",
@@ -6768,7 +6768,7 @@ checksum = "81cdd64d312baedb58e21336b31bc043b77e01cc99033ce76ef539f78e965ebc"
 [[package]]
 name = "suggest"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "anyhow",
  "chrono",
@@ -6786,7 +6786,7 @@ dependencies = [
  "serde_json",
  "sql-support",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
  "viaduct",
 ]
@@ -6821,7 +6821,7 @@ dependencies = [
 [[package]]
 name = "sync-guid"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "base64 0.21.999",
  "rand",
@@ -6832,7 +6832,7 @@ dependencies = [
 [[package]]
 name = "sync15"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "anyhow",
  "base16",
@@ -6848,7 +6848,7 @@ dependencies = [
  "serde_path_to_error",
  "sync-guid",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
  "viaduct",
 ]
@@ -6876,7 +6876,7 @@ dependencies = [
 [[package]]
 name = "tabs"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "anyhow",
  "error-support",
@@ -6892,7 +6892,7 @@ dependencies = [
  "sync15",
  "thiserror 2.0.12",
  "types",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
 ]
 
@@ -7225,13 +7225,13 @@ dependencies = [
 [[package]]
 name = "tracing-support"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "parking_lot",
  "serde_json",
  "tracing",
  "tracing-subscriber",
- "uniffi",
+ "uniffi 0.30.0",
 ]
 
 [[package]]
@@ -7291,7 +7291,7 @@ checksum = "497961ef93d974e23eb6f433eb5fe1b7930b659f06d12dec6fc44a8f554c0bba"
 [[package]]
 name = "types"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "rusqlite 0.37.0",
  "serde",
@@ -7379,12 +7379,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b334fd69b3cf198b63616c096aabf9820ab21ed9b2aa1367ddd4b411068bf520"
 dependencies = [
  "anyhow",
+ "uniffi_build 0.29.3",
+ "uniffi_core 0.29.3",
+ "uniffi_macros 0.29.3",
+ "uniffi_pipeline 0.29.3",
+]
+
+[[package]]
+name = "uniffi"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "anyhow",
  "cargo_metadata",
- "uniffi_bindgen",
- "uniffi_build",
- "uniffi_core",
- "uniffi_macros",
- "uniffi_pipeline",
+ "uniffi_bindgen 0.30.0",
+ "uniffi_build 0.30.0",
+ "uniffi_core 0.30.0",
+ "uniffi_macros 0.30.0",
+ "uniffi_pipeline 0.30.0",
 ]
 
 [[package]]
@@ -7402,9 +7414,9 @@ dependencies = [
  "serde",
  "textwrap",
  "toml 0.5.999",
- "uniffi",
- "uniffi_bindgen",
- "uniffi_pipeline",
+ "uniffi 0.30.0",
+ "uniffi_bindgen 0.30.0",
+ "uniffi_pipeline 0.30.0",
 ]
 
 [[package]]
@@ -7425,7 +7437,6 @@ dependencies = [
  "anyhow",
  "askama",
  "camino",
- "cargo_metadata",
  "fs-err",
  "glob",
  "goblin 0.8.999",
@@ -7436,11 +7447,36 @@ dependencies = [
  "tempfile",
  "textwrap",
  "toml 0.5.999",
- "uniffi_internal_macros",
- "uniffi_meta",
- "uniffi_pipeline",
+ "uniffi_internal_macros 0.29.3",
+ "uniffi_meta 0.29.3",
+ "uniffi_pipeline 0.29.3",
+ "uniffi_udl 0.29.3",
+]
+
+[[package]]
+name = "uniffi_bindgen"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "anyhow",
+ "askama",
+ "camino",
+ "cargo_metadata",
+ "fs-err",
+ "glob",
+ "goblin 0.8.999",
+ "heck",
+ "indexmap",
+ "once_cell",
+ "serde",
+ "tempfile",
+ "textwrap",
+ "toml 0.9.8",
+ "uniffi_internal_macros 0.30.0",
+ "uniffi_meta 0.30.0",
+ "uniffi_pipeline 0.30.0",
  "uniffi_testing",
- "uniffi_udl",
+ "uniffi_udl 0.30.0",
 ]
 
 [[package]]
@@ -7449,7 +7485,7 @@ version = "0.29.0"
 dependencies = [
  "async-trait",
  "thiserror 1.999.999",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
 ]
 
@@ -7457,7 +7493,7 @@ dependencies = [
 name = "uniffi_bindings_tests_collision"
 version = "0.1.0"
 dependencies = [
- "uniffi",
+ "uniffi 0.30.0",
  "uniffi_bindings_tests",
 ]
 
@@ -7466,7 +7502,7 @@ name = "uniffi_bindings_tests_external_types"
 version = "0.29.0"
 dependencies = [
  "thiserror 1.999.999",
- "uniffi",
+ "uniffi 0.30.0",
  "uniffi_bindings_tests",
 ]
 
@@ -7478,7 +7514,17 @@ checksum = "0d84d607076008df3c32dd2100ee4e727269f11d3faa35691af70d144598f666"
 dependencies = [
  "anyhow",
  "camino",
- "uniffi_bindgen",
+ "uniffi_bindgen 0.29.3",
+]
+
+[[package]]
+name = "uniffi_build"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "anyhow",
+ "camino",
+ "uniffi_bindgen 0.30.0",
 ]
 
 [[package]]
@@ -7494,10 +7540,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "uniffi_core"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "once_cell",
+ "static_assertions",
+]
+
+[[package]]
 name = "uniffi_internal_macros"
 version = "0.29.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f64bec2f3a33f2f08df8150e67fa45ba59a2ca740bf20c1beb010d4d791f9a1b"
+dependencies = [
+ "anyhow",
+ "indexmap",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "uniffi_internal_macros"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
 dependencies = [
  "anyhow",
  "indexmap",
@@ -7520,7 +7589,23 @@ dependencies = [
  "serde",
  "syn",
  "toml 0.5.999",
- "uniffi_meta",
+ "uniffi_meta 0.29.3",
+]
+
+[[package]]
+name = "uniffi_macros"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "camino",
+ "fs-err",
+ "once_cell",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "syn",
+ "toml 0.9.8",
+ "uniffi_meta 0.30.0",
 ]
 
 [[package]]
@@ -7531,8 +7616,19 @@ checksum = "3d226fc167754ce548c5ece9828c8a06f03bf1eea525d2659ba6bd648bd8e2f3"
 dependencies = [
  "anyhow",
  "siphasher 0.3.999",
- "uniffi_internal_macros",
- "uniffi_pipeline",
+ "uniffi_internal_macros 0.29.3",
+ "uniffi_pipeline 0.29.3",
+]
+
+[[package]]
+name = "uniffi_meta"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "anyhow",
+ "siphasher 1.0.1",
+ "uniffi_internal_macros 0.30.0",
+ "uniffi_pipeline 0.30.0",
 ]
 
 [[package]]
@@ -7545,14 +7641,25 @@ dependencies = [
  "heck",
  "indexmap",
  "tempfile",
- "uniffi_internal_macros",
+ "uniffi_internal_macros 0.29.3",
+]
+
+[[package]]
+name = "uniffi_pipeline"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "anyhow",
+ "heck",
+ "indexmap",
+ "tempfile",
+ "uniffi_internal_macros 0.30.0",
 ]
 
 [[package]]
 name = "uniffi_testing"
-version = "0.29.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a8386f86b6f986bc01d6cdaec395980b9125ae493634ddbdc9feef5f50d80af"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
 dependencies = [
  "anyhow",
  "camino",
@@ -7569,7 +7676,18 @@ checksum = "9c42649b721df759d9d4692a376b82b62ce3028ec9fc466f4780fb8cdf728996"
 dependencies = [
  "anyhow",
  "textwrap",
- "uniffi_meta",
+ "uniffi_meta 0.29.3",
+ "weedle2",
+]
+
+[[package]]
+name = "uniffi_udl"
+version = "0.30.0"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
+dependencies = [
+ "anyhow",
+ "textwrap",
+ "uniffi_meta 0.30.0",
  "weedle2",
 ]
 
@@ -7673,7 +7791,7 @@ checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
 [[package]]
 name = "viaduct"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "async-trait",
  "error-support",
@@ -7685,7 +7803,7 @@ dependencies = [
  "serde",
  "serde_json",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
 ]
 
@@ -7848,7 +7966,7 @@ dependencies = [
 [[package]]
 name = "webext-storage"
 version = "0.1.0"
-source = "git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2#0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+source = "git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262#f75c9d01c7be7c0899771b705769ddeb59318262"
 dependencies = [
  "anyhow",
  "error-support",
@@ -7864,7 +7982,7 @@ dependencies = [
  "sync-guid",
  "sync15",
  "thiserror 2.0.12",
- "uniffi",
+ "uniffi 0.30.0",
  "url",
 ]
 
@@ -7984,8 +8102,7 @@ dependencies = [
 [[package]]
 name = "weedle2"
 version = "5.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "998d2c24ec099a87daf9467808859f9d82b61f1d9c9701251aea037f514eae0e"
+source = "git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd#bd1844b2c51cfefb8670c901a0410af874995abd"
 dependencies = [
  "nom",
 ]

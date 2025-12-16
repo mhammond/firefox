@@ -75,9 +75,14 @@ git = "https://github.com/martinthomson/ohttp.git"
 rev = "bf6a983845cc0b540effb3a615e92d914dfcfd0b"
 replace-with = "vendored-sources"
 
-[source."git+https://github.com/mozilla/application-services?rev=0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"]
-git = "https://github.com/mozilla/application-services"
-rev = "0376c542e4a31cde8d33dd0e8da17dcfbc6c58b2"
+[source."git+https://github.com/mhammond/application-services?rev=f75c9d01c7be7c0899771b705769ddeb59318262"]
+git = "https://github.com/mhammond/application-services"
+rev = "f75c9d01c7be7c0899771b705769ddeb59318262"
+replace-with = "vendored-sources"
+
+[source."git+https://github.com/mhammond/uniffi-rs?rev=bd1844b2c51cfefb8670c901a0410af874995abd"]
+git = "https://github.com/mhammond/uniffi-rs"
+rev = "bd1844b2c51cfefb8670c901a0410af874995abd"
 replace-with = "vendored-sources"
 
 [source."git+https://github.com/mozilla/audioipc?rev=82fe7fa7e3aaa35468137239a0e4c2f867457214"]
