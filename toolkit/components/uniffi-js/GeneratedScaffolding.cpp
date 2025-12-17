@@ -45,10 +45,10 @@ extern "C" {
   void ffi_context_id_rustbuffer_free(RustBuffer, RustCallStatus*);
   RustBuffer ffi_context_id_rustbuffer_reserve(RustBuffer, uint64_t, RustCallStatus*);
   typedef void (*RustFutureContinuationCallback)(uint64_t, int8_t);
-  typedef void (*ForeignFutureFree)(uint64_t);
-  struct ForeignFuture {
+  typedef void (*ForeignFutureDroppedCallback)(uint64_t);
+  struct ForeignFutureDroppedCallbackStruct {
     uint64_t handle;
-    ForeignFutureFree free;
+    ForeignFutureDroppedCallback free;
   };
   void ffi_context_id_rust_future_poll_u8(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_context_id_rust_future_cancel_u8(uint64_t);
@@ -90,10 +90,6 @@ extern "C" {
   void ffi_context_id_rust_future_cancel_f64(uint64_t);
   double ffi_context_id_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_context_id_rust_future_free_f64(uint64_t);
-  void ffi_context_id_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_context_id_rust_future_cancel_pointer(uint64_t);
-  void* ffi_context_id_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_context_id_rust_future_free_pointer(uint64_t);
   void ffi_context_id_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_context_id_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_context_id_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -102,21 +98,23 @@ extern "C" {
   void ffi_context_id_rust_future_cancel_void(uint64_t);
   void ffi_context_id_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_context_id_rust_future_free_void(uint64_t);
-  void* uniffi_context_id_fn_clone_contextidcomponent(void*, RustCallStatus*);
-  void uniffi_context_id_fn_free_contextidcomponent(void*, RustCallStatus*);
+  uint64_t uniffi_context_id_fn_clone_contextidcomponent(uint64_t, RustCallStatus*);
+  void uniffi_context_id_fn_free_contextidcomponent(uint64_t, RustCallStatus*);
   typedef void (*CallbackInterfaceContextIdContextIdCallbackMethod0)(uint64_t, RustBuffer, int64_t, void*, RustCallStatus*);
   typedef void (*CallbackInterfaceContextIdContextIdCallbackMethod1)(uint64_t, RustBuffer, void*, RustCallStatus*);
+  typedef uint64_t (*CallbackInterfaceCloneContextId_ContextIdCallback)(uint64_t);
   typedef void (*CallbackInterfaceFreeContextId_ContextIdCallback)(uint64_t);
   struct VTableCallbackInterfaceContextIdContextIdCallback {
+    CallbackInterfaceFreeContextId_ContextIdCallback uniffi_free;
+    CallbackInterfaceCloneContextId_ContextIdCallback uniffi_clone;
     CallbackInterfaceContextIdContextIdCallbackMethod0 persist;
     CallbackInterfaceContextIdContextIdCallbackMethod1 rotated;
-    CallbackInterfaceFreeContextId_ContextIdCallback uniffi_free;
   };
   void uniffi_context_id_fn_init_callback_vtable_contextidcallback(VTableCallbackInterfaceContextIdContextIdCallback*);
-  void* uniffi_context_id_fn_constructor_contextidcomponent_new(RustBuffer, int64_t, int8_t, uint64_t, RustCallStatus*);
-  void uniffi_context_id_fn_method_contextidcomponent_force_rotation(void*, RustCallStatus*);
-  RustBuffer uniffi_context_id_fn_method_contextidcomponent_request(void*, uint8_t, RustCallStatus*);
-  void uniffi_context_id_fn_method_contextidcomponent_unset_callback(void*, RustCallStatus*);
+  uint64_t uniffi_context_id_fn_constructor_contextidcomponent_new(RustBuffer, int64_t, int8_t, uint64_t, RustCallStatus*);
+  void uniffi_context_id_fn_method_contextidcomponent_force_rotation(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_context_id_fn_method_contextidcomponent_request(uint64_t, uint8_t, RustCallStatus*);
+  void uniffi_context_id_fn_method_contextidcomponent_unset_callback(uint64_t, RustCallStatus*);
   uint32_t ffi_context_id_uniffi_contract_version();
   uint16_t uniffi_context_id_checksum_constructor_contextidcomponent_new();
   uint16_t uniffi_context_id_checksum_method_contextidcomponent_force_rotation();
@@ -166,10 +164,6 @@ extern "C" {
   void ffi_error_support_rust_future_cancel_f64(uint64_t);
   double ffi_error_support_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_error_support_rust_future_free_f64(uint64_t);
-  void ffi_error_support_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_error_support_rust_future_cancel_pointer(uint64_t);
-  void* ffi_error_support_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_error_support_rust_future_free_pointer(uint64_t);
   void ffi_error_support_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_error_support_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_error_support_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -223,10 +217,6 @@ extern "C" {
   void ffi_filter_adult_rust_future_cancel_f64(uint64_t);
   double ffi_filter_adult_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_filter_adult_rust_future_free_f64(uint64_t);
-  void ffi_filter_adult_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_filter_adult_rust_future_cancel_pointer(uint64_t);
-  void* ffi_filter_adult_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_filter_adult_rust_future_free_pointer(uint64_t);
   void ffi_filter_adult_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_filter_adult_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_filter_adult_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -235,10 +225,10 @@ extern "C" {
   void ffi_filter_adult_rust_future_cancel_void(uint64_t);
   void ffi_filter_adult_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_filter_adult_rust_future_free_void(uint64_t);
-  void* uniffi_filter_adult_fn_clone_filteradultcomponent(void*, RustCallStatus*);
-  void uniffi_filter_adult_fn_free_filteradultcomponent(void*, RustCallStatus*);
-  void* uniffi_filter_adult_fn_constructor_filteradultcomponent_new(RustCallStatus*);
-  int8_t uniffi_filter_adult_fn_method_filteradultcomponent_contains(void*, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_filter_adult_fn_clone_filteradultcomponent(uint64_t, RustCallStatus*);
+  void uniffi_filter_adult_fn_free_filteradultcomponent(uint64_t, RustCallStatus*);
+  uint64_t uniffi_filter_adult_fn_constructor_filteradultcomponent_new(RustCallStatus*);
+  int8_t uniffi_filter_adult_fn_method_filteradultcomponent_contains(uint64_t, RustBuffer, RustCallStatus*);
   uint32_t ffi_filter_adult_uniffi_contract_version();
   uint16_t uniffi_filter_adult_checksum_constructor_filteradultcomponent_new();
   uint16_t uniffi_filter_adult_checksum_method_filteradultcomponent_contains();
@@ -286,10 +276,6 @@ extern "C" {
   void ffi_init_rust_components_rust_future_cancel_f64(uint64_t);
   double ffi_init_rust_components_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_init_rust_components_rust_future_free_f64(uint64_t);
-  void ffi_init_rust_components_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_init_rust_components_rust_future_cancel_pointer(uint64_t);
-  void* ffi_init_rust_components_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_init_rust_components_rust_future_free_pointer(uint64_t);
   void ffi_init_rust_components_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_init_rust_components_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_init_rust_components_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -345,10 +331,6 @@ extern "C" {
   void ffi_logins_rust_future_cancel_f64(uint64_t);
   double ffi_logins_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_logins_rust_future_free_f64(uint64_t);
-  void ffi_logins_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_logins_rust_future_cancel_pointer(uint64_t);
-  void* ffi_logins_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_logins_rust_future_free_pointer(uint64_t);
   void ffi_logins_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_logins_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_logins_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -357,34 +339,38 @@ extern "C" {
   void ffi_logins_rust_future_cancel_void(uint64_t);
   void ffi_logins_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_logins_rust_future_free_void(uint64_t);
-  void* uniffi_logins_fn_clone_encryptordecryptor(void*, RustCallStatus*);
-  void uniffi_logins_fn_free_encryptordecryptor(void*, RustCallStatus*);
-  void* uniffi_logins_fn_clone_keymanager(void*, RustCallStatus*);
-  void uniffi_logins_fn_free_keymanager(void*, RustCallStatus*);
-  void* uniffi_logins_fn_clone_loginstore(void*, RustCallStatus*);
-  void uniffi_logins_fn_free_loginstore(void*, RustCallStatus*);
-  void* uniffi_logins_fn_clone_managedencryptordecryptor(void*, RustCallStatus*);
-  void uniffi_logins_fn_free_managedencryptordecryptor(void*, RustCallStatus*);
-  void* uniffi_logins_fn_clone_nsskeymanager(void*, RustCallStatus*);
-  void uniffi_logins_fn_free_nsskeymanager(void*, RustCallStatus*);
-  void* uniffi_logins_fn_clone_primarypasswordauthenticator(void*, RustCallStatus*);
-  void uniffi_logins_fn_free_primarypasswordauthenticator(void*, RustCallStatus*);
-  void* uniffi_logins_fn_clone_statickeymanager(void*, RustCallStatus*);
-  void uniffi_logins_fn_free_statickeymanager(void*, RustCallStatus*);
+  uint64_t uniffi_logins_fn_clone_encryptordecryptor(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_free_encryptordecryptor(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_clone_keymanager(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_free_keymanager(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_clone_loginstore(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_free_loginstore(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_clone_managedencryptordecryptor(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_free_managedencryptordecryptor(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_clone_nsskeymanager(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_free_nsskeymanager(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_clone_primarypasswordauthenticator(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_free_primarypasswordauthenticator(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_clone_statickeymanager(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_free_statickeymanager(uint64_t, RustCallStatus*);
   typedef void (*CallbackInterfaceLoginsEncryptorDecryptorMethod0)(uint64_t, RustBuffer, RustBuffer*, RustCallStatus*);
   typedef void (*CallbackInterfaceLoginsEncryptorDecryptorMethod1)(uint64_t, RustBuffer, RustBuffer*, RustCallStatus*);
+  typedef uint64_t (*CallbackInterfaceCloneLogins_EncryptorDecryptor)(uint64_t);
   typedef void (*CallbackInterfaceFreeLogins_EncryptorDecryptor)(uint64_t);
   struct VTableCallbackInterfaceLoginsEncryptorDecryptor {
+    CallbackInterfaceFreeLogins_EncryptorDecryptor uniffi_free;
+    CallbackInterfaceCloneLogins_EncryptorDecryptor uniffi_clone;
     CallbackInterfaceLoginsEncryptorDecryptorMethod0 decrypt;
     CallbackInterfaceLoginsEncryptorDecryptorMethod1 encrypt;
-    CallbackInterfaceFreeLogins_EncryptorDecryptor uniffi_free;
   };
   void uniffi_logins_fn_init_callback_vtable_encryptordecryptor(VTableCallbackInterfaceLoginsEncryptorDecryptor*);
   typedef void (*CallbackInterfaceLoginsKeyManagerMethod0)(uint64_t, RustBuffer*, RustCallStatus*);
+  typedef uint64_t (*CallbackInterfaceCloneLogins_KeyManager)(uint64_t);
   typedef void (*CallbackInterfaceFreeLogins_KeyManager)(uint64_t);
   struct VTableCallbackInterfaceLoginsKeyManager {
-    CallbackInterfaceLoginsKeyManagerMethod0 get_key;
     CallbackInterfaceFreeLogins_KeyManager uniffi_free;
+    CallbackInterfaceCloneLogins_KeyManager uniffi_clone;
+    CallbackInterfaceLoginsKeyManagerMethod0 get_key;
   };
   void uniffi_logins_fn_init_callback_vtable_keymanager(VTableCallbackInterfaceLoginsKeyManager*);
   struct ForeignFutureResultRustBuffer {
@@ -392,65 +378,67 @@ extern "C" {
     RustCallStatus call_status;
   };
   typedef void (*ForeignFutureCompleterust_buffer)(uint64_t, ForeignFutureResultRustBuffer);
-  typedef void (*CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod0)(uint64_t, ForeignFutureCompleterust_buffer, uint64_t, ForeignFuture*);
+  typedef void (*CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod0)(uint64_t, ForeignFutureCompleterust_buffer, uint64_t, ForeignFutureDroppedCallbackStruct*);
   struct ForeignFutureResultVoid {
     RustCallStatus call_status;
   };
   typedef void (*ForeignFutureCompletevoid)(uint64_t, ForeignFutureResultVoid);
-  typedef void (*CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod1)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFuture*);
-  typedef void (*CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod2)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFuture*);
+  typedef void (*CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod1)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef void (*CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod2)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef uint64_t (*CallbackInterfaceCloneLogins_PrimaryPasswordAuthenticator)(uint64_t);
   typedef void (*CallbackInterfaceFreeLogins_PrimaryPasswordAuthenticator)(uint64_t);
   struct VTableCallbackInterfaceLoginsPrimaryPasswordAuthenticator {
+    CallbackInterfaceFreeLogins_PrimaryPasswordAuthenticator uniffi_free;
+    CallbackInterfaceCloneLogins_PrimaryPasswordAuthenticator uniffi_clone;
     CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod0 get_primary_password;
     CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod1 on_authentication_success;
     CallbackInterfaceLoginsPrimaryPasswordAuthenticatorMethod2 on_authentication_failure;
-    CallbackInterfaceFreeLogins_PrimaryPasswordAuthenticator uniffi_free;
   };
   void uniffi_logins_fn_init_callback_vtable_primarypasswordauthenticator(VTableCallbackInterfaceLoginsPrimaryPasswordAuthenticator*);
   int8_t uniffi_logins_fn_func_check_canary(RustBuffer, RustBuffer, RustBuffer, RustCallStatus*);
   RustBuffer uniffi_logins_fn_func_create_canary(RustBuffer, RustBuffer, RustCallStatus*);
   RustBuffer uniffi_logins_fn_func_create_key(RustCallStatus*);
-  void* uniffi_logins_fn_func_create_login_store_with_nss_keymanager(RustBuffer, void*, RustCallStatus*);
-  void* uniffi_logins_fn_func_create_login_store_with_static_key_manager(RustBuffer, RustBuffer, RustCallStatus*);
-  void* uniffi_logins_fn_func_create_managed_encdec(void*, RustCallStatus*);
-  void* uniffi_logins_fn_func_create_static_key_manager(RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_encryptordecryptor_decrypt(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_encryptordecryptor_encrypt(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_keymanager_get_key(void*, RustCallStatus*);
-  void* uniffi_logins_fn_constructor_loginstore_new(RustBuffer, void*, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_add(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_add_many(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_add_many_with_meta(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_add_or_update(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_add_with_meta(void*, RustBuffer, RustCallStatus*);
-  int64_t uniffi_logins_fn_method_loginstore_count(void*, RustCallStatus*);
-  int64_t uniffi_logins_fn_method_loginstore_count_by_form_action_origin(void*, RustBuffer, RustCallStatus*);
-  int64_t uniffi_logins_fn_method_loginstore_count_by_origin(void*, RustBuffer, RustCallStatus*);
-  int8_t uniffi_logins_fn_method_loginstore_delete(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_delete_many(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_delete_undecryptable_records_for_remote_replacement(void*, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_find_login_to_update(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_get(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_get_by_base_domain(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_get_checkpoint(void*, RustCallStatus*);
-  int8_t uniffi_logins_fn_method_loginstore_has_logins_by_base_domain(void*, RustBuffer, RustCallStatus*);
-  int8_t uniffi_logins_fn_method_loginstore_is_empty(void*, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_list(void*, RustCallStatus*);
-  void uniffi_logins_fn_method_loginstore_register_with_sync_manager(void*, RustCallStatus*);
-  void uniffi_logins_fn_method_loginstore_reset(void*, RustCallStatus*);
-  void uniffi_logins_fn_method_loginstore_run_maintenance(void*, RustCallStatus*);
-  void uniffi_logins_fn_method_loginstore_set_checkpoint(void*, RustBuffer, RustCallStatus*);
-  void uniffi_logins_fn_method_loginstore_shutdown(void*, RustCallStatus*);
-  void uniffi_logins_fn_method_loginstore_touch(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_logins_fn_method_loginstore_update(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  void uniffi_logins_fn_method_loginstore_wipe_local(void*, RustCallStatus*);
-  void* uniffi_logins_fn_constructor_managedencryptordecryptor_new(void*, RustCallStatus*);
-  void* uniffi_logins_fn_constructor_nsskeymanager_new(void*, RustCallStatus*);
-  void* uniffi_logins_fn_method_nsskeymanager_into_dyn_key_manager(void*, RustCallStatus*);
-  uint64_t uniffi_logins_fn_method_primarypasswordauthenticator_get_primary_password(void*);
-  uint64_t uniffi_logins_fn_method_primarypasswordauthenticator_on_authentication_success(void*);
-  uint64_t uniffi_logins_fn_method_primarypasswordauthenticator_on_authentication_failure(void*);
-  void* uniffi_logins_fn_constructor_statickeymanager_new(RustBuffer, RustCallStatus*);
+  uint64_t uniffi_logins_fn_func_create_login_store_with_nss_keymanager(RustBuffer, uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_func_create_login_store_with_static_key_manager(RustBuffer, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_logins_fn_func_create_managed_encdec(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_func_create_static_key_manager(RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_encryptordecryptor_decrypt(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_encryptordecryptor_encrypt(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_keymanager_get_key(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_constructor_loginstore_new(RustBuffer, uint64_t, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_add(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_add_many(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_add_many_with_meta(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_add_or_update(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_add_with_meta(uint64_t, RustBuffer, RustCallStatus*);
+  int64_t uniffi_logins_fn_method_loginstore_count(uint64_t, RustCallStatus*);
+  int64_t uniffi_logins_fn_method_loginstore_count_by_form_action_origin(uint64_t, RustBuffer, RustCallStatus*);
+  int64_t uniffi_logins_fn_method_loginstore_count_by_origin(uint64_t, RustBuffer, RustCallStatus*);
+  int8_t uniffi_logins_fn_method_loginstore_delete(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_delete_many(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_delete_undecryptable_records_for_remote_replacement(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_find_login_to_update(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_get(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_get_by_base_domain(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_get_checkpoint(uint64_t, RustCallStatus*);
+  int8_t uniffi_logins_fn_method_loginstore_has_logins_by_base_domain(uint64_t, RustBuffer, RustCallStatus*);
+  int8_t uniffi_logins_fn_method_loginstore_is_empty(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_list(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_method_loginstore_register_with_sync_manager(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_method_loginstore_reset(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_method_loginstore_run_maintenance(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_method_loginstore_set_checkpoint(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_logins_fn_method_loginstore_shutdown(uint64_t, RustCallStatus*);
+  void uniffi_logins_fn_method_loginstore_touch(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_logins_fn_method_loginstore_update(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  void uniffi_logins_fn_method_loginstore_wipe_local(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_constructor_managedencryptordecryptor_new(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_constructor_nsskeymanager_new(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_method_nsskeymanager_into_dyn_key_manager(uint64_t, RustCallStatus*);
+  uint64_t uniffi_logins_fn_method_primarypasswordauthenticator_get_primary_password(uint64_t);
+  uint64_t uniffi_logins_fn_method_primarypasswordauthenticator_on_authentication_success(uint64_t);
+  uint64_t uniffi_logins_fn_method_primarypasswordauthenticator_on_authentication_failure(uint64_t);
+  uint64_t uniffi_logins_fn_constructor_statickeymanager_new(RustBuffer, RustCallStatus*);
   uint32_t ffi_logins_uniffi_contract_version();
   uint16_t uniffi_logins_checksum_func_check_canary();
   uint16_t uniffi_logins_checksum_func_create_canary();
@@ -540,10 +528,6 @@ extern "C" {
   void ffi_relevancy_rust_future_cancel_f64(uint64_t);
   double ffi_relevancy_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_relevancy_rust_future_free_f64(uint64_t);
-  void ffi_relevancy_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_relevancy_rust_future_cancel_pointer(uint64_t);
-  void* ffi_relevancy_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_relevancy_rust_future_free_pointer(uint64_t);
   void ffi_relevancy_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_relevancy_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_relevancy_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -552,19 +536,19 @@ extern "C" {
   void ffi_relevancy_rust_future_cancel_void(uint64_t);
   void ffi_relevancy_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_relevancy_rust_future_free_void(uint64_t);
-  void* uniffi_relevancy_fn_clone_relevancystore(void*, RustCallStatus*);
-  void uniffi_relevancy_fn_free_relevancystore(void*, RustCallStatus*);
+  uint64_t uniffi_relevancy_fn_clone_relevancystore(uint64_t, RustCallStatus*);
+  void uniffi_relevancy_fn_free_relevancystore(uint64_t, RustCallStatus*);
   double uniffi_relevancy_fn_func_score(RustBuffer, RustBuffer, RustCallStatus*);
-  void* uniffi_relevancy_fn_constructor_relevancystore_new(RustBuffer, void*, RustCallStatus*);
-  void uniffi_relevancy_fn_method_relevancystore_bandit_init(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_relevancy_fn_method_relevancystore_bandit_select(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  void uniffi_relevancy_fn_method_relevancystore_bandit_update(void*, RustBuffer, RustBuffer, int8_t, RustCallStatus*);
-  void uniffi_relevancy_fn_method_relevancystore_close(void*, RustCallStatus*);
-  void uniffi_relevancy_fn_method_relevancystore_ensure_interest_data_populated(void*, RustCallStatus*);
-  RustBuffer uniffi_relevancy_fn_method_relevancystore_get_bandit_data(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_relevancy_fn_method_relevancystore_ingest(void*, RustBuffer, RustCallStatus*);
-  void uniffi_relevancy_fn_method_relevancystore_interrupt(void*, RustCallStatus*);
-  RustBuffer uniffi_relevancy_fn_method_relevancystore_user_interest_vector(void*, RustCallStatus*);
+  uint64_t uniffi_relevancy_fn_constructor_relevancystore_new(RustBuffer, uint64_t, RustCallStatus*);
+  void uniffi_relevancy_fn_method_relevancystore_bandit_init(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_relevancy_fn_method_relevancystore_bandit_select(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  void uniffi_relevancy_fn_method_relevancystore_bandit_update(uint64_t, RustBuffer, RustBuffer, int8_t, RustCallStatus*);
+  void uniffi_relevancy_fn_method_relevancystore_close(uint64_t, RustCallStatus*);
+  void uniffi_relevancy_fn_method_relevancystore_ensure_interest_data_populated(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_relevancy_fn_method_relevancystore_get_bandit_data(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_relevancy_fn_method_relevancystore_ingest(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_relevancy_fn_method_relevancystore_interrupt(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_relevancy_fn_method_relevancystore_user_interest_vector(uint64_t, RustCallStatus*);
   uint32_t ffi_relevancy_uniffi_contract_version();
   uint16_t uniffi_relevancy_checksum_func_score();
   uint16_t uniffi_relevancy_checksum_constructor_relevancystore_new();
@@ -621,10 +605,6 @@ extern "C" {
   void ffi_remote_settings_rust_future_cancel_f64(uint64_t);
   double ffi_remote_settings_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_remote_settings_rust_future_free_f64(uint64_t);
-  void ffi_remote_settings_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_remote_settings_rust_future_cancel_pointer(uint64_t);
-  void* ffi_remote_settings_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_remote_settings_rust_future_free_pointer(uint64_t);
   void ffi_remote_settings_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_remote_settings_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_remote_settings_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -633,27 +613,27 @@ extern "C" {
   void ffi_remote_settings_rust_future_cancel_void(uint64_t);
   void ffi_remote_settings_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_remote_settings_rust_future_free_void(uint64_t);
-  void* uniffi_remote_settings_fn_clone_remotesettings(void*, RustCallStatus*);
-  void uniffi_remote_settings_fn_free_remotesettings(void*, RustCallStatus*);
-  void* uniffi_remote_settings_fn_clone_remotesettingsclient(void*, RustCallStatus*);
-  void uniffi_remote_settings_fn_free_remotesettingsclient(void*, RustCallStatus*);
-  void* uniffi_remote_settings_fn_clone_remotesettingsservice(void*, RustCallStatus*);
-  void uniffi_remote_settings_fn_free_remotesettingsservice(void*, RustCallStatus*);
-  void* uniffi_remote_settings_fn_constructor_remotesettings_new(RustBuffer, RustCallStatus*);
-  void uniffi_remote_settings_fn_method_remotesettings_download_attachment_to_path(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettings_get_records(void*, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettings_get_records_since(void*, uint64_t, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_collection_name(void*, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_get_attachment(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_get_records(void*, int8_t, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_get_records_map(void*, int8_t, RustCallStatus*);
-  void uniffi_remote_settings_fn_method_remotesettingsclient_shutdown(void*, RustCallStatus*);
-  void uniffi_remote_settings_fn_method_remotesettingsclient_sync(void*, RustCallStatus*);
-  void* uniffi_remote_settings_fn_constructor_remotesettingsservice_new(RustBuffer, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettingsservice_client_url(void*, RustCallStatus*);
-  void* uniffi_remote_settings_fn_method_remotesettingsservice_make_client(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_remote_settings_fn_method_remotesettingsservice_sync(void*, RustCallStatus*);
-  void uniffi_remote_settings_fn_method_remotesettingsservice_update_config(void*, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_remote_settings_fn_clone_remotesettings(uint64_t, RustCallStatus*);
+  void uniffi_remote_settings_fn_free_remotesettings(uint64_t, RustCallStatus*);
+  uint64_t uniffi_remote_settings_fn_clone_remotesettingsclient(uint64_t, RustCallStatus*);
+  void uniffi_remote_settings_fn_free_remotesettingsclient(uint64_t, RustCallStatus*);
+  uint64_t uniffi_remote_settings_fn_clone_remotesettingsservice(uint64_t, RustCallStatus*);
+  void uniffi_remote_settings_fn_free_remotesettingsservice(uint64_t, RustCallStatus*);
+  uint64_t uniffi_remote_settings_fn_constructor_remotesettings_new(RustBuffer, RustCallStatus*);
+  void uniffi_remote_settings_fn_method_remotesettings_download_attachment_to_path(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettings_get_records(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettings_get_records_since(uint64_t, uint64_t, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_collection_name(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_get_attachment(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_get_records(uint64_t, int8_t, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettingsclient_get_records_map(uint64_t, int8_t, RustCallStatus*);
+  void uniffi_remote_settings_fn_method_remotesettingsclient_shutdown(uint64_t, RustCallStatus*);
+  void uniffi_remote_settings_fn_method_remotesettingsclient_sync(uint64_t, RustCallStatus*);
+  uint64_t uniffi_remote_settings_fn_constructor_remotesettingsservice_new(RustBuffer, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettingsservice_client_url(uint64_t, RustCallStatus*);
+  uint64_t uniffi_remote_settings_fn_method_remotesettingsservice_make_client(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_remote_settings_fn_method_remotesettingsservice_sync(uint64_t, RustCallStatus*);
+  void uniffi_remote_settings_fn_method_remotesettingsservice_update_config(uint64_t, RustBuffer, RustCallStatus*);
   uint32_t ffi_remote_settings_uniffi_contract_version();
   uint16_t uniffi_remote_settings_checksum_constructor_remotesettings_new();
   uint16_t uniffi_remote_settings_checksum_method_remotesettings_download_attachment_to_path();
@@ -714,10 +694,6 @@ extern "C" {
   void ffi_search_rust_future_cancel_f64(uint64_t);
   double ffi_search_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_search_rust_future_free_f64(uint64_t);
-  void ffi_search_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_search_rust_future_cancel_pointer(uint64_t);
-  void* ffi_search_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_search_rust_future_free_pointer(uint64_t);
   void ffi_search_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_search_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_search_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -726,14 +702,14 @@ extern "C" {
   void ffi_search_rust_future_cancel_void(uint64_t);
   void ffi_search_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_search_rust_future_free_void(uint64_t);
-  void* uniffi_search_fn_clone_searchengineselector(void*, RustCallStatus*);
-  void uniffi_search_fn_free_searchengineselector(void*, RustCallStatus*);
-  void* uniffi_search_fn_constructor_searchengineselector_new(RustCallStatus*);
-  void uniffi_search_fn_method_searchengineselector_clear_search_config(void*, RustCallStatus*);
-  RustBuffer uniffi_search_fn_method_searchengineselector_filter_engine_configuration(void*, RustBuffer, RustCallStatus*);
-  void uniffi_search_fn_method_searchengineselector_set_config_overrides(void*, RustBuffer, RustCallStatus*);
-  void uniffi_search_fn_method_searchengineselector_set_search_config(void*, RustBuffer, RustCallStatus*);
-  void uniffi_search_fn_method_searchengineselector_use_remote_settings_server(void*, void*, int8_t, RustCallStatus*);
+  uint64_t uniffi_search_fn_clone_searchengineselector(uint64_t, RustCallStatus*);
+  void uniffi_search_fn_free_searchengineselector(uint64_t, RustCallStatus*);
+  uint64_t uniffi_search_fn_constructor_searchengineselector_new(RustCallStatus*);
+  void uniffi_search_fn_method_searchengineselector_clear_search_config(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_search_fn_method_searchengineselector_filter_engine_configuration(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_search_fn_method_searchengineselector_set_config_overrides(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_search_fn_method_searchengineselector_set_search_config(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_search_fn_method_searchengineselector_use_remote_settings_server(uint64_t, uint64_t, int8_t, RustCallStatus*);
   uint32_t ffi_search_uniffi_contract_version();
   uint16_t uniffi_search_checksum_constructor_searchengineselector_new();
   uint16_t uniffi_search_checksum_method_searchengineselector_clear_search_config();
@@ -785,10 +761,6 @@ extern "C" {
   void ffi_suggest_rust_future_cancel_f64(uint64_t);
   double ffi_suggest_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_suggest_rust_future_free_f64(uint64_t);
-  void ffi_suggest_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_suggest_rust_future_cancel_pointer(uint64_t);
-  void* ffi_suggest_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_suggest_rust_future_free_pointer(uint64_t);
   void ffi_suggest_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_suggest_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_suggest_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -797,36 +769,36 @@ extern "C" {
   void ffi_suggest_rust_future_cancel_void(uint64_t);
   void ffi_suggest_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_suggest_rust_future_free_void(uint64_t);
-  void* uniffi_suggest_fn_clone_suggeststore(void*, RustCallStatus*);
-  void uniffi_suggest_fn_free_suggeststore(void*, RustCallStatus*);
-  void* uniffi_suggest_fn_clone_suggeststorebuilder(void*, RustCallStatus*);
-  void uniffi_suggest_fn_free_suggeststorebuilder(void*, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_clone_suggeststore(uint64_t, RustCallStatus*);
+  void uniffi_suggest_fn_free_suggeststore(uint64_t, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_clone_suggeststorebuilder(uint64_t, RustCallStatus*);
+  void uniffi_suggest_fn_free_suggeststorebuilder(uint64_t, RustCallStatus*);
   int8_t uniffi_suggest_fn_func_raw_suggestion_url_matches(RustBuffer, RustBuffer, RustCallStatus*);
-  void* uniffi_suggest_fn_constructor_suggeststore_new(RustBuffer, void*, RustCallStatus*);
-  int8_t uniffi_suggest_fn_method_suggeststore_any_dismissed_suggestions(void*, RustCallStatus*);
-  void uniffi_suggest_fn_method_suggeststore_clear(void*, RustCallStatus*);
-  void uniffi_suggest_fn_method_suggeststore_clear_dismissed_suggestions(void*, RustCallStatus*);
-  void uniffi_suggest_fn_method_suggeststore_dismiss_by_key(void*, RustBuffer, RustCallStatus*);
-  void uniffi_suggest_fn_method_suggeststore_dismiss_by_suggestion(void*, RustBuffer, RustCallStatus*);
-  void uniffi_suggest_fn_method_suggeststore_dismiss_suggestion(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_geoname_alternates(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_geonames(void*, RustBuffer, int8_t, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_global_config(void*, RustCallStatus*);
-  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_provider_config(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_suggest_fn_method_suggeststore_ingest(void*, RustBuffer, RustCallStatus*);
-  void uniffi_suggest_fn_method_suggeststore_interrupt(void*, RustBuffer, RustCallStatus*);
-  int8_t uniffi_suggest_fn_method_suggeststore_is_dismissed_by_key(void*, RustBuffer, RustCallStatus*);
-  int8_t uniffi_suggest_fn_method_suggeststore_is_dismissed_by_suggestion(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_suggest_fn_method_suggeststore_query(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_suggest_fn_method_suggeststore_query_with_metrics(void*, RustBuffer, RustCallStatus*);
-  void* uniffi_suggest_fn_constructor_suggeststorebuilder_new(RustCallStatus*);
-  void* uniffi_suggest_fn_method_suggeststorebuilder_build(void*, RustCallStatus*);
-  void* uniffi_suggest_fn_method_suggeststorebuilder_cache_path(void*, RustBuffer, RustCallStatus*);
-  void* uniffi_suggest_fn_method_suggeststorebuilder_data_path(void*, RustBuffer, RustCallStatus*);
-  void* uniffi_suggest_fn_method_suggeststorebuilder_load_extension(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  void* uniffi_suggest_fn_method_suggeststorebuilder_remote_settings_bucket_name(void*, RustBuffer, RustCallStatus*);
-  void* uniffi_suggest_fn_method_suggeststorebuilder_remote_settings_server(void*, RustBuffer, RustCallStatus*);
-  void* uniffi_suggest_fn_method_suggeststorebuilder_remote_settings_service(void*, void*, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_constructor_suggeststore_new(RustBuffer, uint64_t, RustCallStatus*);
+  int8_t uniffi_suggest_fn_method_suggeststore_any_dismissed_suggestions(uint64_t, RustCallStatus*);
+  void uniffi_suggest_fn_method_suggeststore_clear(uint64_t, RustCallStatus*);
+  void uniffi_suggest_fn_method_suggeststore_clear_dismissed_suggestions(uint64_t, RustCallStatus*);
+  void uniffi_suggest_fn_method_suggeststore_dismiss_by_key(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_suggest_fn_method_suggeststore_dismiss_by_suggestion(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_suggest_fn_method_suggeststore_dismiss_suggestion(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_geoname_alternates(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_geonames(uint64_t, RustBuffer, int8_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_global_config(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_suggest_fn_method_suggeststore_fetch_provider_config(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_suggest_fn_method_suggeststore_ingest(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_suggest_fn_method_suggeststore_interrupt(uint64_t, RustBuffer, RustCallStatus*);
+  int8_t uniffi_suggest_fn_method_suggeststore_is_dismissed_by_key(uint64_t, RustBuffer, RustCallStatus*);
+  int8_t uniffi_suggest_fn_method_suggeststore_is_dismissed_by_suggestion(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_suggest_fn_method_suggeststore_query(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_suggest_fn_method_suggeststore_query_with_metrics(uint64_t, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_constructor_suggeststorebuilder_new(RustCallStatus*);
+  uint64_t uniffi_suggest_fn_method_suggeststorebuilder_build(uint64_t, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_method_suggeststorebuilder_cache_path(uint64_t, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_method_suggeststorebuilder_data_path(uint64_t, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_method_suggeststorebuilder_load_extension(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_method_suggeststorebuilder_remote_settings_bucket_name(uint64_t, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_method_suggeststorebuilder_remote_settings_server(uint64_t, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_suggest_fn_method_suggeststorebuilder_remote_settings_service(uint64_t, uint64_t, RustCallStatus*);
   uint32_t ffi_suggest_uniffi_contract_version();
   uint16_t uniffi_suggest_checksum_func_raw_suggestion_url_matches();
   uint16_t uniffi_suggest_checksum_constructor_suggeststore_new();
@@ -898,10 +870,6 @@ extern "C" {
   void ffi_sync15_rust_future_cancel_f64(uint64_t);
   double ffi_sync15_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_sync15_rust_future_free_f64(uint64_t);
-  void ffi_sync15_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_sync15_rust_future_cancel_pointer(uint64_t);
-  void* ffi_sync15_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_sync15_rust_future_free_pointer(uint64_t);
   void ffi_sync15_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_sync15_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_sync15_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -955,10 +923,6 @@ extern "C" {
   void ffi_tabs_rust_future_cancel_f64(uint64_t);
   double ffi_tabs_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_tabs_rust_future_free_f64(uint64_t);
-  void ffi_tabs_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_tabs_rust_future_cancel_pointer(uint64_t);
-  void* ffi_tabs_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_tabs_rust_future_free_pointer(uint64_t);
   void ffi_tabs_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_tabs_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_tabs_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -967,38 +931,38 @@ extern "C" {
   void ffi_tabs_rust_future_cancel_void(uint64_t);
   void ffi_tabs_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_tabs_rust_future_free_void(uint64_t);
-  void* uniffi_tabs_fn_clone_remotecommandstore(void*, RustCallStatus*);
-  void uniffi_tabs_fn_free_remotecommandstore(void*, RustCallStatus*);
-  void* uniffi_tabs_fn_clone_tabsbridgedengine(void*, RustCallStatus*);
-  void uniffi_tabs_fn_free_tabsbridgedengine(void*, RustCallStatus*);
-  void* uniffi_tabs_fn_clone_tabsstore(void*, RustCallStatus*);
-  void uniffi_tabs_fn_free_tabsstore(void*, RustCallStatus*);
-  int8_t uniffi_tabs_fn_method_remotecommandstore_add_remote_command(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  int8_t uniffi_tabs_fn_method_remotecommandstore_add_remote_command_at(void*, RustBuffer, RustBuffer, int64_t, RustCallStatus*);
-  RustBuffer uniffi_tabs_fn_method_remotecommandstore_get_unsent_commands(void*, RustCallStatus*);
-  int8_t uniffi_tabs_fn_method_remotecommandstore_remove_remote_command(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  int8_t uniffi_tabs_fn_method_remotecommandstore_set_pending_command_sent(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_apply(void*, RustCallStatus*);
-  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_ensure_current_sync_id(void*, RustBuffer, RustCallStatus*);
-  int64_t uniffi_tabs_fn_method_tabsbridgedengine_last_sync(void*, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_prepare_for_sync(void*, RustBuffer, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_reset(void*, RustCallStatus*);
-  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_reset_sync_id(void*, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_set_last_sync(void*, int64_t, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_set_uploaded(void*, int64_t, RustBuffer, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_store_incoming(void*, RustBuffer, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_sync_finished(void*, RustCallStatus*);
-  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_sync_id(void*, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_sync_started(void*, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsbridgedengine_wipe(void*, RustCallStatus*);
-  void* uniffi_tabs_fn_constructor_tabsstore_new(RustBuffer, RustCallStatus*);
-  void* uniffi_tabs_fn_method_tabsstore_bridged_engine(void*, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsstore_close_connection(void*, RustCallStatus*);
-  RustBuffer uniffi_tabs_fn_method_tabsstore_get_all(void*, RustCallStatus*);
-  void* uniffi_tabs_fn_method_tabsstore_new_remote_command_store(void*, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsstore_register_with_sync_manager(void*, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsstore_set_local_tabs(void*, RustBuffer, RustCallStatus*);
-  void uniffi_tabs_fn_method_tabsstore_set_local_tabs_info(void*, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_tabs_fn_clone_remotecommandstore(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_free_remotecommandstore(uint64_t, RustCallStatus*);
+  uint64_t uniffi_tabs_fn_clone_tabsbridgedengine(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_free_tabsbridgedengine(uint64_t, RustCallStatus*);
+  uint64_t uniffi_tabs_fn_clone_tabsstore(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_free_tabsstore(uint64_t, RustCallStatus*);
+  int8_t uniffi_tabs_fn_method_remotecommandstore_add_remote_command(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  int8_t uniffi_tabs_fn_method_remotecommandstore_add_remote_command_at(uint64_t, RustBuffer, RustBuffer, int64_t, RustCallStatus*);
+  RustBuffer uniffi_tabs_fn_method_remotecommandstore_get_unsent_commands(uint64_t, RustCallStatus*);
+  int8_t uniffi_tabs_fn_method_remotecommandstore_remove_remote_command(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  int8_t uniffi_tabs_fn_method_remotecommandstore_set_pending_command_sent(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_apply(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_ensure_current_sync_id(uint64_t, RustBuffer, RustCallStatus*);
+  int64_t uniffi_tabs_fn_method_tabsbridgedengine_last_sync(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_prepare_for_sync(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_reset(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_reset_sync_id(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_set_last_sync(uint64_t, int64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_set_uploaded(uint64_t, int64_t, RustBuffer, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_store_incoming(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_sync_finished(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_tabs_fn_method_tabsbridgedengine_sync_id(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_sync_started(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsbridgedengine_wipe(uint64_t, RustCallStatus*);
+  uint64_t uniffi_tabs_fn_constructor_tabsstore_new(RustBuffer, RustCallStatus*);
+  uint64_t uniffi_tabs_fn_method_tabsstore_bridged_engine(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsstore_close_connection(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_tabs_fn_method_tabsstore_get_all(uint64_t, RustCallStatus*);
+  uint64_t uniffi_tabs_fn_method_tabsstore_new_remote_command_store(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsstore_register_with_sync_manager(uint64_t, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsstore_set_local_tabs(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_tabs_fn_method_tabsstore_set_local_tabs_info(uint64_t, RustBuffer, RustCallStatus*);
   uint32_t ffi_tabs_uniffi_contract_version();
   uint16_t uniffi_tabs_checksum_method_remotecommandstore_add_remote_command();
   uint16_t uniffi_tabs_checksum_method_remotecommandstore_add_remote_command_at();
@@ -1070,10 +1034,6 @@ extern "C" {
   void ffi_tracing_support_rust_future_cancel_f64(uint64_t);
   double ffi_tracing_support_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_tracing_support_rust_future_free_f64(uint64_t);
-  void ffi_tracing_support_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_tracing_support_rust_future_cancel_pointer(uint64_t);
-  void* ffi_tracing_support_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_tracing_support_rust_future_free_pointer(uint64_t);
   void ffi_tracing_support_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_tracing_support_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_tracing_support_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -1083,10 +1043,12 @@ extern "C" {
   void ffi_tracing_support_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_tracing_support_rust_future_free_void(uint64_t);
   typedef void (*CallbackInterfaceTracingEventSinkMethod0)(uint64_t, RustBuffer, void*, RustCallStatus*);
+  typedef uint64_t (*CallbackInterfaceCloneTracing_EventSink)(uint64_t);
   typedef void (*CallbackInterfaceFreeTracing_EventSink)(uint64_t);
   struct VTableCallbackInterfaceTracingEventSink {
-    CallbackInterfaceTracingEventSinkMethod0 on_event;
     CallbackInterfaceFreeTracing_EventSink uniffi_free;
+    CallbackInterfaceCloneTracing_EventSink uniffi_clone;
+    CallbackInterfaceTracingEventSinkMethod0 on_event;
   };
   void uniffi_tracing_support_fn_init_callback_vtable_eventsink(VTableCallbackInterfaceTracingEventSink*);
   void uniffi_tracing_support_fn_func_register_event_sink(RustBuffer, RustBuffer, uint64_t, RustCallStatus*);
@@ -1142,10 +1104,6 @@ extern "C" {
   void ffi_viaduct_rust_future_cancel_f64(uint64_t);
   double ffi_viaduct_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_viaduct_rust_future_free_f64(uint64_t);
-  void ffi_viaduct_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_viaduct_rust_future_cancel_pointer(uint64_t);
-  void* ffi_viaduct_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_viaduct_rust_future_free_pointer(uint64_t);
   void ffi_viaduct_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_viaduct_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_viaduct_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -1154,18 +1112,20 @@ extern "C" {
   void ffi_viaduct_rust_future_cancel_void(uint64_t);
   void ffi_viaduct_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_viaduct_rust_future_free_void(uint64_t);
-  void* uniffi_viaduct_fn_clone_backend(void*, RustCallStatus*);
-  void uniffi_viaduct_fn_free_backend(void*, RustCallStatus*);
-  typedef void (*CallbackInterfaceViaductBackendMethod0)(uint64_t, RustBuffer, RustBuffer, ForeignFutureCompleterust_buffer, uint64_t, ForeignFuture*);
+  uint64_t uniffi_viaduct_fn_clone_backend(uint64_t, RustCallStatus*);
+  void uniffi_viaduct_fn_free_backend(uint64_t, RustCallStatus*);
+  typedef void (*CallbackInterfaceViaductBackendMethod0)(uint64_t, RustBuffer, RustBuffer, ForeignFutureCompleterust_buffer, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef uint64_t (*CallbackInterfaceCloneViaduct_Backend)(uint64_t);
   typedef void (*CallbackInterfaceFreeViaduct_Backend)(uint64_t);
   struct VTableCallbackInterfaceViaductBackend {
-    CallbackInterfaceViaductBackendMethod0 send_request;
     CallbackInterfaceFreeViaduct_Backend uniffi_free;
+    CallbackInterfaceCloneViaduct_Backend uniffi_clone;
+    CallbackInterfaceViaductBackendMethod0 send_request;
   };
   void uniffi_viaduct_fn_init_callback_vtable_backend(VTableCallbackInterfaceViaductBackend*);
   void uniffi_viaduct_fn_func_allow_android_emulator_loopback(RustCallStatus*);
-  void uniffi_viaduct_fn_func_init_backend(void*, RustCallStatus*);
-  uint64_t uniffi_viaduct_fn_method_backend_send_request(void*, RustBuffer, RustBuffer);
+  void uniffi_viaduct_fn_func_init_backend(uint64_t, RustCallStatus*);
+  uint64_t uniffi_viaduct_fn_method_backend_send_request(uint64_t, RustBuffer, RustBuffer);
   uint32_t ffi_viaduct_uniffi_contract_version();
   uint16_t uniffi_viaduct_checksum_func_allow_android_emulator_loopback();
   uint16_t uniffi_viaduct_checksum_func_init_backend();
@@ -1214,10 +1174,6 @@ extern "C" {
   void ffi_webext_storage_rust_future_cancel_f64(uint64_t);
   double ffi_webext_storage_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_webext_storage_rust_future_free_f64(uint64_t);
-  void ffi_webext_storage_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_webext_storage_rust_future_cancel_pointer(uint64_t);
-  void* ffi_webext_storage_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_webext_storage_rust_future_free_pointer(uint64_t);
   void ffi_webext_storage_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_webext_storage_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_webext_storage_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -1226,33 +1182,33 @@ extern "C" {
   void ffi_webext_storage_rust_future_cancel_void(uint64_t);
   void ffi_webext_storage_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_webext_storage_rust_future_free_void(uint64_t);
-  void* uniffi_webext_storage_fn_clone_webextstoragebridgedengine(void*, RustCallStatus*);
-  void uniffi_webext_storage_fn_free_webextstoragebridgedengine(void*, RustCallStatus*);
-  void* uniffi_webext_storage_fn_clone_webextstoragestore(void*, RustCallStatus*);
-  void uniffi_webext_storage_fn_free_webextstoragestore(void*, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_apply(void*, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_ensure_current_sync_id(void*, RustBuffer, RustCallStatus*);
-  int64_t uniffi_webext_storage_fn_method_webextstoragebridgedengine_last_sync(void*, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_prepare_for_sync(void*, RustBuffer, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_reset(void*, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_reset_sync_id(void*, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_set_last_sync(void*, int64_t, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_set_uploaded(void*, int64_t, RustBuffer, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_store_incoming(void*, RustBuffer, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_sync_finished(void*, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_sync_id(void*, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_sync_started(void*, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_wipe(void*, RustCallStatus*);
-  void* uniffi_webext_storage_fn_constructor_webextstoragestore_new(RustBuffer, RustCallStatus*);
-  void* uniffi_webext_storage_fn_method_webextstoragestore_bridged_engine(void*, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_clear(void*, RustBuffer, RustCallStatus*);
-  void uniffi_webext_storage_fn_method_webextstoragestore_close(void*, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_get(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  uint64_t uniffi_webext_storage_fn_method_webextstoragestore_get_bytes_in_use(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_get_keys(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_get_synced_changes(void*, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_remove(void*, RustBuffer, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_set(void*, RustBuffer, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_webext_storage_fn_clone_webextstoragebridgedengine(uint64_t, RustCallStatus*);
+  void uniffi_webext_storage_fn_free_webextstoragebridgedengine(uint64_t, RustCallStatus*);
+  uint64_t uniffi_webext_storage_fn_clone_webextstoragestore(uint64_t, RustCallStatus*);
+  void uniffi_webext_storage_fn_free_webextstoragestore(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_apply(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_ensure_current_sync_id(uint64_t, RustBuffer, RustCallStatus*);
+  int64_t uniffi_webext_storage_fn_method_webextstoragebridgedengine_last_sync(uint64_t, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_prepare_for_sync(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_reset(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_reset_sync_id(uint64_t, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_set_last_sync(uint64_t, int64_t, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_set_uploaded(uint64_t, int64_t, RustBuffer, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_store_incoming(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_sync_finished(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragebridgedengine_sync_id(uint64_t, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_sync_started(uint64_t, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragebridgedengine_wipe(uint64_t, RustCallStatus*);
+  uint64_t uniffi_webext_storage_fn_constructor_webextstoragestore_new(RustBuffer, RustCallStatus*);
+  uint64_t uniffi_webext_storage_fn_method_webextstoragestore_bridged_engine(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_clear(uint64_t, RustBuffer, RustCallStatus*);
+  void uniffi_webext_storage_fn_method_webextstoragestore_close(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_get(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_webext_storage_fn_method_webextstoragestore_get_bytes_in_use(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_get_keys(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_get_synced_changes(uint64_t, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_remove(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_webext_storage_fn_method_webextstoragestore_set(uint64_t, RustBuffer, RustBuffer, RustCallStatus*);
   uint32_t ffi_webext_storage_uniffi_contract_version();
   uint16_t uniffi_webext_storage_checksum_method_webextstoragebridgedengine_apply();
   uint16_t uniffi_webext_storage_checksum_method_webextstoragebridgedengine_ensure_current_sync_id();
@@ -1323,10 +1279,6 @@ extern "C" {
   void ffi_uniffi_bindings_tests_rust_future_cancel_f64(uint64_t);
   double ffi_uniffi_bindings_tests_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_uniffi_bindings_tests_rust_future_free_f64(uint64_t);
-  void ffi_uniffi_bindings_tests_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_uniffi_bindings_tests_rust_future_cancel_pointer(uint64_t);
-  void* ffi_uniffi_bindings_tests_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_uniffi_bindings_tests_rust_future_free_pointer(uint64_t);
   void ffi_uniffi_bindings_tests_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_uniffi_bindings_tests_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_uniffi_bindings_tests_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -1335,71 +1287,79 @@ extern "C" {
   void ffi_uniffi_bindings_tests_rust_future_cancel_void(uint64_t);
   void ffi_uniffi_bindings_tests_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_uniffi_bindings_tests_rust_future_free_void(uint64_t);
-  void* uniffi_uniffi_bindings_tests_fn_clone_asyncinterface(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_free_asyncinterface(void*, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_clone_asynctesttraitinterface(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_free_asynctesttraitinterface(void*, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_clone_complexmethods(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_free_complexmethods(void*, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_clone_testinterface(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_free_testinterface(void*, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_clone_testtraitinterface(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_free_testtraitinterface(void*, RustCallStatus*);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod0)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFuture*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_clone_asyncinterface(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_free_asyncinterface(uint64_t, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_clone_asynctesttraitinterface(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_free_asynctesttraitinterface(uint64_t, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_clone_complexmethods(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_free_complexmethods(uint64_t, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_clone_testinterface(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_free_testinterface(uint64_t, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_clone_testtraitinterface(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_free_testtraitinterface(uint64_t, RustCallStatus*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod0)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFutureDroppedCallbackStruct*);
   struct ForeignFutureResultU32 {
     uint32_t return_value;
     RustCallStatus call_status;
   };
   typedef void (*ForeignFutureCompleteu32)(uint64_t, ForeignFutureResultU32);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod1)(uint64_t, ForeignFutureCompleteu32, uint64_t, ForeignFuture*);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod2)(uint64_t, uint32_t, ForeignFutureCompletevoid, uint64_t, ForeignFuture*);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod3)(uint64_t, RustBuffer, ForeignFutureCompleterust_buffer, uint64_t, ForeignFuture*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod1)(uint64_t, ForeignFutureCompleteu32, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod2)(uint64_t, uint32_t, ForeignFutureCompletevoid, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod3)(uint64_t, RustBuffer, ForeignFutureCompleterust_buffer, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef uint64_t (*CallbackInterfaceCloneUniffiBindingsTests_AsyncTestTraitInterface)(uint64_t);
   typedef void (*CallbackInterfaceFreeUniffiBindingsTests_AsyncTestTraitInterface)(uint64_t);
   struct VTableCallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterface {
+    CallbackInterfaceFreeUniffiBindingsTests_AsyncTestTraitInterface uniffi_free;
+    CallbackInterfaceCloneUniffiBindingsTests_AsyncTestTraitInterface uniffi_clone;
     CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod0 noop;
     CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod1 get_value;
     CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod2 set_value;
     CallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterfaceMethod3 throw_if_equal;
-    CallbackInterfaceFreeUniffiBindingsTests_AsyncTestTraitInterface uniffi_free;
   };
   void uniffi_uniffi_bindings_tests_fn_init_callback_vtable_asynctesttraitinterface(VTableCallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterface*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod0)(uint64_t, void*, RustCallStatus*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod1)(uint64_t, uint32_t*, RustCallStatus*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod2)(uint64_t, uint32_t, void*, RustCallStatus*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod3)(uint64_t, RustBuffer, RustBuffer*, RustCallStatus*);
+  typedef uint64_t (*CallbackInterfaceCloneUniffiBindingsTests_TestTraitInterface)(uint64_t);
   typedef void (*CallbackInterfaceFreeUniffiBindingsTests_TestTraitInterface)(uint64_t);
   struct VTableCallbackInterfaceUniffiBindingsTestsTestTraitInterface {
+    CallbackInterfaceFreeUniffiBindingsTests_TestTraitInterface uniffi_free;
+    CallbackInterfaceCloneUniffiBindingsTests_TestTraitInterface uniffi_clone;
     CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod0 noop;
     CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod1 get_value;
     CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod2 set_value;
     CallbackInterfaceUniffiBindingsTestsTestTraitInterfaceMethod3 throw_if_equal;
-    CallbackInterfaceFreeUniffiBindingsTests_TestTraitInterface uniffi_free;
   };
   void uniffi_uniffi_bindings_tests_fn_init_callback_vtable_testtraitinterface(VTableCallbackInterfaceUniffiBindingsTestsTestTraitInterface*);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod0)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFuture*);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod1)(uint64_t, ForeignFutureCompleteu32, uint64_t, ForeignFuture*);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod2)(uint64_t, uint32_t, ForeignFutureCompletevoid, uint64_t, ForeignFuture*);
-  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod3)(uint64_t, RustBuffer, ForeignFutureCompleterust_buffer, uint64_t, ForeignFuture*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod0)(uint64_t, ForeignFutureCompletevoid, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod1)(uint64_t, ForeignFutureCompleteu32, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod2)(uint64_t, uint32_t, ForeignFutureCompletevoid, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef void (*CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod3)(uint64_t, RustBuffer, ForeignFutureCompleterust_buffer, uint64_t, ForeignFutureDroppedCallbackStruct*);
+  typedef uint64_t (*CallbackInterfaceCloneUniffiBindingsTests_TestAsyncCallbackInterface)(uint64_t);
   typedef void (*CallbackInterfaceFreeUniffiBindingsTests_TestAsyncCallbackInterface)(uint64_t);
   struct VTableCallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterface {
+    CallbackInterfaceFreeUniffiBindingsTests_TestAsyncCallbackInterface uniffi_free;
+    CallbackInterfaceCloneUniffiBindingsTests_TestAsyncCallbackInterface uniffi_clone;
     CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod0 noop;
     CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod1 get_value;
     CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod2 set_value;
     CallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterfaceMethod3 throw_if_equal;
-    CallbackInterfaceFreeUniffiBindingsTests_TestAsyncCallbackInterface uniffi_free;
   };
   void uniffi_uniffi_bindings_tests_fn_init_callback_vtable_testasynccallbackinterface(VTableCallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterface*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod0)(uint64_t, void*, RustCallStatus*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod1)(uint64_t, uint32_t*, RustCallStatus*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod2)(uint64_t, uint32_t, void*, RustCallStatus*);
   typedef void (*CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod3)(uint64_t, RustBuffer, RustBuffer*, RustCallStatus*);
+  typedef uint64_t (*CallbackInterfaceCloneUniffiBindingsTests_TestCallbackInterface)(uint64_t);
   typedef void (*CallbackInterfaceFreeUniffiBindingsTests_TestCallbackInterface)(uint64_t);
   struct VTableCallbackInterfaceUniffiBindingsTestsTestCallbackInterface {
+    CallbackInterfaceFreeUniffiBindingsTests_TestCallbackInterface uniffi_free;
+    CallbackInterfaceCloneUniffiBindingsTests_TestCallbackInterface uniffi_clone;
     CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod0 noop;
     CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod1 get_value;
     CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod2 set_value;
     CallbackInterfaceUniffiBindingsTestsTestCallbackInterfaceMethod3 throw_if_equal;
-    CallbackInterfaceFreeUniffiBindingsTests_TestCallbackInterface uniffi_free;
   };
   void uniffi_uniffi_bindings_tests_fn_init_callback_vtable_testcallbackinterface(VTableCallbackInterfaceUniffiBindingsTestsTestCallbackInterface*);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_f32(float);
@@ -1409,7 +1369,7 @@ extern "C" {
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_i64(int64_t);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_i8(int8_t);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_map(RustBuffer);
-  uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_obj(void*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_obj(uint64_t);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_string(RustBuffer);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_u16(uint16_t);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_u32(uint32_t);
@@ -1417,18 +1377,18 @@ extern "C" {
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_u8(uint8_t);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_roundtrip_vec(RustBuffer);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_async_throw_error();
-  void* uniffi_uniffi_bindings_tests_fn_func_clone_interface(void*, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_func_create_async_test_trait_interface(uint32_t, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_func_create_test_trait_interface(uint32_t, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_clone_interface(uint64_t, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_create_async_test_trait_interface(uint32_t, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_create_test_trait_interface(uint32_t, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_fn_func_func_with_default(RustBuffer, RustCallStatus*);
   void uniffi_uniffi_bindings_tests_fn_func_func_with_error(uint32_t, RustCallStatus*);
   void uniffi_uniffi_bindings_tests_fn_func_func_with_flat_error(uint32_t, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_fn_func_func_with_multi_word_arg(RustBuffer, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_fn_func_get_custom_types_demo(RustCallStatus*);
-  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_get_value(void*);
-  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_noop(void*);
-  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_set_value(void*, uint32_t);
-  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_throw_if_equal(void*, RustBuffer);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_get_value(uint64_t);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_noop(uint64_t);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_set_value(uint64_t, uint32_t);
+  uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_async_test_trait_interface_throw_if_equal(uint64_t, RustBuffer);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_test_async_callback_interface_get_value(uint64_t);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_test_async_callback_interface_noop(uint64_t);
   uint64_t uniffi_uniffi_bindings_tests_fn_func_invoke_test_async_callback_interface_set_value(uint64_t, uint32_t);
@@ -1437,10 +1397,10 @@ extern "C" {
   void uniffi_uniffi_bindings_tests_fn_func_invoke_test_callback_interface_noop(uint64_t, RustCallStatus*);
   void uniffi_uniffi_bindings_tests_fn_func_invoke_test_callback_interface_set_value(uint64_t, uint32_t, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_fn_func_invoke_test_callback_interface_throw_if_equal(uint64_t, RustBuffer, RustCallStatus*);
-  uint32_t uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_get_value(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_noop(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_set_value(void*, uint32_t, RustCallStatus*);
-  RustBuffer uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_throw_if_equal(void*, RustBuffer, RustCallStatus*);
+  uint32_t uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_get_value(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_noop(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_set_value(uint64_t, uint32_t, RustCallStatus*);
+  RustBuffer uniffi_uniffi_bindings_tests_fn_func_invoke_test_trait_interface_throw_if_equal(uint64_t, RustBuffer, RustCallStatus*);
   int8_t uniffi_uniffi_bindings_tests_fn_func_roundtrip_bool(int8_t, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_fn_func_roundtrip_complex_compound(RustBuffer, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_fn_func_roundtrip_complex_enum(RustBuffer, RustCallStatus*);
@@ -1470,22 +1430,22 @@ extern "C" {
   double uniffi_uniffi_bindings_tests_fn_func_sum_with_many_types(uint8_t, int8_t, uint16_t, int16_t, uint32_t, int32_t, uint64_t, int64_t, float, double, int8_t, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_fn_func_swap_test_interfaces(RustBuffer, RustCallStatus*);
   void uniffi_uniffi_bindings_tests_fn_func_test_func(RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_constructor_asyncinterface_new(RustBuffer, RustCallStatus*);
-  uint64_t uniffi_uniffi_bindings_tests_fn_method_asyncinterface_name(void*);
-  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_noop(void*);
-  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_get_value(void*);
-  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_set_value(void*, uint32_t);
-  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_throw_if_equal(void*, RustBuffer);
-  void* uniffi_uniffi_bindings_tests_fn_constructor_complexmethods_new(RustCallStatus*);
-  RustBuffer uniffi_uniffi_bindings_tests_fn_method_complexmethods_method_with_default(void*, RustBuffer, RustCallStatus*);
-  RustBuffer uniffi_uniffi_bindings_tests_fn_method_complexmethods_method_with_multi_word_arg(void*, RustBuffer, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_fn_constructor_testinterface_new(uint32_t, RustCallStatus*);
-  uint32_t uniffi_uniffi_bindings_tests_fn_method_testinterface_get_value(void*, RustCallStatus*);
-  uint32_t uniffi_uniffi_bindings_tests_fn_method_testinterface_ref_count(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_noop(void*, RustCallStatus*);
-  uint32_t uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_get_value(void*, RustCallStatus*);
-  void uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_set_value(void*, uint32_t, RustCallStatus*);
-  RustBuffer uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_throw_if_equal(void*, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_constructor_asyncinterface_new(RustBuffer, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_method_asyncinterface_name(uint64_t);
+  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_noop(uint64_t);
+  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_get_value(uint64_t);
+  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_set_value(uint64_t, uint32_t);
+  uint64_t uniffi_uniffi_bindings_tests_fn_method_asynctesttraitinterface_throw_if_equal(uint64_t, RustBuffer);
+  uint64_t uniffi_uniffi_bindings_tests_fn_constructor_complexmethods_new(RustCallStatus*);
+  RustBuffer uniffi_uniffi_bindings_tests_fn_method_complexmethods_method_with_default(uint64_t, RustBuffer, RustCallStatus*);
+  RustBuffer uniffi_uniffi_bindings_tests_fn_method_complexmethods_method_with_multi_word_arg(uint64_t, RustBuffer, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_fn_constructor_testinterface_new(uint32_t, RustCallStatus*);
+  uint32_t uniffi_uniffi_bindings_tests_fn_method_testinterface_get_value(uint64_t, RustCallStatus*);
+  uint32_t uniffi_uniffi_bindings_tests_fn_method_testinterface_ref_count(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_noop(uint64_t, RustCallStatus*);
+  uint32_t uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_get_value(uint64_t, RustCallStatus*);
+  void uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_set_value(uint64_t, uint32_t, RustCallStatus*);
+  RustBuffer uniffi_uniffi_bindings_tests_fn_method_testtraitinterface_throw_if_equal(uint64_t, RustBuffer, RustCallStatus*);
   uint32_t ffi_uniffi_bindings_tests_uniffi_contract_version();
   uint16_t uniffi_uniffi_bindings_tests_checksum_func_async_roundtrip_f32();
   uint16_t uniffi_uniffi_bindings_tests_checksum_func_async_roundtrip_f64();
@@ -1615,10 +1575,6 @@ extern "C" {
   void ffi_uniffi_bindings_tests_collision_rust_future_cancel_f64(uint64_t);
   double ffi_uniffi_bindings_tests_collision_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_uniffi_bindings_tests_collision_rust_future_free_f64(uint64_t);
-  void ffi_uniffi_bindings_tests_collision_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_uniffi_bindings_tests_collision_rust_future_cancel_pointer(uint64_t);
-  void* ffi_uniffi_bindings_tests_collision_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_uniffi_bindings_tests_collision_rust_future_free_pointer(uint64_t);
   void ffi_uniffi_bindings_tests_collision_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_uniffi_bindings_tests_collision_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_uniffi_bindings_tests_collision_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -1628,10 +1584,12 @@ extern "C" {
   void ffi_uniffi_bindings_tests_collision_rust_future_complete_void(uint64_t, RustCallStatus*);
   void ffi_uniffi_bindings_tests_collision_rust_future_free_void(uint64_t);
   typedef void (*CallbackInterfaceUniffiBindingsTestsCollisionTestCallbackInterfaceMethod0)(uint64_t, RustBuffer*, RustCallStatus*);
+  typedef uint64_t (*CallbackInterfaceCloneUniffiBindingsTestsCollision_TestCallbackInterface)(uint64_t);
   typedef void (*CallbackInterfaceFreeUniffiBindingsTestsCollision_TestCallbackInterface)(uint64_t);
   struct VTableCallbackInterfaceUniffiBindingsTestsCollisionTestCallbackInterface {
-    CallbackInterfaceUniffiBindingsTestsCollisionTestCallbackInterfaceMethod0 get_value;
     CallbackInterfaceFreeUniffiBindingsTestsCollision_TestCallbackInterface uniffi_free;
+    CallbackInterfaceCloneUniffiBindingsTestsCollision_TestCallbackInterface uniffi_clone;
+    CallbackInterfaceUniffiBindingsTestsCollisionTestCallbackInterfaceMethod0 get_value;
   };
   void uniffi_uniffi_bindings_tests_collision_fn_init_callback_vtable_testcallbackinterface(VTableCallbackInterfaceUniffiBindingsTestsCollisionTestCallbackInterface*);
   RustBuffer uniffi_uniffi_bindings_tests_collision_fn_func_invoke_collision_callback(uint64_t, RustCallStatus*);
@@ -1681,10 +1639,6 @@ extern "C" {
   void ffi_uniffi_bindings_tests_external_types_rust_future_cancel_f64(uint64_t);
   double ffi_uniffi_bindings_tests_external_types_rust_future_complete_f64(uint64_t, RustCallStatus*);
   void ffi_uniffi_bindings_tests_external_types_rust_future_free_f64(uint64_t);
-  void ffi_uniffi_bindings_tests_external_types_rust_future_poll_pointer(uint64_t, RustFutureContinuationCallback, uint64_t);
-  void ffi_uniffi_bindings_tests_external_types_rust_future_cancel_pointer(uint64_t);
-  void* ffi_uniffi_bindings_tests_external_types_rust_future_complete_pointer(uint64_t, RustCallStatus*);
-  void ffi_uniffi_bindings_tests_external_types_rust_future_free_pointer(uint64_t);
   void ffi_uniffi_bindings_tests_external_types_rust_future_poll_rust_buffer(uint64_t, RustFutureContinuationCallback, uint64_t);
   void ffi_uniffi_bindings_tests_external_types_rust_future_cancel_rust_buffer(uint64_t);
   RustBuffer ffi_uniffi_bindings_tests_external_types_rust_future_complete_rust_buffer(uint64_t, RustCallStatus*);
@@ -1695,7 +1649,7 @@ extern "C" {
   void ffi_uniffi_bindings_tests_external_types_rust_future_free_void(uint64_t);
   uint64_t uniffi_uniffi_bindings_tests_external_types_fn_func_roundtrip_ext_custom_type(uint64_t, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_external_types_fn_func_roundtrip_ext_enum(RustBuffer, RustCallStatus*);
-  void* uniffi_uniffi_bindings_tests_external_types_fn_func_roundtrip_ext_interface(void*, RustCallStatus*);
+  uint64_t uniffi_uniffi_bindings_tests_external_types_fn_func_roundtrip_ext_interface(uint64_t, RustCallStatus*);
   RustBuffer uniffi_uniffi_bindings_tests_external_types_fn_func_roundtrip_ext_record(RustBuffer, RustCallStatus*);
   uint32_t ffi_uniffi_bindings_tests_external_types_uniffi_contract_version();
   uint16_t uniffi_uniffi_bindings_tests_external_types_checksum_func_roundtrip_ext_custom_type();
@@ -1719,11 +1673,11 @@ const static mozilla::uniffi::UniFFIPointerType kContextIdContextIdComponentPoin
 };
 class FfiValueObjectHandleContextIdContextIdComponent {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleContextIdContextIdComponent() = default;
-  explicit FfiValueObjectHandleContextIdContextIdComponent(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleContextIdContextIdComponent(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleContextIdContextIdComponent(const FfiValueObjectHandleContextIdContextIdComponent&) = delete;
@@ -1732,7 +1686,7 @@ class FfiValueObjectHandleContextIdContextIdComponent {
   FfiValueObjectHandleContextIdContextIdComponent& operator=(FfiValueObjectHandleContextIdContextIdComponent&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -1762,16 +1716,16 @@ class FfiValueObjectHandleContextIdContextIdComponent {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kContextIdContextIdComponentPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleContextIdContextIdComponent FromRust(void* aValue) {
+  static FfiValueObjectHandleContextIdContextIdComponent FromRust(uint64_t aValue) {
     return FfiValueObjectHandleContextIdContextIdComponent(aValue);
   }
 
@@ -1798,11 +1752,11 @@ const static mozilla::uniffi::UniFFIPointerType kFilterAdultFilterAdultComponent
 };
 class FfiValueObjectHandleFilterAdultFilterAdultComponent {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleFilterAdultFilterAdultComponent() = default;
-  explicit FfiValueObjectHandleFilterAdultFilterAdultComponent(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleFilterAdultFilterAdultComponent(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleFilterAdultFilterAdultComponent(const FfiValueObjectHandleFilterAdultFilterAdultComponent&) = delete;
@@ -1811,7 +1765,7 @@ class FfiValueObjectHandleFilterAdultFilterAdultComponent {
   FfiValueObjectHandleFilterAdultFilterAdultComponent& operator=(FfiValueObjectHandleFilterAdultFilterAdultComponent&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -1841,16 +1795,16 @@ class FfiValueObjectHandleFilterAdultFilterAdultComponent {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kFilterAdultFilterAdultComponentPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleFilterAdultFilterAdultComponent FromRust(void* aValue) {
+  static FfiValueObjectHandleFilterAdultFilterAdultComponent FromRust(uint64_t aValue) {
     return FfiValueObjectHandleFilterAdultFilterAdultComponent(aValue);
   }
 
@@ -1875,8 +1829,9 @@ const static mozilla::uniffi::UniFFIPointerType kLoginsEncryptorDecryptorPointer
   uniffi_logins_fn_clone_encryptordecryptor,
   uniffi_logins_fn_free_encryptordecryptor,
 };
-// Forward declare the free function, which is defined later on in `CallbackInterfaces.cpp`
+// Forward declare the free and clone functions, which are defined later on in `CallbackInterfaces.cpp`
 extern "C" void callback_free_logins_encryptor_decryptor(uint64_t uniffiHandle);
+extern "C" uint64_t callback_clone_logins_encryptor_decryptor(uint64_t uniffiHandle);
 
 // Trait interface FFI value class.  This is a hybrid between the one for interfaces and callback
 // interface version
@@ -1886,15 +1841,15 @@ class FfiValueObjectHandleLoginsEncryptorDecryptor {
   // This is weird, but it's a needed work until something like
   // https://github.com/mozilla/uniffi-rs/pull/1823 lands.
   bool mLoweredCallbackInterface = false;
-  // The raw FFI value is a pointer.
+  // The raw FFI value is a uint64_t in all cases.
   // For callback interfaces, the uint64_t handle gets casted to a pointer.  Callback interface
-  // handles are incremented by one at a time, so even on a 32-bit system this
+  // handles are used as the uint64_t and are incremented by one at a time, so even on a 32-bit system this
   // shouldn't overflow.
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleLoginsEncryptorDecryptor() = default;
-  explicit FfiValueObjectHandleLoginsEncryptorDecryptor(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleLoginsEncryptorDecryptor(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleLoginsEncryptorDecryptor(const FfiValueObjectHandleLoginsEncryptorDecryptor&) = delete;
@@ -1904,7 +1859,7 @@ class FfiValueObjectHandleLoginsEncryptorDecryptor {
     FreeHandle();
     mValue = aOther.mValue;
     mLoweredCallbackInterface = aOther.mLoweredCallbackInterface;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     aOther.mLoweredCallbackInterface = false;
     return *this;
   }
@@ -1923,7 +1878,7 @@ class FfiValueObjectHandleLoginsEncryptorDecryptor {
       return;
     }
     FreeHandle();
-    mValue = reinterpret_cast<void *>(intValue);
+    mValue = intValue;
     mLoweredCallbackInterface = true;
   }
 
@@ -1949,36 +1904,36 @@ class FfiValueObjectHandleLoginsEncryptorDecryptor {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kLoginsEncryptorDecryptorPointerType);
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
     return temp;
   }
 
-  static FfiValueObjectHandleLoginsEncryptorDecryptor FromRust(void* aValue) {
+  static FfiValueObjectHandleLoginsEncryptorDecryptor FromRust(uint64_t aValue) {
     return FfiValueObjectHandleLoginsEncryptorDecryptor(aValue);
   }
 
   void FreeHandle() {
     // This behavior depends on if we lowered a callback interface handle or lifted an interface
     // pointer.
-    if (mLoweredCallbackInterface && reinterpret_cast<uintptr_t>(mValue) != 0) {
-                                     printf("FREEING CB %p\n", mValue);
-        callback_free_logins_encryptor_decryptor(reinterpret_cast<uintptr_t>(mValue));
-        mValue = reinterpret_cast<void *>(0);
-    } else if (!mLoweredCallbackInterface && mValue != nullptr) {
-                                     printf("FREEING interface %p\n", mValue);
+    if (mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING CB %p\n", mValue);
+        callback_free_logins_encryptor_decryptor(mValue);
+        mValue = 0;
+    } else if (!mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING interface %p\n", mValue);
       RustCallStatus callStatus{};
       (uniffi_logins_fn_free_encryptordecryptor)(mValue, &callStatus);
       // No need to check `RustCallStatus`, it's only part of the API to match
       // other FFI calls.  The free function can never fail.
     }
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
@@ -1994,8 +1949,9 @@ const static mozilla::uniffi::UniFFIPointerType kLoginsKeyManagerPointerType {
   uniffi_logins_fn_clone_keymanager,
   uniffi_logins_fn_free_keymanager,
 };
-// Forward declare the free function, which is defined later on in `CallbackInterfaces.cpp`
+// Forward declare the free and clone functions, which are defined later on in `CallbackInterfaces.cpp`
 extern "C" void callback_free_logins_key_manager(uint64_t uniffiHandle);
+extern "C" uint64_t callback_clone_logins_key_manager(uint64_t uniffiHandle);
 
 // Trait interface FFI value class.  This is a hybrid between the one for interfaces and callback
 // interface version
@@ -2005,15 +1961,15 @@ class FfiValueObjectHandleLoginsKeyManager {
   // This is weird, but it's a needed work until something like
   // https://github.com/mozilla/uniffi-rs/pull/1823 lands.
   bool mLoweredCallbackInterface = false;
-  // The raw FFI value is a pointer.
+  // The raw FFI value is a uint64_t in all cases.
   // For callback interfaces, the uint64_t handle gets casted to a pointer.  Callback interface
-  // handles are incremented by one at a time, so even on a 32-bit system this
+  // handles are used as the uint64_t and are incremented by one at a time, so even on a 32-bit system this
   // shouldn't overflow.
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleLoginsKeyManager() = default;
-  explicit FfiValueObjectHandleLoginsKeyManager(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleLoginsKeyManager(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleLoginsKeyManager(const FfiValueObjectHandleLoginsKeyManager&) = delete;
@@ -2023,7 +1979,7 @@ class FfiValueObjectHandleLoginsKeyManager {
     FreeHandle();
     mValue = aOther.mValue;
     mLoweredCallbackInterface = aOther.mLoweredCallbackInterface;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     aOther.mLoweredCallbackInterface = false;
     return *this;
   }
@@ -2042,7 +1998,7 @@ class FfiValueObjectHandleLoginsKeyManager {
       return;
     }
     FreeHandle();
-    mValue = reinterpret_cast<void *>(intValue);
+    mValue = intValue;
     mLoweredCallbackInterface = true;
   }
 
@@ -2068,36 +2024,36 @@ class FfiValueObjectHandleLoginsKeyManager {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kLoginsKeyManagerPointerType);
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
     return temp;
   }
 
-  static FfiValueObjectHandleLoginsKeyManager FromRust(void* aValue) {
+  static FfiValueObjectHandleLoginsKeyManager FromRust(uint64_t aValue) {
     return FfiValueObjectHandleLoginsKeyManager(aValue);
   }
 
   void FreeHandle() {
     // This behavior depends on if we lowered a callback interface handle or lifted an interface
     // pointer.
-    if (mLoweredCallbackInterface && reinterpret_cast<uintptr_t>(mValue) != 0) {
-                                     printf("FREEING CB %p\n", mValue);
-        callback_free_logins_key_manager(reinterpret_cast<uintptr_t>(mValue));
-        mValue = reinterpret_cast<void *>(0);
-    } else if (!mLoweredCallbackInterface && mValue != nullptr) {
-                                     printf("FREEING interface %p\n", mValue);
+    if (mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING CB %p\n", mValue);
+        callback_free_logins_key_manager(mValue);
+        mValue = 0;
+    } else if (!mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING interface %p\n", mValue);
       RustCallStatus callStatus{};
       (uniffi_logins_fn_free_keymanager)(mValue, &callStatus);
       // No need to check `RustCallStatus`, it's only part of the API to match
       // other FFI calls.  The free function can never fail.
     }
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
@@ -2115,11 +2071,11 @@ const static mozilla::uniffi::UniFFIPointerType kLoginsLoginStorePointerType {
 };
 class FfiValueObjectHandleLoginsLoginStore {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleLoginsLoginStore() = default;
-  explicit FfiValueObjectHandleLoginsLoginStore(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleLoginsLoginStore(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleLoginsLoginStore(const FfiValueObjectHandleLoginsLoginStore&) = delete;
@@ -2128,7 +2084,7 @@ class FfiValueObjectHandleLoginsLoginStore {
   FfiValueObjectHandleLoginsLoginStore& operator=(FfiValueObjectHandleLoginsLoginStore&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2158,16 +2114,16 @@ class FfiValueObjectHandleLoginsLoginStore {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kLoginsLoginStorePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleLoginsLoginStore FromRust(void* aValue) {
+  static FfiValueObjectHandleLoginsLoginStore FromRust(uint64_t aValue) {
     return FfiValueObjectHandleLoginsLoginStore(aValue);
   }
 
@@ -2194,11 +2150,11 @@ const static mozilla::uniffi::UniFFIPointerType kLoginsManagedEncryptorDecryptor
 };
 class FfiValueObjectHandleLoginsManagedEncryptorDecryptor {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleLoginsManagedEncryptorDecryptor() = default;
-  explicit FfiValueObjectHandleLoginsManagedEncryptorDecryptor(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleLoginsManagedEncryptorDecryptor(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleLoginsManagedEncryptorDecryptor(const FfiValueObjectHandleLoginsManagedEncryptorDecryptor&) = delete;
@@ -2207,7 +2163,7 @@ class FfiValueObjectHandleLoginsManagedEncryptorDecryptor {
   FfiValueObjectHandleLoginsManagedEncryptorDecryptor& operator=(FfiValueObjectHandleLoginsManagedEncryptorDecryptor&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2237,16 +2193,16 @@ class FfiValueObjectHandleLoginsManagedEncryptorDecryptor {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kLoginsManagedEncryptorDecryptorPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleLoginsManagedEncryptorDecryptor FromRust(void* aValue) {
+  static FfiValueObjectHandleLoginsManagedEncryptorDecryptor FromRust(uint64_t aValue) {
     return FfiValueObjectHandleLoginsManagedEncryptorDecryptor(aValue);
   }
 
@@ -2273,11 +2229,11 @@ const static mozilla::uniffi::UniFFIPointerType kLoginsNssKeyManagerPointerType 
 };
 class FfiValueObjectHandleLoginsNssKeyManager {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleLoginsNssKeyManager() = default;
-  explicit FfiValueObjectHandleLoginsNssKeyManager(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleLoginsNssKeyManager(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleLoginsNssKeyManager(const FfiValueObjectHandleLoginsNssKeyManager&) = delete;
@@ -2286,7 +2242,7 @@ class FfiValueObjectHandleLoginsNssKeyManager {
   FfiValueObjectHandleLoginsNssKeyManager& operator=(FfiValueObjectHandleLoginsNssKeyManager&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2316,16 +2272,16 @@ class FfiValueObjectHandleLoginsNssKeyManager {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kLoginsNssKeyManagerPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleLoginsNssKeyManager FromRust(void* aValue) {
+  static FfiValueObjectHandleLoginsNssKeyManager FromRust(uint64_t aValue) {
     return FfiValueObjectHandleLoginsNssKeyManager(aValue);
   }
 
@@ -2350,8 +2306,9 @@ const static mozilla::uniffi::UniFFIPointerType kLoginsPrimaryPasswordAuthentica
   uniffi_logins_fn_clone_primarypasswordauthenticator,
   uniffi_logins_fn_free_primarypasswordauthenticator,
 };
-// Forward declare the free function, which is defined later on in `CallbackInterfaces.cpp`
+// Forward declare the free and clone functions, which are defined later on in `CallbackInterfaces.cpp`
 extern "C" void callback_free_logins_primary_password_authenticator(uint64_t uniffiHandle);
+extern "C" uint64_t callback_clone_logins_primary_password_authenticator(uint64_t uniffiHandle);
 
 // Trait interface FFI value class.  This is a hybrid between the one for interfaces and callback
 // interface version
@@ -2361,15 +2318,15 @@ class FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator {
   // This is weird, but it's a needed work until something like
   // https://github.com/mozilla/uniffi-rs/pull/1823 lands.
   bool mLoweredCallbackInterface = false;
-  // The raw FFI value is a pointer.
+  // The raw FFI value is a uint64_t in all cases.
   // For callback interfaces, the uint64_t handle gets casted to a pointer.  Callback interface
-  // handles are incremented by one at a time, so even on a 32-bit system this
+  // handles are used as the uint64_t and are incremented by one at a time, so even on a 32-bit system this
   // shouldn't overflow.
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator() = default;
-  explicit FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator(const FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator&) = delete;
@@ -2379,7 +2336,7 @@ class FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator {
     FreeHandle();
     mValue = aOther.mValue;
     mLoweredCallbackInterface = aOther.mLoweredCallbackInterface;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     aOther.mLoweredCallbackInterface = false;
     return *this;
   }
@@ -2398,7 +2355,7 @@ class FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator {
       return;
     }
     FreeHandle();
-    mValue = reinterpret_cast<void *>(intValue);
+    mValue = intValue;
     mLoweredCallbackInterface = true;
   }
 
@@ -2424,36 +2381,36 @@ class FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kLoginsPrimaryPasswordAuthenticatorPointerType);
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
     return temp;
   }
 
-  static FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator FromRust(void* aValue) {
+  static FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator FromRust(uint64_t aValue) {
     return FfiValueObjectHandleLoginsPrimaryPasswordAuthenticator(aValue);
   }
 
   void FreeHandle() {
     // This behavior depends on if we lowered a callback interface handle or lifted an interface
     // pointer.
-    if (mLoweredCallbackInterface && reinterpret_cast<uintptr_t>(mValue) != 0) {
-                                     printf("FREEING CB %p\n", mValue);
-        callback_free_logins_primary_password_authenticator(reinterpret_cast<uintptr_t>(mValue));
-        mValue = reinterpret_cast<void *>(0);
-    } else if (!mLoweredCallbackInterface && mValue != nullptr) {
-                                     printf("FREEING interface %p\n", mValue);
+    if (mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING CB %p\n", mValue);
+        callback_free_logins_primary_password_authenticator(mValue);
+        mValue = 0;
+    } else if (!mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING interface %p\n", mValue);
       RustCallStatus callStatus{};
       (uniffi_logins_fn_free_primarypasswordauthenticator)(mValue, &callStatus);
       // No need to check `RustCallStatus`, it's only part of the API to match
       // other FFI calls.  The free function can never fail.
     }
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
@@ -2471,11 +2428,11 @@ const static mozilla::uniffi::UniFFIPointerType kLoginsStaticKeyManagerPointerTy
 };
 class FfiValueObjectHandleLoginsStaticKeyManager {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleLoginsStaticKeyManager() = default;
-  explicit FfiValueObjectHandleLoginsStaticKeyManager(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleLoginsStaticKeyManager(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleLoginsStaticKeyManager(const FfiValueObjectHandleLoginsStaticKeyManager&) = delete;
@@ -2484,7 +2441,7 @@ class FfiValueObjectHandleLoginsStaticKeyManager {
   FfiValueObjectHandleLoginsStaticKeyManager& operator=(FfiValueObjectHandleLoginsStaticKeyManager&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2514,16 +2471,16 @@ class FfiValueObjectHandleLoginsStaticKeyManager {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kLoginsStaticKeyManagerPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleLoginsStaticKeyManager FromRust(void* aValue) {
+  static FfiValueObjectHandleLoginsStaticKeyManager FromRust(uint64_t aValue) {
     return FfiValueObjectHandleLoginsStaticKeyManager(aValue);
   }
 
@@ -2550,11 +2507,11 @@ const static mozilla::uniffi::UniFFIPointerType kRelevancyRelevancyStorePointerT
 };
 class FfiValueObjectHandleRelevancyRelevancyStore {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleRelevancyRelevancyStore() = default;
-  explicit FfiValueObjectHandleRelevancyRelevancyStore(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleRelevancyRelevancyStore(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleRelevancyRelevancyStore(const FfiValueObjectHandleRelevancyRelevancyStore&) = delete;
@@ -2563,7 +2520,7 @@ class FfiValueObjectHandleRelevancyRelevancyStore {
   FfiValueObjectHandleRelevancyRelevancyStore& operator=(FfiValueObjectHandleRelevancyRelevancyStore&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2593,16 +2550,16 @@ class FfiValueObjectHandleRelevancyRelevancyStore {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kRelevancyRelevancyStorePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleRelevancyRelevancyStore FromRust(void* aValue) {
+  static FfiValueObjectHandleRelevancyRelevancyStore FromRust(uint64_t aValue) {
     return FfiValueObjectHandleRelevancyRelevancyStore(aValue);
   }
 
@@ -2629,11 +2586,11 @@ const static mozilla::uniffi::UniFFIPointerType kRemoteSettingsRemoteSettingsPoi
 };
 class FfiValueObjectHandleRemoteSettingsRemoteSettings {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleRemoteSettingsRemoteSettings() = default;
-  explicit FfiValueObjectHandleRemoteSettingsRemoteSettings(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleRemoteSettingsRemoteSettings(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleRemoteSettingsRemoteSettings(const FfiValueObjectHandleRemoteSettingsRemoteSettings&) = delete;
@@ -2642,7 +2599,7 @@ class FfiValueObjectHandleRemoteSettingsRemoteSettings {
   FfiValueObjectHandleRemoteSettingsRemoteSettings& operator=(FfiValueObjectHandleRemoteSettingsRemoteSettings&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2672,16 +2629,16 @@ class FfiValueObjectHandleRemoteSettingsRemoteSettings {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kRemoteSettingsRemoteSettingsPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleRemoteSettingsRemoteSettings FromRust(void* aValue) {
+  static FfiValueObjectHandleRemoteSettingsRemoteSettings FromRust(uint64_t aValue) {
     return FfiValueObjectHandleRemoteSettingsRemoteSettings(aValue);
   }
 
@@ -2708,11 +2665,11 @@ const static mozilla::uniffi::UniFFIPointerType kRemoteSettingsRemoteSettingsCli
 };
 class FfiValueObjectHandleRemoteSettingsRemoteSettingsClient {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleRemoteSettingsRemoteSettingsClient() = default;
-  explicit FfiValueObjectHandleRemoteSettingsRemoteSettingsClient(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleRemoteSettingsRemoteSettingsClient(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleRemoteSettingsRemoteSettingsClient(const FfiValueObjectHandleRemoteSettingsRemoteSettingsClient&) = delete;
@@ -2721,7 +2678,7 @@ class FfiValueObjectHandleRemoteSettingsRemoteSettingsClient {
   FfiValueObjectHandleRemoteSettingsRemoteSettingsClient& operator=(FfiValueObjectHandleRemoteSettingsRemoteSettingsClient&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2751,16 +2708,16 @@ class FfiValueObjectHandleRemoteSettingsRemoteSettingsClient {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kRemoteSettingsRemoteSettingsClientPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleRemoteSettingsRemoteSettingsClient FromRust(void* aValue) {
+  static FfiValueObjectHandleRemoteSettingsRemoteSettingsClient FromRust(uint64_t aValue) {
     return FfiValueObjectHandleRemoteSettingsRemoteSettingsClient(aValue);
   }
 
@@ -2787,11 +2744,11 @@ const static mozilla::uniffi::UniFFIPointerType kRemoteSettingsRemoteSettingsSer
 };
 class FfiValueObjectHandleRemoteSettingsRemoteSettingsService {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleRemoteSettingsRemoteSettingsService() = default;
-  explicit FfiValueObjectHandleRemoteSettingsRemoteSettingsService(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleRemoteSettingsRemoteSettingsService(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleRemoteSettingsRemoteSettingsService(const FfiValueObjectHandleRemoteSettingsRemoteSettingsService&) = delete;
@@ -2800,7 +2757,7 @@ class FfiValueObjectHandleRemoteSettingsRemoteSettingsService {
   FfiValueObjectHandleRemoteSettingsRemoteSettingsService& operator=(FfiValueObjectHandleRemoteSettingsRemoteSettingsService&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2830,16 +2787,16 @@ class FfiValueObjectHandleRemoteSettingsRemoteSettingsService {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kRemoteSettingsRemoteSettingsServicePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleRemoteSettingsRemoteSettingsService FromRust(void* aValue) {
+  static FfiValueObjectHandleRemoteSettingsRemoteSettingsService FromRust(uint64_t aValue) {
     return FfiValueObjectHandleRemoteSettingsRemoteSettingsService(aValue);
   }
 
@@ -2866,11 +2823,11 @@ const static mozilla::uniffi::UniFFIPointerType kSearchSearchEngineSelectorPoint
 };
 class FfiValueObjectHandleSearchSearchEngineSelector {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleSearchSearchEngineSelector() = default;
-  explicit FfiValueObjectHandleSearchSearchEngineSelector(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleSearchSearchEngineSelector(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleSearchSearchEngineSelector(const FfiValueObjectHandleSearchSearchEngineSelector&) = delete;
@@ -2879,7 +2836,7 @@ class FfiValueObjectHandleSearchSearchEngineSelector {
   FfiValueObjectHandleSearchSearchEngineSelector& operator=(FfiValueObjectHandleSearchSearchEngineSelector&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2909,16 +2866,16 @@ class FfiValueObjectHandleSearchSearchEngineSelector {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kSearchSearchEngineSelectorPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleSearchSearchEngineSelector FromRust(void* aValue) {
+  static FfiValueObjectHandleSearchSearchEngineSelector FromRust(uint64_t aValue) {
     return FfiValueObjectHandleSearchSearchEngineSelector(aValue);
   }
 
@@ -2945,11 +2902,11 @@ const static mozilla::uniffi::UniFFIPointerType kSuggestSuggestStorePointerType 
 };
 class FfiValueObjectHandleSuggestSuggestStore {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleSuggestSuggestStore() = default;
-  explicit FfiValueObjectHandleSuggestSuggestStore(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleSuggestSuggestStore(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleSuggestSuggestStore(const FfiValueObjectHandleSuggestSuggestStore&) = delete;
@@ -2958,7 +2915,7 @@ class FfiValueObjectHandleSuggestSuggestStore {
   FfiValueObjectHandleSuggestSuggestStore& operator=(FfiValueObjectHandleSuggestSuggestStore&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -2988,16 +2945,16 @@ class FfiValueObjectHandleSuggestSuggestStore {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kSuggestSuggestStorePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleSuggestSuggestStore FromRust(void* aValue) {
+  static FfiValueObjectHandleSuggestSuggestStore FromRust(uint64_t aValue) {
     return FfiValueObjectHandleSuggestSuggestStore(aValue);
   }
 
@@ -3024,11 +2981,11 @@ const static mozilla::uniffi::UniFFIPointerType kSuggestSuggestStoreBuilderPoint
 };
 class FfiValueObjectHandleSuggestSuggestStoreBuilder {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleSuggestSuggestStoreBuilder() = default;
-  explicit FfiValueObjectHandleSuggestSuggestStoreBuilder(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleSuggestSuggestStoreBuilder(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleSuggestSuggestStoreBuilder(const FfiValueObjectHandleSuggestSuggestStoreBuilder&) = delete;
@@ -3037,7 +2994,7 @@ class FfiValueObjectHandleSuggestSuggestStoreBuilder {
   FfiValueObjectHandleSuggestSuggestStoreBuilder& operator=(FfiValueObjectHandleSuggestSuggestStoreBuilder&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3067,16 +3024,16 @@ class FfiValueObjectHandleSuggestSuggestStoreBuilder {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kSuggestSuggestStoreBuilderPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleSuggestSuggestStoreBuilder FromRust(void* aValue) {
+  static FfiValueObjectHandleSuggestSuggestStoreBuilder FromRust(uint64_t aValue) {
     return FfiValueObjectHandleSuggestSuggestStoreBuilder(aValue);
   }
 
@@ -3103,11 +3060,11 @@ const static mozilla::uniffi::UniFFIPointerType kTabsRemoteCommandStorePointerTy
 };
 class FfiValueObjectHandleTabsRemoteCommandStore {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleTabsRemoteCommandStore() = default;
-  explicit FfiValueObjectHandleTabsRemoteCommandStore(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleTabsRemoteCommandStore(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleTabsRemoteCommandStore(const FfiValueObjectHandleTabsRemoteCommandStore&) = delete;
@@ -3116,7 +3073,7 @@ class FfiValueObjectHandleTabsRemoteCommandStore {
   FfiValueObjectHandleTabsRemoteCommandStore& operator=(FfiValueObjectHandleTabsRemoteCommandStore&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3146,16 +3103,16 @@ class FfiValueObjectHandleTabsRemoteCommandStore {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kTabsRemoteCommandStorePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleTabsRemoteCommandStore FromRust(void* aValue) {
+  static FfiValueObjectHandleTabsRemoteCommandStore FromRust(uint64_t aValue) {
     return FfiValueObjectHandleTabsRemoteCommandStore(aValue);
   }
 
@@ -3182,11 +3139,11 @@ const static mozilla::uniffi::UniFFIPointerType kTabsTabsBridgedEnginePointerTyp
 };
 class FfiValueObjectHandleTabsTabsBridgedEngine {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleTabsTabsBridgedEngine() = default;
-  explicit FfiValueObjectHandleTabsTabsBridgedEngine(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleTabsTabsBridgedEngine(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleTabsTabsBridgedEngine(const FfiValueObjectHandleTabsTabsBridgedEngine&) = delete;
@@ -3195,7 +3152,7 @@ class FfiValueObjectHandleTabsTabsBridgedEngine {
   FfiValueObjectHandleTabsTabsBridgedEngine& operator=(FfiValueObjectHandleTabsTabsBridgedEngine&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3225,16 +3182,16 @@ class FfiValueObjectHandleTabsTabsBridgedEngine {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kTabsTabsBridgedEnginePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleTabsTabsBridgedEngine FromRust(void* aValue) {
+  static FfiValueObjectHandleTabsTabsBridgedEngine FromRust(uint64_t aValue) {
     return FfiValueObjectHandleTabsTabsBridgedEngine(aValue);
   }
 
@@ -3261,11 +3218,11 @@ const static mozilla::uniffi::UniFFIPointerType kTabsTabsStorePointerType {
 };
 class FfiValueObjectHandleTabsTabsStore {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleTabsTabsStore() = default;
-  explicit FfiValueObjectHandleTabsTabsStore(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleTabsTabsStore(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleTabsTabsStore(const FfiValueObjectHandleTabsTabsStore&) = delete;
@@ -3274,7 +3231,7 @@ class FfiValueObjectHandleTabsTabsStore {
   FfiValueObjectHandleTabsTabsStore& operator=(FfiValueObjectHandleTabsTabsStore&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3304,16 +3261,16 @@ class FfiValueObjectHandleTabsTabsStore {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kTabsTabsStorePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleTabsTabsStore FromRust(void* aValue) {
+  static FfiValueObjectHandleTabsTabsStore FromRust(uint64_t aValue) {
     return FfiValueObjectHandleTabsTabsStore(aValue);
   }
 
@@ -3338,8 +3295,9 @@ const static mozilla::uniffi::UniFFIPointerType kViaductBackendPointerType {
   uniffi_viaduct_fn_clone_backend,
   uniffi_viaduct_fn_free_backend,
 };
-// Forward declare the free function, which is defined later on in `CallbackInterfaces.cpp`
+// Forward declare the free and clone functions, which are defined later on in `CallbackInterfaces.cpp`
 extern "C" void callback_free_viaduct_backend(uint64_t uniffiHandle);
+extern "C" uint64_t callback_clone_viaduct_backend(uint64_t uniffiHandle);
 
 // Trait interface FFI value class.  This is a hybrid between the one for interfaces and callback
 // interface version
@@ -3349,15 +3307,15 @@ class FfiValueObjectHandleViaductBackend {
   // This is weird, but it's a needed work until something like
   // https://github.com/mozilla/uniffi-rs/pull/1823 lands.
   bool mLoweredCallbackInterface = false;
-  // The raw FFI value is a pointer.
+  // The raw FFI value is a uint64_t in all cases.
   // For callback interfaces, the uint64_t handle gets casted to a pointer.  Callback interface
-  // handles are incremented by one at a time, so even on a 32-bit system this
+  // handles are used as the uint64_t and are incremented by one at a time, so even on a 32-bit system this
   // shouldn't overflow.
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleViaductBackend() = default;
-  explicit FfiValueObjectHandleViaductBackend(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleViaductBackend(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleViaductBackend(const FfiValueObjectHandleViaductBackend&) = delete;
@@ -3367,7 +3325,7 @@ class FfiValueObjectHandleViaductBackend {
     FreeHandle();
     mValue = aOther.mValue;
     mLoweredCallbackInterface = aOther.mLoweredCallbackInterface;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     aOther.mLoweredCallbackInterface = false;
     return *this;
   }
@@ -3386,7 +3344,7 @@ class FfiValueObjectHandleViaductBackend {
       return;
     }
     FreeHandle();
-    mValue = reinterpret_cast<void *>(intValue);
+    mValue = intValue;
     mLoweredCallbackInterface = true;
   }
 
@@ -3412,36 +3370,36 @@ class FfiValueObjectHandleViaductBackend {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kViaductBackendPointerType);
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
     return temp;
   }
 
-  static FfiValueObjectHandleViaductBackend FromRust(void* aValue) {
+  static FfiValueObjectHandleViaductBackend FromRust(uint64_t aValue) {
     return FfiValueObjectHandleViaductBackend(aValue);
   }
 
   void FreeHandle() {
     // This behavior depends on if we lowered a callback interface handle or lifted an interface
     // pointer.
-    if (mLoweredCallbackInterface && reinterpret_cast<uintptr_t>(mValue) != 0) {
-                                     printf("FREEING CB %p\n", mValue);
-        callback_free_viaduct_backend(reinterpret_cast<uintptr_t>(mValue));
-        mValue = reinterpret_cast<void *>(0);
-    } else if (!mLoweredCallbackInterface && mValue != nullptr) {
-                                     printf("FREEING interface %p\n", mValue);
+    if (mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING CB %p\n", mValue);
+        callback_free_viaduct_backend(mValue);
+        mValue = 0;
+    } else if (!mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING interface %p\n", mValue);
       RustCallStatus callStatus{};
       (uniffi_viaduct_fn_free_backend)(mValue, &callStatus);
       // No need to check `RustCallStatus`, it's only part of the API to match
       // other FFI calls.  The free function can never fail.
     }
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
@@ -3459,11 +3417,11 @@ const static mozilla::uniffi::UniFFIPointerType kWebextstorageWebExtStorageBridg
 };
 class FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine() = default;
-  explicit FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine(const FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine&) = delete;
@@ -3472,7 +3430,7 @@ class FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine {
   FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine& operator=(FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3502,16 +3460,16 @@ class FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kWebextstorageWebExtStorageBridgedEnginePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine FromRust(void* aValue) {
+  static FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine FromRust(uint64_t aValue) {
     return FfiValueObjectHandleWebextstorageWebExtStorageBridgedEngine(aValue);
   }
 
@@ -3538,11 +3496,11 @@ const static mozilla::uniffi::UniFFIPointerType kWebextstorageWebExtStorageStore
 };
 class FfiValueObjectHandleWebextstorageWebExtStorageStore {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleWebextstorageWebExtStorageStore() = default;
-  explicit FfiValueObjectHandleWebextstorageWebExtStorageStore(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleWebextstorageWebExtStorageStore(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleWebextstorageWebExtStorageStore(const FfiValueObjectHandleWebextstorageWebExtStorageStore&) = delete;
@@ -3551,7 +3509,7 @@ class FfiValueObjectHandleWebextstorageWebExtStorageStore {
   FfiValueObjectHandleWebextstorageWebExtStorageStore& operator=(FfiValueObjectHandleWebextstorageWebExtStorageStore&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3581,16 +3539,16 @@ class FfiValueObjectHandleWebextstorageWebExtStorageStore {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kWebextstorageWebExtStorageStorePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleWebextstorageWebExtStorageStore FromRust(void* aValue) {
+  static FfiValueObjectHandleWebextstorageWebExtStorageStore FromRust(uint64_t aValue) {
     return FfiValueObjectHandleWebextstorageWebExtStorageStore(aValue);
   }
 
@@ -3619,11 +3577,11 @@ const static mozilla::uniffi::UniFFIPointerType kUniffiBindingsTestsTestInterfac
 };
 class FfiValueObjectHandleUniffiBindingsTestsTestInterface {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleUniffiBindingsTestsTestInterface() = default;
-  explicit FfiValueObjectHandleUniffiBindingsTestsTestInterface(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleUniffiBindingsTestsTestInterface(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleUniffiBindingsTestsTestInterface(const FfiValueObjectHandleUniffiBindingsTestsTestInterface&) = delete;
@@ -3632,7 +3590,7 @@ class FfiValueObjectHandleUniffiBindingsTestsTestInterface {
   FfiValueObjectHandleUniffiBindingsTestsTestInterface& operator=(FfiValueObjectHandleUniffiBindingsTestsTestInterface&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3662,16 +3620,16 @@ class FfiValueObjectHandleUniffiBindingsTestsTestInterface {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kUniffiBindingsTestsTestInterfacePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleUniffiBindingsTestsTestInterface FromRust(void* aValue) {
+  static FfiValueObjectHandleUniffiBindingsTestsTestInterface FromRust(uint64_t aValue) {
     return FfiValueObjectHandleUniffiBindingsTestsTestInterface(aValue);
   }
 
@@ -3698,11 +3656,11 @@ const static mozilla::uniffi::UniFFIPointerType kUniffiBindingsTestsAsyncInterfa
 };
 class FfiValueObjectHandleUniffiBindingsTestsAsyncInterface {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleUniffiBindingsTestsAsyncInterface() = default;
-  explicit FfiValueObjectHandleUniffiBindingsTestsAsyncInterface(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleUniffiBindingsTestsAsyncInterface(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleUniffiBindingsTestsAsyncInterface(const FfiValueObjectHandleUniffiBindingsTestsAsyncInterface&) = delete;
@@ -3711,7 +3669,7 @@ class FfiValueObjectHandleUniffiBindingsTestsAsyncInterface {
   FfiValueObjectHandleUniffiBindingsTestsAsyncInterface& operator=(FfiValueObjectHandleUniffiBindingsTestsAsyncInterface&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3741,16 +3699,16 @@ class FfiValueObjectHandleUniffiBindingsTestsAsyncInterface {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kUniffiBindingsTestsAsyncInterfacePointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleUniffiBindingsTestsAsyncInterface FromRust(void* aValue) {
+  static FfiValueObjectHandleUniffiBindingsTestsAsyncInterface FromRust(uint64_t aValue) {
     return FfiValueObjectHandleUniffiBindingsTestsAsyncInterface(aValue);
   }
 
@@ -3775,8 +3733,9 @@ const static mozilla::uniffi::UniFFIPointerType kUniffiBindingsTestsAsyncTestTra
   uniffi_uniffi_bindings_tests_fn_clone_asynctesttraitinterface,
   uniffi_uniffi_bindings_tests_fn_free_asynctesttraitinterface,
 };
-// Forward declare the free function, which is defined later on in `CallbackInterfaces.cpp`
+// Forward declare the free and clone functions, which are defined later on in `CallbackInterfaces.cpp`
 extern "C" void callback_free_uniffi_bindings_tests_async_test_trait_interface(uint64_t uniffiHandle);
+extern "C" uint64_t callback_clone_uniffi_bindings_tests_async_test_trait_interface(uint64_t uniffiHandle);
 
 // Trait interface FFI value class.  This is a hybrid between the one for interfaces and callback
 // interface version
@@ -3786,15 +3745,15 @@ class FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface {
   // This is weird, but it's a needed work until something like
   // https://github.com/mozilla/uniffi-rs/pull/1823 lands.
   bool mLoweredCallbackInterface = false;
-  // The raw FFI value is a pointer.
+  // The raw FFI value is a uint64_t in all cases.
   // For callback interfaces, the uint64_t handle gets casted to a pointer.  Callback interface
-  // handles are incremented by one at a time, so even on a 32-bit system this
+  // handles are used as the uint64_t and are incremented by one at a time, so even on a 32-bit system this
   // shouldn't overflow.
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface() = default;
-  explicit FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface(const FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface&) = delete;
@@ -3804,7 +3763,7 @@ class FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface {
     FreeHandle();
     mValue = aOther.mValue;
     mLoweredCallbackInterface = aOther.mLoweredCallbackInterface;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     aOther.mLoweredCallbackInterface = false;
     return *this;
   }
@@ -3823,7 +3782,7 @@ class FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface {
       return;
     }
     FreeHandle();
-    mValue = reinterpret_cast<void *>(intValue);
+    mValue = intValue;
     mLoweredCallbackInterface = true;
   }
 
@@ -3849,36 +3808,36 @@ class FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kUniffiBindingsTestsAsyncTestTraitInterfacePointerType);
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
     return temp;
   }
 
-  static FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface FromRust(void* aValue) {
+  static FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface FromRust(uint64_t aValue) {
     return FfiValueObjectHandleUniffiBindingsTestsAsyncTestTraitInterface(aValue);
   }
 
   void FreeHandle() {
     // This behavior depends on if we lowered a callback interface handle or lifted an interface
     // pointer.
-    if (mLoweredCallbackInterface && reinterpret_cast<uintptr_t>(mValue) != 0) {
-                                     printf("FREEING CB %p\n", mValue);
-        callback_free_uniffi_bindings_tests_async_test_trait_interface(reinterpret_cast<uintptr_t>(mValue));
-        mValue = reinterpret_cast<void *>(0);
-    } else if (!mLoweredCallbackInterface && mValue != nullptr) {
-                                     printf("FREEING interface %p\n", mValue);
+    if (mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING CB %p\n", mValue);
+        callback_free_uniffi_bindings_tests_async_test_trait_interface(mValue);
+        mValue = 0;
+    } else if (!mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING interface %p\n", mValue);
       RustCallStatus callStatus{};
       (uniffi_uniffi_bindings_tests_fn_free_asynctesttraitinterface)(mValue, &callStatus);
       // No need to check `RustCallStatus`, it's only part of the API to match
       // other FFI calls.  The free function can never fail.
     }
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
@@ -3896,11 +3855,11 @@ const static mozilla::uniffi::UniFFIPointerType kUniffiBindingsTestsComplexMetho
 };
 class FfiValueObjectHandleUniffiBindingsTestsComplexMethods {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleUniffiBindingsTestsComplexMethods() = default;
-  explicit FfiValueObjectHandleUniffiBindingsTestsComplexMethods(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleUniffiBindingsTestsComplexMethods(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleUniffiBindingsTestsComplexMethods(const FfiValueObjectHandleUniffiBindingsTestsComplexMethods&) = delete;
@@ -3909,7 +3868,7 @@ class FfiValueObjectHandleUniffiBindingsTestsComplexMethods {
   FfiValueObjectHandleUniffiBindingsTestsComplexMethods& operator=(FfiValueObjectHandleUniffiBindingsTestsComplexMethods&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -3939,16 +3898,16 @@ class FfiValueObjectHandleUniffiBindingsTestsComplexMethods {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kUniffiBindingsTestsComplexMethodsPointerType);
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static FfiValueObjectHandleUniffiBindingsTestsComplexMethods FromRust(void* aValue) {
+  static FfiValueObjectHandleUniffiBindingsTestsComplexMethods FromRust(uint64_t aValue) {
     return FfiValueObjectHandleUniffiBindingsTestsComplexMethods(aValue);
   }
 
@@ -3973,8 +3932,9 @@ const static mozilla::uniffi::UniFFIPointerType kUniffiBindingsTestsTestTraitInt
   uniffi_uniffi_bindings_tests_fn_clone_testtraitinterface,
   uniffi_uniffi_bindings_tests_fn_free_testtraitinterface,
 };
-// Forward declare the free function, which is defined later on in `CallbackInterfaces.cpp`
+// Forward declare the free and clone functions, which are defined later on in `CallbackInterfaces.cpp`
 extern "C" void callback_free_uniffi_bindings_tests_test_trait_interface(uint64_t uniffiHandle);
+extern "C" uint64_t callback_clone_uniffi_bindings_tests_test_trait_interface(uint64_t uniffiHandle);
 
 // Trait interface FFI value class.  This is a hybrid between the one for interfaces and callback
 // interface version
@@ -3984,15 +3944,15 @@ class FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface {
   // This is weird, but it's a needed work until something like
   // https://github.com/mozilla/uniffi-rs/pull/1823 lands.
   bool mLoweredCallbackInterface = false;
-  // The raw FFI value is a pointer.
+  // The raw FFI value is a uint64_t in all cases.
   // For callback interfaces, the uint64_t handle gets casted to a pointer.  Callback interface
-  // handles are incremented by one at a time, so even on a 32-bit system this
+  // handles are used as the uint64_t and are incremented by one at a time, so even on a 32-bit system this
   // shouldn't overflow.
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface() = default;
-  explicit FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface(void* aValue) : mValue(aValue) {}
+  explicit FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface(const FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface&) = delete;
@@ -4002,7 +3962,7 @@ class FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface {
     FreeHandle();
     mValue = aOther.mValue;
     mLoweredCallbackInterface = aOther.mLoweredCallbackInterface;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     aOther.mLoweredCallbackInterface = false;
     return *this;
   }
@@ -4021,7 +3981,7 @@ class FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface {
       return;
     }
     FreeHandle();
-    mValue = reinterpret_cast<void *>(intValue);
+    mValue = intValue;
     mLoweredCallbackInterface = true;
   }
 
@@ -4047,36 +4007,36 @@ class FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &kUniffiBindingsTestsTestTraitInterfacePointerType);
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
     return temp;
   }
 
-  static FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface FromRust(void* aValue) {
+  static FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface FromRust(uint64_t aValue) {
     return FfiValueObjectHandleUniffiBindingsTestsTestTraitInterface(aValue);
   }
 
   void FreeHandle() {
     // This behavior depends on if we lowered a callback interface handle or lifted an interface
     // pointer.
-    if (mLoweredCallbackInterface && reinterpret_cast<uintptr_t>(mValue) != 0) {
-                                     printf("FREEING CB %p\n", mValue);
-        callback_free_uniffi_bindings_tests_test_trait_interface(reinterpret_cast<uintptr_t>(mValue));
-        mValue = reinterpret_cast<void *>(0);
-    } else if (!mLoweredCallbackInterface && mValue != nullptr) {
-                                     printf("FREEING interface %p\n", mValue);
+    if (mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING CB %p\n", mValue);
+        callback_free_uniffi_bindings_tests_test_trait_interface(mValue);
+        mValue = 0;
+    } else if (!mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING interface %p\n", mValue);
       RustCallStatus callStatus{};
       (uniffi_uniffi_bindings_tests_fn_free_testtraitinterface)(mValue, &callStatus);
       // No need to check `RustCallStatus`, it's only part of the API to match
       // other FFI calls.  The free function can never fail.
     }
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
@@ -4346,7 +4306,7 @@ extern "C" void callback_free_context_id_context_id_callback(uint64_t uniffiHand
 
 // FfiValue class for these callback interface handles.  This works like the
 // `FfiValueInt<uint64_t>`, except it has extra code to cleanup the callback handles.
-class FfiValueCallbackInterfacecontext_id_ContextIdCallback {
+class FfiValueObjectHandleContextIdContextIdCallback {
  private:
   // Was this value lowered?  If so, that means we own the handle and are responsible for cleaning
   // it up if we don't pass it to Rust because other values failed to lower
@@ -4354,8 +4314,8 @@ class FfiValueCallbackInterfacecontext_id_ContextIdCallback {
   uint64_t mValue = 0;
 
  public:
-  FfiValueCallbackInterfacecontext_id_ContextIdCallback() = default;
-  explicit FfiValueCallbackInterfacecontext_id_ContextIdCallback(uint64_t aValue) : mValue(aValue) {}
+  FfiValueObjectHandleContextIdContextIdCallback() = default;
+  explicit FfiValueObjectHandleContextIdContextIdCallback(uint64_t aValue) : mValue(aValue) {}
 
   void Lower(const dom::OwningUniFFIScaffoldingValue& aValue,
              ErrorResult& aError) {
@@ -4389,7 +4349,7 @@ class FfiValueCallbackInterfacecontext_id_ContextIdCallback {
     return handle;
   }
 
-  static FfiValueCallbackInterfacecontext_id_ContextIdCallback FromRust(uint64_t aValue) { return FfiValueCallbackInterfacecontext_id_ContextIdCallback(aValue); };
+  static FfiValueObjectHandleContextIdContextIdCallback FromRust(uint64_t aValue) { return FfiValueObjectHandleContextIdContextIdCallback(aValue); };
 
   void ReleaseHandleIfSet() {
     // A non-zero value indicates that we own a callback handle that was never passed to Rust or
@@ -4401,7 +4361,7 @@ class FfiValueCallbackInterfacecontext_id_ContextIdCallback {
     }
   }
 
-  ~FfiValueCallbackInterfacecontext_id_ContextIdCallback() {
+  ~FfiValueObjectHandleContextIdContextIdCallback() {
     ReleaseHandleIfSet();
   }
 };
@@ -4411,7 +4371,7 @@ extern "C" void callback_free_tracing_event_sink(uint64_t uniffiHandle);
 
 // FfiValue class for these callback interface handles.  This works like the
 // `FfiValueInt<uint64_t>`, except it has extra code to cleanup the callback handles.
-class FfiValueCallbackInterfacetracing_EventSink {
+class FfiValueObjectHandleTracingEventSink {
  private:
   // Was this value lowered?  If so, that means we own the handle and are responsible for cleaning
   // it up if we don't pass it to Rust because other values failed to lower
@@ -4419,8 +4379,8 @@ class FfiValueCallbackInterfacetracing_EventSink {
   uint64_t mValue = 0;
 
  public:
-  FfiValueCallbackInterfacetracing_EventSink() = default;
-  explicit FfiValueCallbackInterfacetracing_EventSink(uint64_t aValue) : mValue(aValue) {}
+  FfiValueObjectHandleTracingEventSink() = default;
+  explicit FfiValueObjectHandleTracingEventSink(uint64_t aValue) : mValue(aValue) {}
 
   void Lower(const dom::OwningUniFFIScaffoldingValue& aValue,
              ErrorResult& aError) {
@@ -4454,7 +4414,7 @@ class FfiValueCallbackInterfacetracing_EventSink {
     return handle;
   }
 
-  static FfiValueCallbackInterfacetracing_EventSink FromRust(uint64_t aValue) { return FfiValueCallbackInterfacetracing_EventSink(aValue); };
+  static FfiValueObjectHandleTracingEventSink FromRust(uint64_t aValue) { return FfiValueObjectHandleTracingEventSink(aValue); };
 
   void ReleaseHandleIfSet() {
     // A non-zero value indicates that we own a callback handle that was never passed to Rust or
@@ -4466,7 +4426,7 @@ class FfiValueCallbackInterfacetracing_EventSink {
     }
   }
 
-  ~FfiValueCallbackInterfacetracing_EventSink() {
+  ~FfiValueObjectHandleTracingEventSink() {
     ReleaseHandleIfSet();
   }
 };
@@ -4478,7 +4438,7 @@ extern "C" void callback_free_uniffi_bindings_tests_test_async_callback_interfac
 
 // FfiValue class for these callback interface handles.  This works like the
 // `FfiValueInt<uint64_t>`, except it has extra code to cleanup the callback handles.
-class FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface {
+class FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface {
  private:
   // Was this value lowered?  If so, that means we own the handle and are responsible for cleaning
   // it up if we don't pass it to Rust because other values failed to lower
@@ -4486,8 +4446,8 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface 
   uint64_t mValue = 0;
 
  public:
-  FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface() = default;
-  explicit FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface(uint64_t aValue) : mValue(aValue) {}
+  FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface() = default;
+  explicit FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface(uint64_t aValue) : mValue(aValue) {}
 
   void Lower(const dom::OwningUniFFIScaffoldingValue& aValue,
              ErrorResult& aError) {
@@ -4521,7 +4481,7 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface 
     return handle;
   }
 
-  static FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface FromRust(uint64_t aValue) { return FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface(aValue); };
+  static FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface FromRust(uint64_t aValue) { return FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface(aValue); };
 
   void ReleaseHandleIfSet() {
     // A non-zero value indicates that we own a callback handle that was never passed to Rust or
@@ -4533,7 +4493,7 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface 
     }
   }
 
-  ~FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface() {
+  ~FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface() {
     ReleaseHandleIfSet();
   }
 };
@@ -4543,7 +4503,7 @@ extern "C" void callback_free_uniffi_bindings_tests_test_callback_interface(uint
 
 // FfiValue class for these callback interface handles.  This works like the
 // `FfiValueInt<uint64_t>`, except it has extra code to cleanup the callback handles.
-class FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface {
+class FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface {
  private:
   // Was this value lowered?  If so, that means we own the handle and are responsible for cleaning
   // it up if we don't pass it to Rust because other values failed to lower
@@ -4551,8 +4511,8 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface {
   uint64_t mValue = 0;
 
  public:
-  FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface() = default;
-  explicit FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface(uint64_t aValue) : mValue(aValue) {}
+  FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface() = default;
+  explicit FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface(uint64_t aValue) : mValue(aValue) {}
 
   void Lower(const dom::OwningUniFFIScaffoldingValue& aValue,
              ErrorResult& aError) {
@@ -4586,7 +4546,7 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface {
     return handle;
   }
 
-  static FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface FromRust(uint64_t aValue) { return FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface(aValue); };
+  static FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface FromRust(uint64_t aValue) { return FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface(aValue); };
 
   void ReleaseHandleIfSet() {
     // A non-zero value indicates that we own a callback handle that was never passed to Rust or
@@ -4598,7 +4558,7 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface {
     }
   }
 
-  ~FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface() {
+  ~FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface() {
     ReleaseHandleIfSet();
   }
 };
@@ -4608,7 +4568,7 @@ extern "C" void callback_free_uniffi_bindings_tests_collision_test_callback_inte
 
 // FfiValue class for these callback interface handles.  This works like the
 // `FfiValueInt<uint64_t>`, except it has extra code to cleanup the callback handles.
-class FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInterface {
+class FfiValueObjectHandleUniffiBindingsTestsCollisionTestCallbackInterface {
  private:
   // Was this value lowered?  If so, that means we own the handle and are responsible for cleaning
   // it up if we don't pass it to Rust because other values failed to lower
@@ -4616,8 +4576,8 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInter
   uint64_t mValue = 0;
 
  public:
-  FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInterface() = default;
-  explicit FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInterface(uint64_t aValue) : mValue(aValue) {}
+  FfiValueObjectHandleUniffiBindingsTestsCollisionTestCallbackInterface() = default;
+  explicit FfiValueObjectHandleUniffiBindingsTestsCollisionTestCallbackInterface(uint64_t aValue) : mValue(aValue) {}
 
   void Lower(const dom::OwningUniFFIScaffoldingValue& aValue,
              ErrorResult& aError) {
@@ -4651,7 +4611,7 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInter
     return handle;
   }
 
-  static FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInterface FromRust(uint64_t aValue) { return FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInterface(aValue); };
+  static FfiValueObjectHandleUniffiBindingsTestsCollisionTestCallbackInterface FromRust(uint64_t aValue) { return FfiValueObjectHandleUniffiBindingsTestsCollisionTestCallbackInterface(aValue); };
 
   void ReleaseHandleIfSet() {
     // A non-zero value indicates that we own a callback handle that was never passed to Rust or
@@ -4663,7 +4623,7 @@ class FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInter
     }
   }
 
-  ~FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInterface() {
+  ~FfiValueObjectHandleUniffiBindingsTestsCollisionTestCallbackInterface() {
     ReleaseHandleIfSet();
   }
 };
@@ -4682,7 +4642,7 @@ private:
   FfiValueRustBuffer mInitContextId{};
   FfiValueInt<int64_t> mCreationTimestampS{};
   FfiValueInt<int8_t> mRunningInTestAutomation{};
-  FfiValueCallbackInterfacecontext_id_ContextIdCallback mCallback{};
+  FfiValueObjectHandleContextIdContextIdCallback mCallback{};
 
   // MakeRustCall stores the result of the call in these fields
   FfiValueObjectHandleContextIdContextIdComponent mUniffiReturnValue{};
@@ -9876,7 +9836,7 @@ private:
   // LowerRustArgs stores the resulting arguments in these fields
   FfiValueRustBuffer mTarget{};
   FfiValueRustBuffer mLevel{};
-  FfiValueCallbackInterfacetracing_EventSink mSink{};
+  FfiValueObjectHandleTracingEventSink mSink{};
 
   // MakeRustCall stores the result of the call in these fields
 
@@ -9916,7 +9876,7 @@ class ScaffoldingCallHandlerUniffiTracingSupportFnFuncRegisterMinLevelEventSink 
 private:
   // LowerRustArgs stores the resulting arguments in these fields
   FfiValueRustBuffer mLevel{};
-  FfiValueCallbackInterfacetracing_EventSink mSink{};
+  FfiValueObjectHandleTracingEventSink mSink{};
 
   // MakeRustCall stores the result of the call in these fields
 
@@ -11263,8 +11223,8 @@ public:
 class ScaffoldingCallHandlerUniffiUniffiBindingsTestsFnFuncAsyncRoundtripObj : public UniffiAsyncCallHandler {
 public:
   ScaffoldingCallHandlerUniffiUniffiBindingsTestsFnFuncAsyncRoundtripObj() : UniffiAsyncCallHandler(
-        ffi_uniffi_bindings_tests_rust_future_poll_pointer,
-        ffi_uniffi_bindings_tests_rust_future_free_pointer
+        ffi_uniffi_bindings_tests_rust_future_poll_u64,
+        ffi_uniffi_bindings_tests_rust_future_free_u64
     ) { }
 
 private:
@@ -11289,7 +11249,7 @@ protected:
 
   void CallCompleteFn(RustCallStatus* aOutStatus) override {
     mUniffiReturnValue = FfiValueObjectHandleUniffiBindingsTestsAsyncInterface::FromRust(
-      ffi_uniffi_bindings_tests_rust_future_complete_pointer(mFutureHandle, aOutStatus));
+      ffi_uniffi_bindings_tests_rust_future_complete_u64(mFutureHandle, aOutStatus));
   }
 
 public:
@@ -12023,7 +11983,7 @@ protected:
   // Always called on the main thread since async Rust calls don't block, they
   // return a future.
   void LowerArgsAndMakeRustCall(const dom::Sequence<dom::OwningUniFFIScaffoldingValue>& aArgs, ErrorResult& aError) override {
-    FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface mCbi{};
+    FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface mCbi{};
     mCbi.Lower(aArgs[0], aError);
     if (aError.Failed()) {
       return;
@@ -12063,7 +12023,7 @@ protected:
   // Always called on the main thread since async Rust calls don't block, they
   // return a future.
   void LowerArgsAndMakeRustCall(const dom::Sequence<dom::OwningUniFFIScaffoldingValue>& aArgs, ErrorResult& aError) override {
-    FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface mCbi{};
+    FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface mCbi{};
     mCbi.Lower(aArgs[0], aError);
     if (aError.Failed()) {
       return;
@@ -12097,7 +12057,7 @@ protected:
   // Always called on the main thread since async Rust calls don't block, they
   // return a future.
   void LowerArgsAndMakeRustCall(const dom::Sequence<dom::OwningUniFFIScaffoldingValue>& aArgs, ErrorResult& aError) override {
-    FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface mCbi{};
+    FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface mCbi{};
     mCbi.Lower(aArgs[0], aError);
     if (aError.Failed()) {
       return;
@@ -12138,7 +12098,7 @@ protected:
   // Always called on the main thread since async Rust calls don't block, they
   // return a future.
   void LowerArgsAndMakeRustCall(const dom::Sequence<dom::OwningUniFFIScaffoldingValue>& aArgs, ErrorResult& aError) override {
-    FfiValueCallbackInterfaceuniffi_bindings_tests_TestAsyncCallbackInterface mCbi{};
+    FfiValueObjectHandleUniffiBindingsTestsTestAsyncCallbackInterface mCbi{};
     mCbi.Lower(aArgs[0], aError);
     if (aError.Failed()) {
       return;
@@ -12172,7 +12132,7 @@ public:
 class ScaffoldingCallHandlerUniffiUniffiBindingsTestsFnFuncInvokeTestCallbackInterfaceGetValue : public UniffiSyncCallHandler {
 private:
   // LowerRustArgs stores the resulting arguments in these fields
-  FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface mCbi{};
+  FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface mCbi{};
 
   // MakeRustCall stores the result of the call in these fields
   FfiValueInt<uint32_t> mUniffiReturnValue{};
@@ -12209,7 +12169,7 @@ public:
 class ScaffoldingCallHandlerUniffiUniffiBindingsTestsFnFuncInvokeTestCallbackInterfaceNoop : public UniffiSyncCallHandler {
 private:
   // LowerRustArgs stores the resulting arguments in these fields
-  FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface mCbi{};
+  FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface mCbi{};
 
   // MakeRustCall stores the result of the call in these fields
 
@@ -12238,7 +12198,7 @@ public:
 class ScaffoldingCallHandlerUniffiUniffiBindingsTestsFnFuncInvokeTestCallbackInterfaceSetValue : public UniffiSyncCallHandler {
 private:
   // LowerRustArgs stores the resulting arguments in these fields
-  FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface mCbi{};
+  FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface mCbi{};
   FfiValueInt<uint32_t> mValue{};
 
   // MakeRustCall stores the result of the call in these fields
@@ -12273,7 +12233,7 @@ public:
 class ScaffoldingCallHandlerUniffiUniffiBindingsTestsFnFuncInvokeTestCallbackInterfaceThrowIfEqual : public UniffiSyncCallHandler {
 private:
   // LowerRustArgs stores the resulting arguments in these fields
-  FfiValueCallbackInterfaceuniffi_bindings_tests_TestCallbackInterface mCbi{};
+  FfiValueObjectHandleUniffiBindingsTestsTestCallbackInterface mCbi{};
   FfiValueRustBuffer mNumbers{};
 
   // MakeRustCall stores the result of the call in these fields
@@ -14183,7 +14143,7 @@ public:
 class ScaffoldingCallHandlerUniffiUniffiBindingsTestsCollisionFnFuncInvokeCollisionCallback : public UniffiSyncCallHandler {
 private:
   // LowerRustArgs stores the resulting arguments in these fields
-  FfiValueCallbackInterfaceuniffi_bindings_tests_collision_TestCallbackInterface mCb{};
+  FfiValueObjectHandleUniffiBindingsTestsCollisionTestCallbackInterface mCb{};
 
   // MakeRustCall stores the result of the call in these fields
   FfiValueRustBuffer mUniffiReturnValue{};
@@ -15464,10 +15424,16 @@ extern "C" void callback_free_context_id_context_id_callback(uint64_t uniffiHand
       &gUniffiCallbackHandlerContextIdContextIdCallback);
 }
 
+extern "C" uint64_t callback_clone_context_id_context_id_callback(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceContextIdContextIdCallback kUniffiVtableContextIdContextIdCallback {
+  callback_free_context_id_context_id_callback,
+  callback_clone_context_id_context_id_callback,
   callback_interface_context_id_context_id_callback_persist,
   callback_interface_context_id_context_id_callback_rotated,
-  callback_free_context_id_context_id_callback
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerLoginsEncryptorDecryptor;
 /**
@@ -15577,10 +15543,16 @@ extern "C" void callback_free_logins_encryptor_decryptor(uint64_t uniffiHandle) 
       &gUniffiCallbackHandlerLoginsEncryptorDecryptor);
 }
 
+extern "C" uint64_t callback_clone_logins_encryptor_decryptor(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceLoginsEncryptorDecryptor kUniffiVtableLoginsEncryptorDecryptor {
+  callback_free_logins_encryptor_decryptor,
+  callback_clone_logins_encryptor_decryptor,
   callback_interface_logins_encryptor_decryptor_decrypt,
   callback_interface_logins_encryptor_decryptor_encrypt,
-  callback_free_logins_encryptor_decryptor
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerLoginsKeyManager;
 /**
@@ -15632,9 +15604,15 @@ extern "C" void callback_free_logins_key_manager(uint64_t uniffiHandle) {
       &gUniffiCallbackHandlerLoginsKeyManager);
 }
 
+extern "C" uint64_t callback_clone_logins_key_manager(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceLoginsKeyManager kUniffiVtableLoginsKeyManager {
+  callback_free_logins_key_manager,
+  callback_clone_logins_key_manager,
   callback_interface_logins_key_manager_get_key,
-  callback_free_logins_key_manager
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerLoginsPrimaryPasswordAuthenticator;
 /**
@@ -15707,7 +15685,7 @@ extern "C" void callback_interface_logins_primary_password_authenticator_get_pri
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodLoginsPrimaryPasswordAuthenticatorGetPrimaryPassword>(
         aUniffiHandle,
@@ -15786,7 +15764,7 @@ extern "C" void callback_interface_logins_primary_password_authenticator_on_auth
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodLoginsPrimaryPasswordAuthenticatorOnAuthenticationSuccess>(
         aUniffiHandle,
@@ -15865,7 +15843,7 @@ extern "C" void callback_interface_logins_primary_password_authenticator_on_auth
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodLoginsPrimaryPasswordAuthenticatorOnAuthenticationFailure>(
         aUniffiHandle,
@@ -15883,11 +15861,17 @@ extern "C" void callback_free_logins_primary_password_authenticator(uint64_t uni
       &gUniffiCallbackHandlerLoginsPrimaryPasswordAuthenticator);
 }
 
+extern "C" uint64_t callback_clone_logins_primary_password_authenticator(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceLoginsPrimaryPasswordAuthenticator kUniffiVtableLoginsPrimaryPasswordAuthenticator {
+  callback_free_logins_primary_password_authenticator,
+  callback_clone_logins_primary_password_authenticator,
   callback_interface_logins_primary_password_authenticator_get_primary_password,
   callback_interface_logins_primary_password_authenticator_on_authentication_success,
   callback_interface_logins_primary_password_authenticator_on_authentication_failure,
-  callback_free_logins_primary_password_authenticator
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerTracingEventSink;
 /**
@@ -15954,9 +15938,15 @@ extern "C" void callback_free_tracing_event_sink(uint64_t uniffiHandle) {
       &gUniffiCallbackHandlerTracingEventSink);
 }
 
+extern "C" uint64_t callback_clone_tracing_event_sink(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceTracingEventSink kUniffiVtableTracingEventSink {
+  callback_free_tracing_event_sink,
+  callback_clone_tracing_event_sink,
   callback_interface_tracing_event_sink_on_event,
-  callback_free_tracing_event_sink
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerViaductBackend;
 /**
@@ -16045,7 +16035,7 @@ extern "C" void callback_interface_viaduct_backend_send_request(
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodViaductBackendSendRequest>(
         aUniffiHandle,
@@ -16065,9 +16055,15 @@ extern "C" void callback_free_viaduct_backend(uint64_t uniffiHandle) {
       &gUniffiCallbackHandlerViaductBackend);
 }
 
+extern "C" uint64_t callback_clone_viaduct_backend(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceViaductBackend kUniffiVtableViaductBackend {
+  callback_free_viaduct_backend,
+  callback_clone_viaduct_backend,
   callback_interface_viaduct_backend_send_request,
-  callback_free_viaduct_backend
 };
 
 #ifdef MOZ_UNIFFI_FIXTURES
@@ -16142,7 +16138,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_test_async_callback_int
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsTestAsyncCallbackInterfaceNoop>(
         aUniffiHandle,
@@ -16221,7 +16217,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_test_async_callback_int
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsTestAsyncCallbackInterfaceGetValue>(
         aUniffiHandle,
@@ -16308,7 +16304,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_test_async_callback_int
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsTestAsyncCallbackInterfaceSetValue>(
         aUniffiHandle,
@@ -16396,7 +16392,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_test_async_callback_int
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsTestAsyncCallbackInterfaceThrowIfEqual>(
         aUniffiHandle,
@@ -16415,12 +16411,18 @@ extern "C" void callback_free_uniffi_bindings_tests_test_async_callback_interfac
       &gUniffiCallbackHandlerUniffiBindingsTestsTestAsyncCallbackInterface);
 }
 
+extern "C" uint64_t callback_clone_uniffi_bindings_tests_test_async_callback_interface(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceUniffiBindingsTestsTestAsyncCallbackInterface kUniffiVtableUniffiBindingsTestsTestAsyncCallbackInterface {
+  callback_free_uniffi_bindings_tests_test_async_callback_interface,
+  callback_clone_uniffi_bindings_tests_test_async_callback_interface,
   callback_interface_uniffi_bindings_tests_test_async_callback_interface_noop,
   callback_interface_uniffi_bindings_tests_test_async_callback_interface_get_value,
   callback_interface_uniffi_bindings_tests_test_async_callback_interface_set_value,
   callback_interface_uniffi_bindings_tests_test_async_callback_interface_throw_if_equal,
-  callback_free_uniffi_bindings_tests_test_async_callback_interface
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerUniffiBindingsTestsTestCallbackInterface;
 /**
@@ -16610,12 +16612,18 @@ extern "C" void callback_free_uniffi_bindings_tests_test_callback_interface(uint
       &gUniffiCallbackHandlerUniffiBindingsTestsTestCallbackInterface);
 }
 
+extern "C" uint64_t callback_clone_uniffi_bindings_tests_test_callback_interface(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceUniffiBindingsTestsTestCallbackInterface kUniffiVtableUniffiBindingsTestsTestCallbackInterface {
+  callback_free_uniffi_bindings_tests_test_callback_interface,
+  callback_clone_uniffi_bindings_tests_test_callback_interface,
   callback_interface_uniffi_bindings_tests_test_callback_interface_noop,
   callback_interface_uniffi_bindings_tests_test_callback_interface_get_value,
   callback_interface_uniffi_bindings_tests_test_callback_interface_set_value,
   callback_interface_uniffi_bindings_tests_test_callback_interface_throw_if_equal,
-  callback_free_uniffi_bindings_tests_test_callback_interface
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerUniffiBindingsTestsAsyncTestTraitInterface;
 /**
@@ -16688,7 +16696,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_async_test_trait_interf
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsAsyncTestTraitInterfaceNoop>(
         aUniffiHandle,
@@ -16767,7 +16775,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_async_test_trait_interf
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsAsyncTestTraitInterfaceGetValue>(
         aUniffiHandle,
@@ -16854,7 +16862,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_async_test_trait_interf
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsAsyncTestTraitInterfaceSetValue>(
         aUniffiHandle,
@@ -16942,7 +16950,7 @@ extern "C" void callback_interface_uniffi_bindings_tests_async_test_trait_interf
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<CallbackInterfaceMethodUniffiBindingsTestsAsyncTestTraitInterfaceThrowIfEqual>(
         aUniffiHandle,
@@ -16961,12 +16969,18 @@ extern "C" void callback_free_uniffi_bindings_tests_async_test_trait_interface(u
       &gUniffiCallbackHandlerUniffiBindingsTestsAsyncTestTraitInterface);
 }
 
+extern "C" uint64_t callback_clone_uniffi_bindings_tests_async_test_trait_interface(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceUniffiBindingsTestsAsyncTestTraitInterface kUniffiVtableUniffiBindingsTestsAsyncTestTraitInterface {
+  callback_free_uniffi_bindings_tests_async_test_trait_interface,
+  callback_clone_uniffi_bindings_tests_async_test_trait_interface,
   callback_interface_uniffi_bindings_tests_async_test_trait_interface_noop,
   callback_interface_uniffi_bindings_tests_async_test_trait_interface_get_value,
   callback_interface_uniffi_bindings_tests_async_test_trait_interface_set_value,
   callback_interface_uniffi_bindings_tests_async_test_trait_interface_throw_if_equal,
-  callback_free_uniffi_bindings_tests_async_test_trait_interface
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerUniffiBindingsTestsTestTraitInterface;
 /**
@@ -17156,12 +17170,18 @@ extern "C" void callback_free_uniffi_bindings_tests_test_trait_interface(uint64_
       &gUniffiCallbackHandlerUniffiBindingsTestsTestTraitInterface);
 }
 
+extern "C" uint64_t callback_clone_uniffi_bindings_tests_test_trait_interface(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceUniffiBindingsTestsTestTraitInterface kUniffiVtableUniffiBindingsTestsTestTraitInterface {
+  callback_free_uniffi_bindings_tests_test_trait_interface,
+  callback_clone_uniffi_bindings_tests_test_trait_interface,
   callback_interface_uniffi_bindings_tests_test_trait_interface_noop,
   callback_interface_uniffi_bindings_tests_test_trait_interface_get_value,
   callback_interface_uniffi_bindings_tests_test_trait_interface_set_value,
   callback_interface_uniffi_bindings_tests_test_trait_interface_throw_if_equal,
-  callback_free_uniffi_bindings_tests_test_trait_interface
 };
 static StaticRefPtr<dom::UniFFICallbackHandler> gUniffiCallbackHandlerUniffiBindingsTestsCollisionTestCallbackInterface;
 /**
@@ -17220,9 +17240,15 @@ extern "C" void callback_free_uniffi_bindings_tests_collision_test_callback_inte
       &gUniffiCallbackHandlerUniffiBindingsTestsCollisionTestCallbackInterface);
 }
 
+extern "C" uint64_t callback_clone_uniffi_bindings_tests_collision_test_callback_interface(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static VTableCallbackInterfaceUniffiBindingsTestsCollisionTestCallbackInterface kUniffiVtableUniffiBindingsTestsCollisionTestCallbackInterface {
+  callback_free_uniffi_bindings_tests_collision_test_callback_interface,
+  callback_clone_uniffi_bindings_tests_collision_test_callback_interface,
   callback_interface_uniffi_bindings_tests_collision_test_callback_interface_get_value,
-  callback_free_uniffi_bindings_tests_collision_test_callback_interface
 };
 #endif /* MOZ_UNIFFI_FIXTURES */
 

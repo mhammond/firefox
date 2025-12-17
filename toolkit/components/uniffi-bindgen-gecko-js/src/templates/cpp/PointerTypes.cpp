@@ -18,11 +18,11 @@ const static mozilla::uniffi::UniFFIPointerType {{ pointer_type.name }} {
 {%- when None %}
 class {{ pointer_type.ffi_value_class }} {
  private:
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   {{ pointer_type.ffi_value_class }}() = default;
-  explicit {{ pointer_type.ffi_value_class }}(void* aValue) : mValue(aValue) {}
+  explicit {{ pointer_type.ffi_value_class }}(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   {{ pointer_type.ffi_value_class }}(const {{ pointer_type.ffi_value_class }}&) = delete;
@@ -31,7 +31,7 @@ class {{ pointer_type.ffi_value_class }} {
   {{ pointer_type.ffi_value_class }}& operator=({{ pointer_type.ffi_value_class }}&& aOther) {
     FreeHandle();
     mValue = aOther.mValue;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     return *this;
   }
 
@@ -61,16 +61,16 @@ class {{ pointer_type.ffi_value_class }} {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &{{ pointer_type.name }});
-    mValue = nullptr;
+    mValue = 0;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     return temp;
   }
 
-  static {{ pointer_type.ffi_value_class }} FromRust(void* aValue) {
+  static {{ pointer_type.ffi_value_class }} FromRust(uint64_t aValue) {
     return {{ pointer_type.ffi_value_class }}(aValue);
   }
 
@@ -91,8 +91,9 @@ class {{ pointer_type.ffi_value_class }} {
   }
 };
 {%- when Some(trait_interface_info) %}
-// Forward declare the free function, which is defined later on in `CallbackInterfaces.cpp`
+// Forward declare the free and clone functions, which are defined later on in `CallbackInterfaces.cpp`
 extern "C" void {{ trait_interface_info.free_fn }}(uint64_t uniffiHandle);
+extern "C" uint64_t {{ trait_interface_info.clone_fn }}(uint64_t uniffiHandle);
 
 // Trait interface FFI value class.  This is a hybrid between the one for interfaces and callback
 // interface version
@@ -102,15 +103,15 @@ class {{ pointer_type.ffi_value_class }} {
   // This is weird, but it's a needed work until something like
   // https://github.com/mozilla/uniffi-rs/pull/1823 lands.
   bool mLoweredCallbackInterface = false;
-  // The raw FFI value is a pointer.
+  // The raw FFI value is a uint64_t in all cases.
   // For callback interfaces, the uint64_t handle gets casted to a pointer.  Callback interface
-  // handles are incremented by one at a time, so even on a 32-bit system this
+  // handles are used as the uint64_t and are incremented by one at a time, so even on a 32-bit system this
   // shouldn't overflow.
-  void* mValue = nullptr;
+  uint64_t mValue = 0;
 
  public:
   {{ pointer_type.ffi_value_class }}() = default;
-  explicit {{ pointer_type.ffi_value_class }}(void* aValue) : mValue(aValue) {}
+  explicit {{ pointer_type.ffi_value_class }}(uint64_t aValue) : mValue(aValue) {}
 
   // Delete copy constructor and assignment as this type is non-copyable.
   {{ pointer_type.ffi_value_class }}(const {{ pointer_type.ffi_value_class }}&) = delete;
@@ -120,7 +121,7 @@ class {{ pointer_type.ffi_value_class }} {
     FreeHandle();
     mValue = aOther.mValue;
     mLoweredCallbackInterface = aOther.mLoweredCallbackInterface;
-    aOther.mValue = nullptr;
+    aOther.mValue = 0;
     aOther.mLoweredCallbackInterface = false;
     return *this;
   }
@@ -139,7 +140,7 @@ class {{ pointer_type.ffi_value_class }} {
       return;
     }
     FreeHandle();
-    mValue = reinterpret_cast<void *>(intValue);
+    mValue = intValue;
     mLoweredCallbackInterface = true;
   }
 
@@ -165,36 +166,36 @@ class {{ pointer_type.ffi_value_class }} {
             ErrorResult& aError) {
     aDest->SetAsUniFFIPointer() =
         dom::UniFFIPointer::Create(mValue, &{{ pointer_type.name }});
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 
-  void* IntoRust() {
+  uint64_t IntoRust() {
     auto temp = mValue;
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
     return temp;
   }
 
-  static {{ pointer_type.ffi_value_class }} FromRust(void* aValue) {
+  static {{ pointer_type.ffi_value_class }} FromRust(uint64_t aValue) {
     return {{ pointer_type.ffi_value_class }}(aValue);
   }
 
   void FreeHandle() {
     // This behavior depends on if we lowered a callback interface handle or lifted an interface
     // pointer.
-    if (mLoweredCallbackInterface && reinterpret_cast<uintptr_t>(mValue) != 0) {
-                                     printf("FREEING CB %p\n", mValue);
-        {{ trait_interface_info.free_fn }}(reinterpret_cast<uintptr_t>(mValue));
-        mValue = reinterpret_cast<void *>(0);
-    } else if (!mLoweredCallbackInterface && mValue != nullptr) {
-                                     printf("FREEING interface %p\n", mValue);
+    if (mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING CB %p\n", mValue);
+        {{ trait_interface_info.free_fn }}(mValue);
+        mValue = 0;
+    } else if (!mLoweredCallbackInterface && mValue != 0) {
+//                                     printf("FREEING interface %p\n", mValue);
       RustCallStatus callStatus{};
       ({{ pointer_type.ffi_func_free.0 }})(mValue, &callStatus);
       // No need to check `RustCallStatus`, it's only part of the API to match
       // other FFI calls.  The free function can never fail.
     }
-    mValue = nullptr;
+    mValue = 0;
     mLoweredCallbackInterface = false;
   }
 

@@ -185,7 +185,7 @@ extern "C" void {{ meth.fn_name }}(
   // This can be used to detected when the future is dropped from the Rust side and cancel the
   // async task on the foreign side.  However, there's no way to do that in JS, so we just ignore
   // it.
-  ForeignFuture *aUniffiOutForeignFuture
+  ForeignFutureDroppedCallbackStruct *aUniffiOutForeignFuture
 ) {
   UniquePtr<AsyncCallbackMethodHandlerBase> handler = MakeUnique<{{ meth.async_handler_class_name }}>(
         aUniffiHandle,
@@ -339,11 +339,17 @@ extern "C" void {{ cbi.free_fn }}(uint64_t uniffiHandle) {
       &{{ cbi.handler_var }});
 }
 
+extern "C" uint64_t {{ cbi.clone_fn }}(uint64_t uniffiHandle) {
+  // XXXX - need to call back into js here? Or something?!?
+  return 0;
+}
+
 static {{ cbi.vtable_struct_type.type_name }} {{ cbi.vtable_var }} {
+  {{ cbi.free_fn }},
+  {{ cbi.clone_fn }},
   {%- for meth in cbi.methods %}
   {{ meth.fn_name }},
   {%- endfor %}
-  {{ cbi.free_fn }}
 };
 
 {%- endfor %}
