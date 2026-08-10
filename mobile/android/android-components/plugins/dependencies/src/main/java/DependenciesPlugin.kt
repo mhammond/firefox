@@ -256,6 +256,7 @@ object ComponentsDependencies {
     val mozilla_appservices_logins = "${ApplicationServicesConfig.groupId}:logins:$appServicesVersion"
     val mozilla_appservices_merino = "${ApplicationServicesConfig.groupId}:merino:$appServicesVersion"
     val mozilla_appservices_places = "${ApplicationServicesConfig.groupId}:places:$appServicesVersion"
+    val mozilla_appservices_shared_settings = "${ApplicationServicesConfig.groupId}:shared-settings:$appServicesVersion"
     val mozilla_appservices_syncmanager = "${ApplicationServicesConfig.groupId}:syncmanager:$appServicesVersion"
     val mozilla_remote_settings = "${ApplicationServicesConfig.groupId}:remotesettings:$appServicesVersion"
     val mozilla_appservices_push = "${ApplicationServicesConfig.groupId}:push:$appServicesVersion"

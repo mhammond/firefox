@@ -550,6 +550,11 @@ dependencies {
     implementation ComponentsDependencies.mozilla_appservices_syncmanager
     implementation ComponentsDependencies.mozilla_appservices_merino
 
+    // Still experimental, so only shipped on Nightly. Also built into debug so it can be
+    // developed against and unit tested; other channels get the no-op SharedSettingsProvider.
+    debugImplementation ComponentsDependencies.mozilla_appservices_shared_settings
+    nightlyImplementation ComponentsDependencies.mozilla_appservices_shared_settings
+
     implementation libs.accompanist.drawablepainter
     implementation libs.adjust
     implementation libs.androidx.activity
