@@ -15,15 +15,13 @@ private const val DB_NAME = "shared_settings.sqlite"
  * Kept in sync with /debug/.../SharedSettingsProvider.kt.
  */
 object SharedSettingsProvider : SharedSettingsProviderInterface {
+    override val isAvailable = true
+
     override fun create(context: Context): SharedSettings =
-        AppServicesSharedSettings(
-            SharedSettingsStore(context.getDatabasePath(DB_NAME).absolutePath),
-        )
+        AppServicesSharedSettings(SharedSettingsStore(context.getDatabasePath(DB_NAME).absolutePath))
 }
 
-private class AppServicesSharedSettings(
-    private val store: SharedSettingsStore,
-) : SharedSettings {
+private class AppServicesSharedSettings(private val store: SharedSettingsStore) : SharedSettings {
     override fun set(namespace: String, json: String) = store.set(namespace, json)
 
     override fun get(namespace: String, keys: String): String = store.get(namespace, keys)

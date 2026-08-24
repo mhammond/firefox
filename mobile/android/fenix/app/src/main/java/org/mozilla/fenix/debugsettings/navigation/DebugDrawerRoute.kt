@@ -13,6 +13,7 @@ import mozilla.components.concept.storage.CreditCardsAddressesStorage
 import mozilla.components.concept.storage.LoginsStorage
 import org.mozilla.fenix.R
 import org.mozilla.fenix.components.ClientUUID
+import org.mozilla.fenix.components.components
 import org.mozilla.fenix.debugsettings.addons.ui.AddonsDebugToolsScreen
 import org.mozilla.fenix.debugsettings.addresses.AddressesDebugRegionRepository
 import org.mozilla.fenix.debugsettings.addresses.AddressesTools
@@ -28,6 +29,7 @@ import org.mozilla.fenix.debugsettings.gleandebugtools.ui.GleanDebugToolsScreen
 import org.mozilla.fenix.debugsettings.integrity.IntegrityTools
 import org.mozilla.fenix.debugsettings.logins.LoginsTools
 import org.mozilla.fenix.debugsettings.region.RegionTools
+import org.mozilla.fenix.debugsettings.sharedsettings.SharedSettingsTools
 import org.mozilla.fenix.debugsettings.store.DebugDrawerAction
 import org.mozilla.fenix.debugsettings.store.DebugDrawerStore
 import org.mozilla.fenix.debugsettings.tabprocesstools.TabProcessTools
@@ -102,6 +104,10 @@ enum class DebugDrawerRoute(
     DistributionTools(
         route = "distribution_tools",
         title = R.string.debug_drawer_distribution_tools_title,
+    ),
+    SharedSettingsDebugTools(
+        route = "shared_settings_tools",
+        title = R.string.debug_drawer_shared_settings_tools_title,
     );
 
     companion object {
@@ -119,6 +125,8 @@ enum class DebugDrawerRoute(
          * @param integrityClient used to test an [IntegrityClient] in [IntegrityTools].
          * @param inactiveTabsEnabled Whether the inactive tabs feature is enabled.
          * @param tabGroupRepository [TabGroupRepository] used to access and modify tab groups for [TabGroupTools].
+         * @param sharedSettingsAvailable Whether the `shared-settings` component is built into this channel. The
+         *   [SharedSettingsTools] destination is omitted entirely when it isn't.
          */
         @Suppress("LongParameterList", "LongMethod")
         fun generateDebugDrawerDestinations(
@@ -133,7 +141,8 @@ enum class DebugDrawerRoute(
             integrityClient: IntegrityClient,
             inactiveTabsEnabled: Boolean,
             tabGroupRepository: TabGroupRepository,
-        ): List<DebugDrawerDestination> = entries.map { debugDrawerRoute ->
+            sharedSettingsAvailable: Boolean,
+        ): List<DebugDrawerDestination> = entries.mapNotNull { debugDrawerRoute ->
             var isChildDestination: Boolean = false
             val onClick: () -> Unit
             val content: @Composable () -> Unit
@@ -274,6 +283,18 @@ enum class DebugDrawerRoute(
                     }
                     content = {
                         DistributionTools()
+                    }
+                }
+
+                SharedSettingsDebugTools -> {
+                    if (!sharedSettingsAvailable) return@mapNotNull null
+
+                    onClick = {
+                        debugDrawerStore.dispatch(DebugDrawerAction.NavigateTo.SharedSettingsDebugTools)
+                    }
+                    content = {
+                        // Non-null because the destination is only registered when available.
+                        SharedSettingsTools(sharedSettings = requireNotNull(components.sharedSettings))
                     }
                 }
             }

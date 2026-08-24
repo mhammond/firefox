@@ -10,6 +10,7 @@ import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
@@ -41,6 +42,7 @@ class SharedSettingsProviderTest {
 
     @Test
     fun `GIVEN a nightly or debug build WHEN creating storage THEN the component is available`() {
+        assertTrue(SharedSettingsProvider.isAvailable)
         assertNotNull(SharedSettingsProvider.create(testContext))
     }
 

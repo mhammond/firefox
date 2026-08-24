@@ -12,6 +12,7 @@ import org.mozilla.fenix.debugsettings.distributions.DistributionTools as Distri
 import org.mozilla.fenix.debugsettings.gleandebugtools.ui.GleanDebugToolsScreen
 import org.mozilla.fenix.debugsettings.logins.LoginsTools as LoginsScreen
 import org.mozilla.fenix.debugsettings.region.RegionTools as RegionScreen
+import org.mozilla.fenix.debugsettings.sharedsettings.SharedSettingsTools as SharedSettingsScreen
 import org.mozilla.fenix.debugsettings.tabs.TabTools as TabToolsScreen
 import org.mozilla.fenix.debugsettings.ui.DebugDrawerHome
 
@@ -74,6 +75,9 @@ sealed class DebugDrawerAction : Action {
 
         /** [NavigateTo] action fired when the debug drawer needs to navigate to [DistributionScreen]. */
         object DistributionTools : NavigateTo()
+
+        /** [NavigateTo] action fired when the debug drawer needs to navigate to [SharedSettingsScreen]. */
+        object SharedSettingsDebugTools : NavigateTo()
     }
 
     /** [DebugDrawerAction] fired when a back navigation event occurs. */

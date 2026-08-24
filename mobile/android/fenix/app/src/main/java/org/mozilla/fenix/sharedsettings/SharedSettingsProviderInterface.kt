@@ -9,14 +9,22 @@ import android.content.Context
 /**
  * Creates the [SharedSettings] for the current release channel.
  *
- * The application-services component backing [SharedSettings] is still experimental, so it is
- * only built into Nightly and debug builds. This indirection keeps the rest of the app free of
- * per-channel conditionals and of the component's types.
+ * The application-services component backing [SharedSettings] is still experimental, so it is only built into Nightly
+ * and debug builds. This indirection keeps the rest of the app free of per-channel conditionals and of the component's
+ * types.
  */
 interface SharedSettingsProviderInterface {
     /**
-     * Returns storage backed by the `shared-settings` component, or `null` on channels where
-     * the component isn't available.
+     * Whether [create] returns storage on this channel.
+     *
+     * Lets callers gate on the component's presence without paying for a database connection. Must agree with [create],
+     * i.e. `isAvailable == (create(context) != null)`.
+     */
+    val isAvailable: Boolean
+
+    /**
+     * Returns storage backed by the `shared-settings` component, or `null` on channels where the component isn't
+     * available.
      *
      * @param context The context used to locate the database.
      */

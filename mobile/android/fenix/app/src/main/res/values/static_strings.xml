@@ -384,6 +384,19 @@
     <!-- Shown when no process exits have been recorded. -->
     <string name="debug_drawer_tab_process_tools_empty">No process exits recorded.</string>
 
+    <!-- Debug drawer shared settings tools -->
+    <string name="debug_drawer_shared_settings_tools_title" translatable="false">Shared Settings</string>
+    <string name="debug_drawer_shared_settings_namespace_label" translatable="false">Namespace</string>
+    <string name="debug_drawer_shared_settings_get_header" translatable="false">Get</string>
+    <string name="debug_drawer_shared_settings_set_header" translatable="false">Set</string>
+    <string name="debug_drawer_shared_settings_key_label" translatable="false">Key</string>
+    <string name="debug_drawer_shared_settings_get_key_hint" translatable="false">Leave blank for the whole namespace</string>
+    <string name="debug_drawer_shared_settings_value_label" translatable="false">Value</string>
+    <string name="debug_drawer_shared_settings_value_hint" translatable="false">Raw JSON, e.g. 42, true, \"hi\", {\"a\": 1}</string>
+    <string name="debug_drawer_shared_settings_get_button" translatable="false">Get</string>
+    <string name="debug_drawer_shared_settings_set_button" translatable="false">Set</string>
+    <string name="debug_drawer_shared_settings_invalid_json" translatable="false">Not valid JSON</string>
+
     <!-- Import Bookmarks pref title -->
     <string name="preferences_import_bookmarks">Import Bookmarks</string>
     <!-- Label for the secret settings preference to enable Import Bookmarks -->

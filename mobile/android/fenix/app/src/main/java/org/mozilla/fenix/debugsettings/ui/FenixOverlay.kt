@@ -57,6 +57,7 @@ import org.mozilla.fenix.debugsettings.store.DebugDrawerTelemetryMiddleware
 import org.mozilla.fenix.debugsettings.store.DrawerStatus
 import org.mozilla.fenix.debugsettings.tabs.TabGroupTools
 import org.mozilla.fenix.ext.components
+import org.mozilla.fenix.sharedsettings.SharedSettingsProvider
 import org.mozilla.fenix.tabgroups.storage.data.TabGroup
 import org.mozilla.fenix.tabgroups.storage.data.TabGroupData
 import org.mozilla.fenix.tabgroups.storage.repository.TabGroupRepository
@@ -135,6 +136,7 @@ fun FenixOverlay(
         clientUUID = context.components.clientUUID,
         integrityClient = context.components.integrityClient,
         tabGroupRepository = tabGroupRepository,
+        sharedSettingsAvailable = SharedSettingsProvider.isAvailable,
     )
 }
 
@@ -151,6 +153,7 @@ fun FenixOverlay(
  * @param integrityClient used to test an [IntegrityClient].
  * @param tabGroupRepository [TabGroupRepository] used to access and modify tab groups for [TabGroupTools].
  * @param inactiveTabsEnabled Whether the inactive tabs feature is enabled.
+ * @param sharedSettingsAvailable Whether the `shared-settings` component is built into this channel.
  */
 @Suppress("LongParameterList")
 @Composable
@@ -165,6 +168,7 @@ private fun FenixOverlay(
     integrityClient: IntegrityClient,
     tabGroupRepository: TabGroupRepository,
     inactiveTabsEnabled: Boolean,
+    sharedSettingsAvailable: Boolean,
 ) {
     val navController = rememberNavController()
     val coroutineScope = rememberCoroutineScope()
@@ -199,6 +203,7 @@ private fun FenixOverlay(
             clientUUID = clientUUID,
             integrityClient = integrityClient,
             tabGroupRepository = tabGroupRepository,
+            sharedSettingsAvailable = sharedSettingsAvailable,
         )
     }
     val drawerStatus by remember {
@@ -291,5 +296,6 @@ private fun FenixOverlayPreview() {
         clientUUID = FakeClientUUID(),
         integrityClient = IntegrityClient.testSuccess,
         tabGroupRepository = mockTabGroupRepository,
+        sharedSettingsAvailable = true,
     )
 }

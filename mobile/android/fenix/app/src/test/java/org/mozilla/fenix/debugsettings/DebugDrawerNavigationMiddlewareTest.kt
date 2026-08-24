@@ -138,6 +138,16 @@ class DebugDrawerNavigationMiddlewareTest {
         }
 
     @Test
+    fun `WHEN the shared settings screen is the next destination THEN the shared settings screen is navigated to`() =
+        runTest(testDispatcher) {
+            store.dispatch(DebugDrawerAction.NavigateTo.SharedSettingsDebugTools)
+
+            testDispatcher.scheduler.advanceUntilIdle()
+
+            verify { navController.navigate(DebugDrawerRoute.SharedSettingsDebugTools.route) }
+        }
+
+    @Test
     fun `WHEN the back button is pressed THEN the drawer should go back one screen`() =
         runTest(testDispatcher) {
             store.dispatch(DebugDrawerAction.OnBackPressed)

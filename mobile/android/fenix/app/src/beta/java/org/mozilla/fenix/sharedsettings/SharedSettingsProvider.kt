@@ -12,8 +12,9 @@ import android.content.Context
  * See /nightly/.../SharedSettingsProvider.kt for the real implementation.
  */
 object SharedSettingsProvider : SharedSettingsProviderInterface {
-    /**
-     * The `shared-settings` component isn't built into beta.
-     */
+    /** The `shared-settings` component isn't built into beta. */
+    override val isAvailable = false
+
+    /** The `shared-settings` component isn't built into beta. */
     override fun create(context: Context): SharedSettings? = null
 }

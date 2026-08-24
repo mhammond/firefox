@@ -7,8 +7,7 @@ package org.mozilla.fenix.sharedsettings
 /**
  * Storage for settings which are intended to sync across all platforms.
  *
- * Values are JSON strings, matching the API of the application-services
- * `shared-settings` component this wraps.
+ * Values are JSON strings, matching the API of the application-services `shared-settings` component this wraps.
  */
 interface SharedSettings {
     /**
@@ -23,14 +22,12 @@ interface SharedSettings {
      * Read values previously stored with [set], returning a JSON object.
      *
      * @param namespace Identifies the consumer the values belong to.
-     * @param keys A JSON value selecting which keys to return: `null` for everything in the
-     * namespace, a string for a single key, an array of strings for several, or an object mapping
-     * keys to the default to use when a key is missing.
+     * @param keys A JSON value selecting which keys to return: `null` for everything in the namespace, a string for a
+     *   single key, an array of strings for several, or an object mapping keys to the default to use when a key is
+     *   missing.
      */
     fun get(namespace: String, keys: String): String
 
-    /**
-     * Close the underlying database connection.
-     */
+    /** Close the underlying database connection. */
     fun close()
 }
