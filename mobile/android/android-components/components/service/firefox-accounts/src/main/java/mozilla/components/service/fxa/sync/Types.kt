@@ -19,6 +19,7 @@ internal fun String.toSyncEngine(): SyncEngine {
         "tabs" -> SyncEngine.Tabs
         "creditcards" -> SyncEngine.CreditCards
         "addresses" -> SyncEngine.Addresses
+        "shared-settings" -> SyncEngine.SharedSettings
         // This handles a case of engines that we don't yet model in SyncEngine.
         else -> SyncEngine.Other(this)
     }

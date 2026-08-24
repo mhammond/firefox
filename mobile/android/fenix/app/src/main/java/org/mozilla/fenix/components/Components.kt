@@ -95,6 +95,7 @@ import org.mozilla.fenix.search.VoiceSearchAIControlFeature
 import org.mozilla.fenix.settings.emailmasks.middleware.DefaultEmailMasksRepository
 import org.mozilla.fenix.settings.emailmasks.middleware.EmailMasksRepository
 import org.mozilla.fenix.settings.settingssearch.DefaultFenixSettingsIndexer
+import org.mozilla.fenix.sharedsettings.SharedSettings
 import org.mozilla.fenix.sharedsettings.SharedSettingsProvider
 import org.mozilla.fenix.sharedsettings.SharedSettingsProviderInterface
 import org.mozilla.fenix.termsofuse.TermsOfUseManager
@@ -127,6 +128,7 @@ class Components(
             core.lazyPasswordsStorage,
             core.lazyRemoteTabsStorage,
             core.lazyAutofillStorage,
+            lazySharedSettings,
             strictMode,
         )
     }
@@ -407,8 +409,15 @@ class Components(
      * Storage for settings intended to sync across all platforms, or `null` on channels which don't build in the
      * `shared-settings` component. Use [SharedSettingsProviderInterface.isAvailable] to check for the component without
      * opening the database.
+     *
+     * A single long-lived instance is required: the sync manager keeps only a weak reference to the store registered by
+     * [SharedSettings.registerWithSyncManager], so a short-lived one would silently stop syncing.
      */
-    val sharedSettings by lazyMonitored { SharedSettingsProvider.create(context) }
+    val lazySharedSettings = lazyMonitored { SharedSettingsProvider.create(context) }
+
+    /** @see lazySharedSettings */
+    val sharedSettings: SharedSettings?
+        get() = lazySharedSettings.value
 
     val termsOfUsePromptRepository by lazyMonitored {
         DefaultTermsOfUsePromptRepository(settings)

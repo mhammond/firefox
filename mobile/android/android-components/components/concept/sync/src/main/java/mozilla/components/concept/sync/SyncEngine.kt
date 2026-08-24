@@ -42,6 +42,14 @@ sealed class SyncEngine(val nativeName: String) {
     /** An addresses engine. */
     object Addresses : SyncEngine("addresses")
 
+    /**
+     * An engine for settings shared across all Firefox platforms.
+     *
+     * Unlike the other engines this one has no user-facing preference; consumers gate it on whether the
+     * `shared-settings` component is present rather than on a setting.
+     */
+    object SharedSettings : SyncEngine("shared-settings")
+
     /** An engine that's none of the above, described by [name]. */
     data class Other(val name: String) : SyncEngine(name)
 

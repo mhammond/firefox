@@ -58,6 +58,8 @@ import org.mozilla.fenix.ext.maxActiveTime
 import org.mozilla.fenix.ext.recordEventInNimbus
 import org.mozilla.fenix.perf.StrictModeManager
 import org.mozilla.fenix.perf.lazyMonitored
+import org.mozilla.fenix.sharedsettings.SharedSettings
+import org.mozilla.fenix.sharedsettings.SharedSettingsProvider
 import org.mozilla.fenix.sync.SyncedTabsIntegration
 import org.mozilla.fenix.utils.Settings
 import org.mozilla.fenix.utils.getUndoDelay
@@ -83,6 +85,7 @@ class BackgroundServices(
     passwordsStorage: Lazy<SyncableLoginsStorage>,
     remoteTabsStorage: Lazy<RemoteTabsStorage>,
     creditCardsStorage: Lazy<AutofillCreditCardsAddressesStorage>,
+    sharedSettings: Lazy<SharedSettings?>,
     strictMode: StrictModeManager,
 ) {
     // Allows executing tasks which depend on the account manager, but do not need to eagerly initialize it.
@@ -115,6 +118,16 @@ class BackgroundServices(
             secureStateAtRest = Config.channel.isNightlyOrDebug,
         )
 
+    // Channel gating, *not* a user preference: the application-services `shared-settings` component is only built
+    // into Nightly and debug builds, so on other channels there is nothing to sync. This is deliberately checked
+    // instead of `sharedSettings.value` so that we don't open the database on the startup path.
+    //
+    // TODO - unlike every other engine this one has no "sync shared settings" preference, and is assumed to be
+    // always enabled wherever the component exists. Note this means signing in pushes `shared-settings: true` into
+    // the account-global engine state shared with Desktop. Add a preference (and the matching entry in
+    // AccountSettingsFragment.prefId()) before this ships beyond Nightly.
+    private val syncSharedSettings = SharedSettingsProvider.isAvailable
+
     @VisibleForTesting
     val supportedEngines =
         setOfNotNull(
@@ -124,6 +137,7 @@ class BackgroundServices(
             SyncEngine.Tabs,
             SyncEngine.CreditCards,
             if (settings.isAddressSyncEnabled) SyncEngine.Addresses else null,
+            if (syncSharedSettings) SyncEngine.SharedSettings else null,
         )
     private val syncConfig = SyncConfig(supportedEngines, PeriodicSyncConfig(periodMinutes = 240)) // four hours
 
@@ -146,6 +160,18 @@ class BackgroundServices(
         )
         if (settings.isAddressSyncEnabled) {
             GlobalSyncableStoreProvider.configureStore(SyncEngine.Addresses to creditCardsStorage)
+        }
+        if (syncSharedSettings) {
+            // No keyProvider: the shared settings store is unencrypted. The `lazy` defers opening the database
+            // until the sync worker actually runs.
+            GlobalSyncableStoreProvider.configureStore(
+                SyncEngine.SharedSettings to
+                    lazy {
+                        checkNotNull(sharedSettings.value) {
+                            "SharedSettingsProvider.isAvailable is true but create() returned null"
+                        }
+                    }
+            )
         }
     }
 

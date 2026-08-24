@@ -4,12 +4,16 @@
 
 package org.mozilla.fenix.sharedsettings
 
+import mozilla.components.concept.sync.SyncableStore
+
 /**
  * Storage for settings which are intended to sync across all platforms.
  *
  * Values are JSON strings, matching the API of the application-services `shared-settings` component this wraps.
+ *
+ * Syncing is driven by the sync manager, via the inherited [registerWithSyncManager].
  */
-interface SharedSettings {
+interface SharedSettings : SyncableStore {
     /**
      * Store one or more key-value pairs.
      *

@@ -26,5 +26,7 @@ private class AppServicesSharedSettings(private val store: SharedSettingsStore) 
 
     override fun get(namespace: String, keys: String): String = store.get(namespace, keys)
 
+    override fun registerWithSyncManager() = store.registerWithSyncManager()
+
     override fun close() = store.shutdown()
 }

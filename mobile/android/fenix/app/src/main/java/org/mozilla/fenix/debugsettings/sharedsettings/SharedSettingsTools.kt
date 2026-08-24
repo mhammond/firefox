@@ -276,6 +276,8 @@ internal class FakeSharedSettings : SharedSettings {
 
     override fun get(namespace: String, keys: String): String = values[namespace] ?: "{}"
 
+    override fun registerWithSyncManager() = Unit
+
     override fun close() = Unit
 }
 

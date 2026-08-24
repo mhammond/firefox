@@ -351,6 +351,7 @@ internal class WorkManagerSyncWorker(
                                 SyncEngine.Tabs.nativeName -> SyncEngine.Tabs
                                 SyncEngine.CreditCards.nativeName -> SyncEngine.CreditCards
                                 SyncEngine.Addresses.nativeName -> SyncEngine.Addresses
+                                SyncEngine.SharedSettings.nativeName -> SyncEngine.SharedSettings
                                 else -> throw IllegalStateException("Invalid syncable store: $it")
                             }
 
@@ -404,6 +405,10 @@ internal class WorkManagerSyncWorker(
                     it.value.lazyStore.value.registerWithSyncManager()
                 }
                 SyncEngine.Tabs -> {
+                    it.value.lazyStore.value.registerWithSyncManager()
+                }
+                // Unencrypted, so no KeyProvider.
+                SyncEngine.SharedSettings -> {
                     it.value.lazyStore.value.registerWithSyncManager()
                 }
                 else -> throw NotImplementedError("Unsupported engine: ${it.key}")

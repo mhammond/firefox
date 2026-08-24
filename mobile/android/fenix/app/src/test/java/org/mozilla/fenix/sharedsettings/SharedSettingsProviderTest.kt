@@ -47,6 +47,11 @@ class SharedSettingsProviderTest {
     }
 
     @Test
+    fun `GIVEN a nightly or debug build WHEN registering with the sync manager THEN it succeeds`() {
+        settings.registerWithSyncManager()
+    }
+
+    @Test
     fun `GIVEN values were set WHEN reading the whole namespace THEN they are returned`() {
         settings.set("test", """{"value": "foo"}""")
 
